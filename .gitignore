@@ -83,3 +83,26 @@ x86/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Angular
+node_modules/
+dist/
+tmp/
+temp/
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Environment files
+src/environments/environment.prod.ts
+src/environments/environment.ts
+
+# System files
+.DS_Store
+Thumbs.db
