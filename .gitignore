@@ -89,6 +89,17 @@ node_modules/
 dist/
 tmp/
 temp/
+.angular/
+node_modules/
+dist/
+*.tsbuildinfo
+vite.config.ts
+vite.config.js
+vite.config.mjs
+vite.config.cjs
+.vite/
+*.map
+
 
 # IDEs
 .vscode/
