@@ -17,9 +17,7 @@
 
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Mappers\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
