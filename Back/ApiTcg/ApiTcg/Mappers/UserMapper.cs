@@ -1,4 +1,5 @@
 ﻿using ApiTcg.DTO.User;
+
 using Domain.Entities;
 
 namespace ApiTcg.Mappers;
