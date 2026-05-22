@@ -1,8 +1,8 @@
 ﻿using Domain.Entities;
 
-namespace DAL.Interfaces;
+namespace BLL.Interfaces;
 
-public interface IUserRepository
+public interface IUserService
 {
     Task<int> CreateAsync(User user);
 }
