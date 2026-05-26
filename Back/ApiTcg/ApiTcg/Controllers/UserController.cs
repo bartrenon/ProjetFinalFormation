@@ -19,6 +19,8 @@ public class UserController : ControllerBase
         this._userService = userService;
     }
 
+    //POST
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(UserCreate u) 
     {
@@ -48,4 +50,23 @@ public class UserController : ControllerBase
 
         return Ok(new { token });
     }
+
+    //PATCH
+    [HttpPatch("DeleteUser{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        int result = await _userService.SoftDeleteUserAsync(id);
+        if (result == 1)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return NotFound("User not found.");
+        }
+    }
+
+
+    //DELETE
+
 }

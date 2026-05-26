@@ -16,6 +16,8 @@ public class UserRepository : IUserRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
+    //POST
+
     public async Task<int> RegisterAsync(User user)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
@@ -32,6 +34,8 @@ public class UserRepository : IUserRepository
         return Convert.ToInt32(await command.ExecuteNonQueryAsync());
 
     }
+
+    //GET
 
     public async Task<User?> GetByEmailAsync(string email)
     {
@@ -61,5 +65,61 @@ public class UserRepository : IUserRepository
             PasswordHash = reader.GetString(reader.GetOrdinal("PasswordHash")),
             CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"))
         };
+    }
+
+    //PATCH
+
+    public async Task<int> SoftDeleteUserAsync(int userId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"UPDATE [User] 
+                         SET IsDeleted = 1, 
+                         DeletedAt = GetDate() 
+                         WHERE Id = @UserId";
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@UserId", userId);
+
+        await connection.OpenAsync();
+        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+    }
+
+    //DELETE
+
+    public async Task<int> HardDeleteUserAsync(int userId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"DELETE FROM[User]
+                         WHERE Id = @UserId";
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@UserId", userId);
+
+        await connection.OpenAsync();
+        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+    }
+
+    public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = "DELETE FROM [User]";
+
+        if(deletedDate != null) 
+        {
+            query += "WHERE DeletedAt = @DeletedAt";
+        }
+        else
+        {
+            query += "WHERE IsDeleted = 1";
+        }
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@DeletedAt", deletedDate);
+
+        await connection.OpenAsync();
+        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
     }
 }

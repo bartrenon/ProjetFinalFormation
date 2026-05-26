@@ -43,4 +43,47 @@ public class UserService : IUserService
 
         return _jwtService.GenerateToken(user);
     }
+
+    public async Task<int> SoftDeleteUserAsync(int userId)
+    {
+        int result = 0;
+
+        if(userId == 0) 
+        {
+            return result;
+        }
+        
+        result = await _userRepository.SoftDeleteUserAsync(userId);
+
+        return result;
+    }
+
+    public async Task<int> HardDeleteUserAsync(int userId)
+    {
+        int result = 0;
+
+        if (userId == 0)
+        {
+            return result;
+        }
+
+        result = await _userRepository.HardDeleteUserAsync(userId);
+
+        return result;
+
+    }
+
+    public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
+    {
+        int result = 0;
+
+        if ( deletedDate > DateTime.UtcNow)
+        {
+            return result;
+        }
+
+        result = await _userRepository.HardDeleteUserAsync(deletedDate);
+
+        return result;
+    }
 }
