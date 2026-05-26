@@ -53,9 +53,10 @@ public class UserController : ControllerBase
 
     //PATCH
     [HttpPatch("DeleteUser{id}")]
-    public async Task<IActionResult> DeleteUser(int id)
+    public async Task<IActionResult> SoftDeleteUser(int id)
     {
         int result = await _userService.SoftDeleteUserAsync(id);
+
         if (result == 1)
         {
             return NoContent();
@@ -68,5 +69,34 @@ public class UserController : ControllerBase
 
 
     //DELETE
+    [HttpDelete("DeleteUser{id}")]
+    public async Task<IActionResult> HardDeleteUser(int id)
+    {
+        int result = await _userService.HardDeleteUserAsync(id);
+
+        if (result == 1)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return NotFound("User not found.");
+        }
+    }
+
+    [HttpDelete("DeletedUsers")]
+    public async Task<IActionResult> HardDeleteUser(DateTime? deltedDate)
+    {
+        int result = await _userService.HardDeleteUserAsync(deltedDate);
+
+        if (result == 1)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return BadRequest();
+        }
+    }
 
 }

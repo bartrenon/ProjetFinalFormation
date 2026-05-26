@@ -16,6 +16,44 @@ public class UserRepository : IUserRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
+    //DELETE
+
+    public async Task<int> HardDeleteUserAsync(int userId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"DELETE FROM[User]
+                         WHERE Id = @UserId";
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@UserId", userId);
+
+        await connection.OpenAsync();
+        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+    }
+
+    public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = "DELETE FROM [User]";
+
+        if (deletedDate != null)
+        {
+            query += "WHERE DeletedAt = @DeletedAt";
+        }
+        else
+        {
+            query += "WHERE IsDeleted = 1";
+        }
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@DeletedAt", deletedDate);
+
+        await connection.OpenAsync();
+        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+    }
+
     //POST
 
     public async Task<int> RegisterAsync(User user)
@@ -80,44 +118,6 @@ public class UserRepository : IUserRepository
 
         using SqlCommand command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@UserId", userId);
-
-        await connection.OpenAsync();
-        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
-    }
-
-    //DELETE
-
-    public async Task<int> HardDeleteUserAsync(int userId)
-    {
-        using SqlConnection connection = new SqlConnection(_connectionString);
-
-        string query = @"DELETE FROM[User]
-                         WHERE Id = @UserId";
-
-        using SqlCommand command = new SqlCommand(query, connection);
-        command.Parameters.AddWithValue("@UserId", userId);
-
-        await connection.OpenAsync();
-        return Convert.ToInt32(await command.ExecuteNonQueryAsync());
-    }
-
-    public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
-    {
-        using SqlConnection connection = new SqlConnection(_connectionString);
-
-        string query = "DELETE FROM [User]";
-
-        if(deletedDate != null) 
-        {
-            query += "WHERE DeletedAt = @DeletedAt";
-        }
-        else
-        {
-            query += "WHERE IsDeleted = 1";
-        }
-
-        using SqlCommand command = new SqlCommand(query, connection);
-        command.Parameters.AddWithValue("@DeletedAt", deletedDate);
 
         await connection.OpenAsync();
         return Convert.ToInt32(await command.ExecuteNonQueryAsync());

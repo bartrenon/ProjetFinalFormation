@@ -34,6 +34,11 @@ public class UserService : IUserService
             return null;
         }
 
+        if (user.IsDeleted) 
+        {
+            return null;
+        }
+
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
 
         if (!isPasswordValid)
