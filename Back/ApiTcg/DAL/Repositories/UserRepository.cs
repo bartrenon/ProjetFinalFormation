@@ -79,7 +79,7 @@ public class UserRepository : IUserRepository
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        string query = @"SELECT Id, Username, Email, PasswordHash, CreatedAt
+        string query = @"SELECT Id, Username, Email, PasswordHash, CreatedAt, IsDeleted, DeletedAt
                          FROM [User]
                          WHERE Email = @Email";
 
@@ -101,7 +101,11 @@ public class UserRepository : IUserRepository
             Username = reader.GetString(reader.GetOrdinal("Username")),
             Email = reader.GetString(reader.GetOrdinal("Email")),
             PasswordHash = reader.GetString(reader.GetOrdinal("PasswordHash")),
-            CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"))
+            CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+            IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
+            DeletedAt = reader.IsDBNull(reader.GetOrdinal("DeletedAt"))
+                ? null
+                : reader.GetDateTime(reader.GetOrdinal("DeletedAt"))
         };
     }
 
