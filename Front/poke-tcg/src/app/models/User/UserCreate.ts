@@ -1,6 +1,6 @@
 export interface UserCreate
 {
-    Username: string;
-    Email: string;
-    PasswordHash: string;
+    username: string;
+    email: string;
+    passwordHash: string;
 }

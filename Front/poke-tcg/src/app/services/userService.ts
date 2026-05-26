@@ -1,4 +1,4 @@
-import { UserCreate } from '../models/User/UserCreate';
+import { UserCreate } from '../models/user/userCreate';
 
 import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class User {
+export class userService {
   private readonly _url : string = '';
 
   constructor(private _http: HttpClient) {}
