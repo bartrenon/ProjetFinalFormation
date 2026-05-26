@@ -19,12 +19,12 @@ public class UserController : ControllerBase
         this._userService = userService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(UserCreate u) 
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(UserCreate u) 
     {
         User user = UserMapper.ToUser(u);
 
-        int val = await _userService.CreateAsync(user);
+        int val = await _userService.RegisterAsync(user);
 
         if (val == 1)
         {
@@ -34,5 +34,18 @@ public class UserController : ControllerBase
         {
             return BadRequest("User creation failed.");
         }
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(UserLogin userLogin)
+    {
+        string? token = await _userService.LoginAsync(userLogin.Email, userLogin.Password);
+
+        if (token is null)
+        {
+            return Unauthorized("Email ou mot de passe incorrect.");
+        }
+
+        return Ok(new { token });
     }
 }

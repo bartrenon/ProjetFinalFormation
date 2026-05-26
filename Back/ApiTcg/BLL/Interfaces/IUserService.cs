@@ -4,5 +4,6 @@ namespace BLL.Interfaces;
 
 public interface IUserService
 {
-    Task<int> CreateAsync(User user);
+    Task<int> RegisterAsync(User user);
+    Task<string?> LoginAsync(string email, string password);
 }

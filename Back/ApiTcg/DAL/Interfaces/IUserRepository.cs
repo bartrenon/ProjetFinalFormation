@@ -4,5 +4,6 @@ namespace DAL.Interfaces;
 
 public interface IUserRepository
 {
-    Task<int> CreateAsync(User user);
+    Task<int> RegisterAsync(User user);
+    Task<User?> GetByEmailAsync(string email);
 }
