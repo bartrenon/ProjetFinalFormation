@@ -1,4 +1,4 @@
-﻿using ApiTcg.DTO.User;
+﻿using ApiTcg.Dtos.User;
 using ApiTcg.Mappers;
 
 using BLL.Interfaces;
@@ -22,7 +22,7 @@ public class UserController : ControllerBase
     //POST
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserCreate u) 
+    public async Task<IActionResult> Register(UserCreateDto u) 
     {
         User user = UserMapper.ToUser(u);
 
@@ -39,7 +39,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(UserLogin userLogin)
+    public async Task<IActionResult> Login(UserLoginDto userLogin)
     {
         string? token = await _userService.LoginAsync(userLogin.Email, userLogin.Password);
 

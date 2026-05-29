@@ -1,4 +1,4 @@
-﻿using ApiTcg.DTO.User;
+﻿using ApiTcg.Dtos.User;
 
 using Domain.Entities;
 
@@ -6,7 +6,7 @@ namespace ApiTcg.Mappers;
 
 public class UserMapper
 {
-    public static User ToUser(UserCreate u) 
+    public static User ToUser(UserCreateDto u) 
     {
         return new User
         {
