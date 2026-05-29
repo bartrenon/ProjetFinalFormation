@@ -1,6 +1,6 @@
-﻿namespace ApiTcg.DTO.User;
+﻿namespace ApiTcg.Dtos.User;
 
-public class UserCreate
+public class UserCreateDto
 {
     public string Username { get; set; } = "";
     public string Email { get; set; } = "";

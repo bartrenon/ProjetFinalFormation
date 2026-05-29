@@ -18,12 +18,15 @@ CREATE TABLE [User] (
 --        TABLE : Set
 -- ============================
 CREATE TABLE [Set] (
-    Id VARCHAR(50) PRIMARY KEY,       -- ex: "sv1"
-    Name VARCHAR(100) NOT NULL,
-    Series VARCHAR(100),
-    ReleaseDate DATE,
-    LogoUrl TEXT,
-    SymbolUrl TEXT
+    Id NVARCHAR(50) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(200) NOT NULL,
+    Logo NVARCHAR(500) NULL,
+    Symbol NVARCHAR(500) NULL,
+    CardCountTotal INT NOT NULL,
+    CardCountOfficial INT NOT NULL,
+    CardCountReverse INT NULL,
+    CardCountHolo INT NULL,
+    CardCountFirstEd INT NULL
 );
 
 -- ============================
@@ -37,7 +40,7 @@ CREATE TABLE Card (
     Rarity VARCHAR(50),
     Hp INT,
     ImageUrl TEXT,
-    SetId VARCHAR(50) NOT NULL,
+    SetId NVARCHAR(50) NOT NULL,
     FOREIGN KEY (SetId) REFERENCES [Set](Id)
 );
 
