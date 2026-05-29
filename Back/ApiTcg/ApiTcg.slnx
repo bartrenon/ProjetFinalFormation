@@ -3,4 +3,5 @@
   <Project Path="BLL/BLL.csproj" Id="1844e77e-79c5-4914-9947-190bc544714c" />
   <Project Path="DAL/DAL.csproj" Id="3f947ffc-1f48-4ce4-a78b-67bf20c0a3af" />
   <Project Path="Domain/Domain.csproj" Id="14b4c3aa-59b7-4030-9a99-802ee82748f9" />
+  <Project Path="Infrastructure/Infrastructure.csproj" Id="a4f2d794-e016-45a8-95dd-257671ee30d1" />
 </Solution>

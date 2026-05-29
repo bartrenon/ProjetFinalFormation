@@ -6,6 +6,7 @@ using BLL.Interfaces;
 using BLL.Services;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Infrastructure.External;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -41,8 +42,12 @@ builder.Services
     });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISetRepository, SetRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IImportService, ImportService>();
+builder.Services.AddScoped<ISetService, SetService>();
+builder.Services.AddHttpClient<TcgDexClient>();
 
 var app = builder.Build();
 

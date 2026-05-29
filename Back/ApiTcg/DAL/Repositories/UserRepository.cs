@@ -5,6 +5,8 @@ using Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
+using Dapper;
+
 namespace DAL.Repositories;
 
 public class UserRepository : IUserRepository
@@ -25,13 +27,7 @@ public class UserRepository : IUserRepository
             string query = @"INSERT INTO [User] (Username,Email, PasswordHash)
                            VALUES (@Username,@Email,@PasswordHash)";
 
-            using SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Username", user.Username);
-            command.Parameters.AddWithValue("@Email", user.Email);
-            command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-
-            await connection.OpenAsync();
-            return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+            return await connection.ExecuteAsync(query, user);
 
         }
 
@@ -48,30 +44,7 @@ public class UserRepository : IUserRepository
                              FROM [User]
                              WHERE Email = @Email";
 
-            using SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Email", email);
-
-            await connection.OpenAsync();
-
-            using SqlDataReader reader = await command.ExecuteReaderAsync();
-
-            if (!await reader.ReadAsync())
-            {
-                return null;
-            }
-
-            return new User
-            {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                Username = reader.GetString(reader.GetOrdinal("Username")),
-                Email = reader.GetString(reader.GetOrdinal("Email")),
-                PasswordHash = reader.GetString(reader.GetOrdinal("PasswordHash")),
-                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
-                IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
-                DeletedAt = reader.IsDBNull(reader.GetOrdinal("DeletedAt"))
-                    ? null
-                    : reader.GetDateTime(reader.GetOrdinal("DeletedAt"))
-            };
+            return await connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email });
         }
 
     #endregion
@@ -83,16 +56,13 @@ public class UserRepository : IUserRepository
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = @"UPDATE [User] 
-                             SET IsDeleted = 1, 
-                             DeletedAt = GetDate() 
-                             WHERE Id = @UserId";
+            string query = @"
+            UPDATE [User]
+            SET IsDeleted = 1,
+                DeletedAt = GETDATE()
+            WHERE Id = @UserId";
 
-            using SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@UserId", userId);
-
-            await connection.OpenAsync();
-            return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+            return await connection.ExecuteAsync(query, new { UserId = userId });
         }
 
 
@@ -101,19 +71,17 @@ public class UserRepository : IUserRepository
 
     #region Delete
 
-    public async Task<int> HardDeleteUserAsync(int userId)
+
+        public async Task<int> HardDeleteUserAsync(int userId)
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = @"DELETE FROM[User]
+            string query = @"DELETE FROM [User]
                              WHERE Id = @UserId";
 
-            using SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@UserId", userId);
-
-            await connection.OpenAsync();
-            return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+            return await connection.ExecuteAsync(query, new { UserId = userId });
         }
+
 
         public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
         {
@@ -121,20 +89,20 @@ public class UserRepository : IUserRepository
 
             string query = "DELETE FROM [User] ";
 
+            object parameters;
+
             if (deletedDate != null)
             {
                 query += "WHERE DeletedAt <= @DeletedAt";
+                parameters = new { DeletedAt = deletedDate };
             }
             else
             {
                 query += "WHERE IsDeleted = 1";
+                parameters = new { };
             }
 
-            using SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@DeletedAt", deletedDate);
-
-            await connection.OpenAsync();
-            return Convert.ToInt32(await command.ExecuteNonQueryAsync());
+            return await connection.ExecuteAsync(query, parameters);
         }
 
     #endregion
