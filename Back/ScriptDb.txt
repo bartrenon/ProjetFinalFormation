@@ -25,6 +25,25 @@ Logo NVARCHAR(500) NULL,
 Symbol NVARCHAR(500) NULL, 
 CardCountTotal INT NOT NULL, 
 CardCountOfficial INT NOT NULL, 
-CardCountReverse INT NULL, 
-CardCountHolo INT NULL, 
-CardCountFirstEd INT NULL );
+);
+
+-- ============================
+--        TABLE : Card
+-- ============================
+CREATE TABLE Card
+(
+    Id NVARCHAR(100) NOT NULL PRIMARY KEY,
+
+    Name NVARCHAR(250) NOT NULL,
+
+    SetId NVARCHAR(50) NOT NULL,
+
+    LocalId NVARCHAR(50) NULL,
+
+    Image NVARCHAR(500) NULL,
+
+    FOREIGN KEY (SetId)
+        REFERENCES [Set](Id)
+        ON DELETE CASCADE
+);
+
