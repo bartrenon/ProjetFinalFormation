@@ -1,5 +1,8 @@
-﻿using System.Net.Http.Json;
+﻿using Infrastructure.Dtos.Card;
 using Infrastructure.Dtos.Set;
+
+using System.Net.Http.Json;
+
 
 namespace Infrastructure.External;
 
@@ -22,5 +25,16 @@ public class TcgDexClient
            .ReadFromJsonAsync<List<TcgDexSetBriefDto>>();
 
         return sets ?? new List<TcgDexSetBriefDto>();
+    }
+
+    public async Task<List<TcgDexCardBriefDto>> GetAllCardsAsync(string lang = "fr")
+    {
+        HttpResponseMessage response = await _http.GetAsync($"{BaseUrl}/{lang}/cards");
+        response.EnsureSuccessStatusCode(); 
+
+        List<TcgDexCardBriefDto>? cards = await response.Content
+           .ReadFromJsonAsync<List<TcgDexCardBriefDto>>();
+
+        return cards ?? new List<TcgDexCardBriefDto>();
     }
 }

@@ -21,4 +21,12 @@ public class ImportController : ControllerBase
 
         return Ok(new { importedCount });
     }
+
+    [HttpPost("cards")]
+    public async Task<IActionResult> ImportCards([FromQuery] string lang = "fr")
+    {
+        int importedCount = await _importService.ImportCardsAsync(lang);
+
+        return Ok(new { importedCount });
+    }
 }
