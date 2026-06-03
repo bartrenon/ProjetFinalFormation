@@ -8,7 +8,4 @@ public class Set
     public string? Symbol { get; set; }
     public int CardCountTotal { get; set; }
     public int CardCountOfficial { get; set; }
-    public int? CardCountReverse { get; set; }
-    public int? CardCountHolo { get; set; }
-    public int? CardCountFirstEd { get; set; }
 }

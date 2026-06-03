@@ -37,64 +37,48 @@ public class SetRepository : ISetRepository
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        const string query = @"
-MERGE INTO [Set] AS target
-USING (VALUES (
-    @Id,
-    @Name,
-    @Logo,
-    @Symbol,
-    @CardCountTotal,
-    @CardCountOfficial,
-    @CardCountReverse,
-    @CardCountHolo,
-    @CardCountFirstEd
-))
-AS source (
-    Id,
-    Name,
-    Logo,
-    Symbol,
-    CardCountTotal,
-    CardCountOfficial,
-    CardCountReverse,
-    CardCountHolo,
-    CardCountFirstEd
-)
-ON target.Id = source.Id
-WHEN MATCHED THEN
-    UPDATE SET
-        Name = source.Name,
-        Logo = source.Logo,
-        Symbol = source.Symbol,
-        CardCountTotal = source.CardCountTotal,
-        CardCountOfficial = source.CardCountOfficial,
-        CardCountReverse = source.CardCountReverse,
-        CardCountHolo = source.CardCountHolo,
-        CardCountFirstEd = source.CardCountFirstEd
-WHEN NOT MATCHED THEN
-    INSERT (
-        Id,
-        Name,
-        Logo,
-        Symbol,
-        CardCountTotal,
-        CardCountOfficial,
-        CardCountReverse,
-        CardCountHolo,
-        CardCountFirstEd
-    )
-    VALUES (
-        source.Id,
-        source.Name,
-        source.Logo,
-        source.Symbol,
-        source.CardCountTotal,
-        source.CardCountOfficial,
-        source.CardCountReverse,
-        source.CardCountHolo,
-        source.CardCountFirstEd
-    );";
+        const string query = @" MERGE INTO [Set] AS target
+                                USING (VALUES (
+                                    @Id,
+                                    @Name,
+                                    @Logo,
+                                    @Symbol,
+                                    @CardCountTotal,
+                                    @CardCountOfficial
+                                ))
+                                AS source (
+                                    Id,
+                                    Name,
+                                    Logo,
+                                    Symbol,
+                                    CardCountTotal,
+                                    CardCountOfficial
+                                )
+                                ON target.Id = source.Id
+                                WHEN MATCHED THEN
+                                    UPDATE SET
+                                        Name = source.Name,
+                                        Logo = source.Logo,
+                                        Symbol = source.Symbol,
+                                        CardCountTotal = source.CardCountTotal,
+                                        CardCountOfficial = source.CardCountOfficial
+                                WHEN NOT MATCHED THEN
+                                    INSERT (
+                                        Id,
+                                        Name,
+                                        Logo,
+                                        Symbol,
+                                        CardCountTotal,
+                                        CardCountOfficial
+                                    )
+                                    VALUES (
+                                        source.Id,
+                                        source.Name,
+                                        source.Logo,
+                                        source.Symbol,
+                                        source.CardCountTotal,
+                                        source.CardCountOfficial
+                                    );";
 
         await connection.ExecuteAsync(query, set);
     }

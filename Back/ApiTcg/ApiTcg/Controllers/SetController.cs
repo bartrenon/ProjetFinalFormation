@@ -1,5 +1,5 @@
 using BLL.Interfaces;
-using BLL.Services;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -18,7 +18,7 @@ public class SetController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var sets = await _setService.GetAllAsync();
+        IEnumerable<Set> sets = await _setService.GetAllAsync();
 
         return Ok(sets);
     }
@@ -26,7 +26,7 @@ public class SetController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        var set = await _setService.GetByIdAsync(id);
+        Set? set = await _setService.GetByIdAsync(id);
 
         if (set is null)
         {
