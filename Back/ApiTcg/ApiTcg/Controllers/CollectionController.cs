@@ -18,7 +18,7 @@ public class CollectionController : ControllerBase
     }
 
     [HttpDelete("Delete/{id}")]
-    public async Task<IActionResult> DeleteCollection(string id)
+    public async Task<IActionResult> DeleteCollection(int id)
     {
         int result = await _collectionService.DeleteCollectionAsync(id);
 
@@ -32,8 +32,8 @@ public class CollectionController : ControllerBase
         }
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> AddCollection(CollectionCreateDto u)
+    [HttpPost("Add")]
+    public async Task<IActionResult> AddCollection(CollectionAddDto u)
     {
         Collection collection = CollectionMapper.ToCollection(u);
 
@@ -47,6 +47,19 @@ public class CollectionController : ControllerBase
         {
             return BadRequest("add card at collection failed.");
         }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id) 
+    {
+        Collection? collection = await _collectionService.GetByIdAsync(id);
+
+        if(collection is null) 
+        {
+            return NotFound();
+        }
+
+        return Ok(collection);
     }
 }
 

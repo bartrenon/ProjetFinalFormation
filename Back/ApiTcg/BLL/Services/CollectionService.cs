@@ -1,6 +1,5 @@
 ﻿using BLL.Interfaces;
 using DAL.Interfaces;
-using DAL.Repositories;
 using Domain.Entities;
 
 namespace BLL.Services;
@@ -19,12 +18,12 @@ public class CollectionService : ICollectionService
         return await _collectionRepository.AddCollectionAsync(collection);
     }
 
-    public async Task<int> DeleteCollectionAsync(string id)
+    public async Task<int> DeleteCollectionAsync(int id)
     {
         return await _collectionRepository.DeleteCollectionAsync(id);
     }
 
-    public async Task<Collection?> GetByIdAsync(string id)
+    public async Task<Collection?> GetByIdAsync(int id)
     {
         return await _collectionRepository.GetByIdAsync(id);
     }

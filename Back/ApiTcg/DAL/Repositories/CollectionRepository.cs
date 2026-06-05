@@ -25,7 +25,7 @@ public class CollectionRepository : ICollectionRepository
         return await connection.ExecuteAsync(query, collection);
     }
 
-    public async Task<int> DeleteCollectionAsync(string id)
+    public async Task<int> DeleteCollectionAsync(int id)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
@@ -35,7 +35,7 @@ public class CollectionRepository : ICollectionRepository
         return await connection.ExecuteAsync(query, new { Id = id });
     }
 
-    public async Task<Collection?> GetByIdAsync(string id)
+    public async Task<Collection?> GetByIdAsync(int id)
     {
 
         using  SqlConnection connection = new SqlConnection(_connectionString);

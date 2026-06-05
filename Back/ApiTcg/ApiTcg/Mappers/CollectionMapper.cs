@@ -5,7 +5,7 @@ namespace ApiTcg.Mappers;
 
 public class CollectionMapper
 {
-    public static Collection ToCollection(CollectionCreateDto uc)
+    public static Collection ToCollection(CollectionAddDto uc)
     {
         return new Collection
         {
