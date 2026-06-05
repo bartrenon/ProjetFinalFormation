@@ -52,7 +52,7 @@ public class UserController : ControllerBase
     }
 
     //PATCH
-    [HttpPatch("DeleteUser{id}")]
+    [HttpPatch("DeleteUser/{id}")]
     public async Task<IActionResult> SoftDeleteUser(int id)
     {
         int result = await _userService.SoftDeleteUserAsync(id);
@@ -69,7 +69,7 @@ public class UserController : ControllerBase
 
 
     //DELETE
-    [HttpDelete("DeleteUser{id}")]
+    [HttpDelete("DeleteUser/{id}")]
     public async Task<IActionResult> HardDeleteUser(int id)
     {
         int result = await _userService.HardDeleteUserAsync(id);
