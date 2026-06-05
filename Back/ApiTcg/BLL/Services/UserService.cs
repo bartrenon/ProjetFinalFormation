@@ -18,11 +18,22 @@ public class UserService : IUserService
 
     public async Task<int> RegisterAsync(User user)
     {
-       user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, workFactor : 12);
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, workFactor : 12);
 
-       int result = await _userRepository.RegisterAsync(user);
+        if (await IsEmailTakenAsync(user.Email)) 
+        {
+            throw new Exception("Email déjà utilisé.");
+        }
+            
 
-       return result;
+        if (await IsUsernameTakenAsync(user.Username)) 
+        {
+            throw new Exception("Pseudo déjà pris.");
+        }
+
+        int result = await _userRepository.RegisterAsync(user);
+
+        return result;
     }
 
     public async Task<string?> LoginAsync(string email, string password)
@@ -90,5 +101,19 @@ public class UserService : IUserService
         result = await _userRepository.HardDeleteUserAsync(deletedDate);
 
         return result;
+    }
+
+    public async Task<bool> IsEmailTakenAsync(string email)
+    {
+        int result = await _userRepository.IsEmailTakenAsync(email);
+
+        return result > 0;
+    }
+
+    public async Task<bool> IsUsernameTakenAsync(string username)
+    {
+        int result = await _userRepository.IsUsernameTakenAsync(username);
+
+        return result > 0;
     }
 }

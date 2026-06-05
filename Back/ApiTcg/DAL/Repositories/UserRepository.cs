@@ -1,5 +1,4 @@
-﻿
-using DAL.Interfaces;
+﻿using DAL.Interfaces;
 using Domain.Entities;
 
 using Microsoft.Data.SqlClient;
@@ -36,23 +35,43 @@ public class UserRepository : IUserRepository
 
     #region Read
 
-        public async Task<User?> GetByEmailAsync(string email)
-        {
-            using SqlConnection connection = new SqlConnection(_connectionString);
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = @"SELECT Id, Username, Email, PasswordHash, CreatedAt, IsDeleted, DeletedAt
+        string query = @"SELECT Id, Username, Email, PasswordHash, CreatedAt, IsDeleted, DeletedAt
                              FROM [User]
                              WHERE Email = @Email";
 
-            return await connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email });
-        }
+        return await connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email });
+    }
+
+    public async Task<int> IsEmailTakenAsync(string email)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"SELECT Count(1) FROM [User] WHERE Email = @Email";
+
+        return await connection.ExecuteScalarAsync<int>(query, new { Email = email });
+    }
+
+    public async Task<int> IsUsernameTakenAsync(string username)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"SELECT Count(1) FROM [User] WHERE Username = @Username";
+
+        return await connection.ExecuteScalarAsync<int>(query, new { Username = username });
+    }
+
+
 
     #endregion
 
 
     #region Update
 
-        public async Task<int> SoftDeleteUserAsync(int userId)
+    public async Task<int> SoftDeleteUserAsync(int userId)
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
 

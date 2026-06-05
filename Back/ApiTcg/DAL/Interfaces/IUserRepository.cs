@@ -9,4 +9,6 @@ public interface IUserRepository
     Task<int> SoftDeleteUserAsync(int userId);
     Task<int> HardDeleteUserAsync(int userId);
     Task<int> HardDeleteUserAsync(DateTime? deletedDate);
+    Task<int> IsEmailTakenAsync(string email);
+    Task<int> IsUsernameTakenAsync(string username);
 }

@@ -99,4 +99,19 @@ public class UserController : ControllerBase
         }
     }
 
+    //Get
+    [HttpGet("check-email")]
+    public async Task<IActionResult> CheckEmail([FromQuery] string email)
+    {
+        bool taken = await _userService.IsEmailTakenAsync(email);
+        return Ok(new {available = !taken});
+    }
+
+    [HttpGet("check-username")]
+    public async Task<IActionResult> CheckUsername([FromQuery] string username)
+    {
+        bool taken = await _userService.IsUsernameTakenAsync(username);
+        return Ok(new { available = !taken });
+    }
+
 }
