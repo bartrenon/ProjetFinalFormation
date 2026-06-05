@@ -6,45 +6,45 @@ using Microsoft.Extensions.Configuration;
 
 namespace DAL.Repositories;
 
-public class UserCardRepository : IUserCardRepository
+public class CollectionRepository : ICollectionRepository
 {
     private readonly string _connectionString;
 
-    public UserCardRepository(IConfiguration configuration)
+    public CollectionRepository(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<int> AddUserCardAsync(UserCard userCard)
+    public async Task<int> AddCollectionAsync(Collection collection)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        string query = @"INSERT INTO UserCard (UserId ,CardId)
+        string query = @"INSERT INTO Collection (UserId ,CardId)
                          VALUES (@UserId ,@CardId)";
 
-        return await connection.ExecuteAsync(query, userCard);
+        return await connection.ExecuteAsync(query, collection);
     }
 
-    public async Task<int> DeleteUserCardAsync(string id)
+    public async Task<int> DeleteCollectionAsync(string id)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        string query = @"DELETE FROM UserCard
+        string query = @"DELETE FROM Collection
                              WHERE Id = @Id";
 
         return await connection.ExecuteAsync(query, new { Id = id });
     }
 
-    public async Task<UserCard?> GetByIdAsync(string id)
+    public async Task<Collection?> GetByIdAsync(string id)
     {
 
         using  SqlConnection connection = new SqlConnection(_connectionString);
 
         string query = @"SELECT Id, UserId, CardId, CreatedAt
-                             FROM UserCard
+                             FROM Collection
                              WHERE Id = @Id";
 
-        return await connection.QueryFirstOrDefaultAsync<UserCard>(query, new { Id = id });
+        return await connection.QueryFirstOrDefaultAsync<Collection>(query, new { Id = id });
 
     }
 }

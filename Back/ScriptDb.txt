@@ -49,15 +49,15 @@ CREATE TABLE Card
 
 
 -- ============================
---        TABLE : UserCard 
+--        TABLE : Collection
 -- ============================
-CREATE TABLE UserCard (
+CREATE TABLE Collection(
     Id INT IDENTITY(1,1) PRIMARY KEY,
     UserId INT NOT NULL,
     CardId NVarchar(100) NOT NULL,
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 
-    CONSTRAINT FK_UserCards_User FOREIGN KEY (UserId) REFERENCES [User](Id),
-    CONSTRAINT FK_UserCards_Card FOREIGN KEY (CardId) REFERENCES Card(Id)
+    CONSTRAINT FK_Collection_User FOREIGN KEY (UserId) REFERENCES [User](Id),
+    CONSTRAINT FK_Collection_Card FOREIGN KEY (CardId) REFERENCES Card(Id)
 );
 

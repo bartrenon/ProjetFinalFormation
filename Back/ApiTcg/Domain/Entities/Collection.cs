@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class UserCard
+public class Collection
 {
     public int Id { get; set; }
 

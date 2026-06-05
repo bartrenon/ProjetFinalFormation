@@ -1,6 +1,6 @@
-﻿namespace ApiTcg.Dtos.UserCard;
+﻿namespace ApiTcg.Dtos.Collection;
 
-public class UserCardCreateDto
+public class CollectionCreateDto
 {
     public int UserId {  get; set; }
     public string CardId { get; set; } = "";
