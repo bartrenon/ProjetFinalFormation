@@ -1,1 +1,28 @@
-<p>register works!</p>
+<div class="glass-card">
+  <h2>Creer un compte</h2>
+  <p>Inscris-toi pour commencer ta collection.</p>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label>Nom d'utilisateur</label>
+      <input type="text" formControlName="username" placeholder="AshKetchum" />
+    </div>
+
+    <div class="field">
+      <label>Adresse email</label>
+      <input type="email" formControlName="email" placeholder="toi@exemple.com" />
+      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched)
+      {
+        <span>Email invalide</span>
+      }
+    </div>
+
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" formControlName="password" placeholder="********" />
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
+    <a routerLink="/login">J'ai deja un compte</a>
+  </form>
+</div>

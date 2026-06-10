@@ -1,13 +1,12 @@
 <div class="glass-card">
-  <h2>Bon retour 👋</h2>
-  <p>Connecte-toi à ton compte</p>
+  <h2>Bon retour</h2>
+  <p>Connecte-toi a ton compte</p>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
     <div class="field">
       <label>Adresse email</label>
       <input type="email" formControlName="email" placeholder="toi@exemple.com" />
-      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) 
+      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
       {
         <span>Email invalide</span>
       }
@@ -15,10 +14,10 @@
 
     <div class="field">
       <label>Mot de passe</label>
-      <input type="password" formControlName="password" placeholder="••••••••" />
+      <input type="password" formControlName="password" placeholder="********" />
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
-
+    <a routerLink="/register">Creer un compte</a>
   </form>
 </div>

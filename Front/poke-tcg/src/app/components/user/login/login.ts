@@ -1,44 +1,42 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { userService } from '../../../services/userService';
-import { UserCreate } from '../../../models/user/userCreate';
+import { RouterLink } from '@angular/router';
+import { UserLogin } from '../../../models/user/userLogin';
+import { UserService } from '../../../services/userService';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.scss'
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
-  
-   constructor(
+
+  constructor(
     private fb: FormBuilder,
-    private userService: userService
+    private userService: UserService
   ) {
-     this.loginForm = this.fb.group({
-     username: ['', Validators.required],
-     email: ['', [Validators.required, Validators.email]],
-     password: ['', Validators.required]
-  });
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
   onSubmit(): void {
-
     if (this.loginForm.invalid)
       return;
 
-    const user : UserCreate  = {
-      username: this.loginForm.value.username!,
+    const credentials: UserLogin = {
       email: this.loginForm.value.email!,
-      passwordHash: this.loginForm.value.password!
+      password: this.loginForm.value.password!
     };
 
-    this.userService.createUser(user)
+    // Connexion : on envoie uniquement les identifiants.
+    this.userService.login(credentials)
       .subscribe({
         next: (response) => {
-          console.log('Utilisateur créé', response);
+          console.log('Utilisateur connecte', response);
         },
         error: (err) => {
           console.error(err);
