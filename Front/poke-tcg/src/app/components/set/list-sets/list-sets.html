@@ -1,0 +1,42 @@
+<section class="sets-page">
+  <div class="sets-header">
+    <div>
+      <h2>Extensions Pokemon TCG</h2>
+      <p>Liste des sets recuperes depuis ton API.</p>
+    </div>
+
+    <button type="button" (click)="loadSets()" [disabled]="isLoading()">
+      Actualiser
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement des sets...</p>
+  }
+
+  @if (!isLoading() && sets().length === 0) {
+    <p class="state-message">Aucun set trouve.</p>
+  }
+
+  <div class="sets-grid">
+    @for (set of sets(); track set.id) {
+      <article class="set-card">
+        <div class="set-images">
+          @if (set.logo) {
+            <img class="set-logo" [src]="set.logo" [alt]="set.name" />
+          }
+
+          @if (set.symbol) {
+            <img class="set-symbol" [src]="set.symbol" [alt]="'Symbole ' + set.name" />
+          }
+        </div>
+
+        <div class="set-content">
+          <h3>{{ set.name }}</h3>
+          <p>{{ set.cardCountOfficial }} cartes officielles</p>
+          <p>{{ set.cardCountTotal }} cartes au total</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { UserCreate } from '../../../models/user/userCreate';
 import { UserService } from '../../../services/userService';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,8 @@ export class Register {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
@@ -34,11 +35,11 @@ export class Register {
       password: this.registerForm.value.password!
     };
 
-    // Inscription : le hash du mot de passe doit etre fait cote backend.
     this.userService.createUser(user)
       .subscribe({
         next: (response) => {
           console.log('Utilisateur cree', response);
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           console.error(err);

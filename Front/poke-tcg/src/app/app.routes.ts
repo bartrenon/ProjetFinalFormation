@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/user/login/login';
 import { Register } from './components/user/register/register';
+import { ListSets } from './components/set/list-sets/list-sets';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: Register }
+    { path: 'register', component: Register },
+    { path : 'sets', component : ListSets}
 ];

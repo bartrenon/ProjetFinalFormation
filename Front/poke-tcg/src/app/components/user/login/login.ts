@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserLogin } from '../../../models/user/userLogin';
 import { UserService } from '../../../services/userService';
 
@@ -15,7 +15,8 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,11 +33,11 @@ export class LoginComponent {
       password: this.loginForm.value.password!
     };
 
-    // Connexion : on envoie uniquement les identifiants.
     this.userService.login(credentials)
       .subscribe({
         next: (response) => {
           console.log('Utilisateur connecte', response);
+          this.router.navigate(['/sets']);
         },
         error: (err) => {
           console.error(err);
