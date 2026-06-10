@@ -20,23 +20,25 @@
 
   <div class="sets-grid">
     @for (set of sets(); track set.id) {
-      <article class="set-card">
-        <div class="set-images">
-          @if (set.logo) {
-            <img class="set-logo" [src]="set.logo" [alt]="set.name" />
-          }
+        <a class="set-card" [routerLink]="['/set/', set.id]">
+            <article class="set-card">
+                <div class="set-images">
+                @if (set.logo) {
+                    <img class="set-logo" [src]="set.logo" [alt]="set.name" />
+                }
 
-          @if (set.symbol) {
-            <img class="set-symbol" [src]="set.symbol" [alt]="'Symbole ' + set.name" />
-          }
-        </div>
+                @if (set.symbol) {
+                    <img class="set-symbol" [src]="set.symbol" [alt]="'Symbole ' + set.name" />
+                }
+                </div>
 
-        <div class="set-content">
-          <h3>{{ set.name }}</h3>
-          <p>{{ set.cardCountOfficial }} cartes officielles</p>
-          <p>{{ set.cardCountTotal }} cartes au total</p>
-        </div>
-      </article>
+                <div class="set-content">
+                    <h3>{{ set.name }}</h3>
+                    <p>{{ set.cardCountOfficial }} cartes officielles</p>
+                    <p>{{ set.cardCountTotal }} cartes au total</p>
+                </div>
+            </article>
+        </a>
     }
   </div>
 </section>

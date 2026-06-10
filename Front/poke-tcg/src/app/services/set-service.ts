@@ -15,4 +15,5 @@ export class SetService {
   getAllSets(): Observable<Set[]> {
     return this._http.get<Set[]>(this._url);
   }
+  
 }

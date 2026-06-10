@@ -1,14 +1,18 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { SetService } from '../../../services/set-service';
 import { Set } from '../../../models/set/set';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list-sets',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './list-sets.html',
   styleUrl: './list-sets.scss',
 })
 export class ListSets implements OnInit {
+goToListCard(arg0: string) {
+throw new Error('Method not implemented.');
+}
   private _setService = inject(SetService);
 
   sets = signal<Set[]>([]);
