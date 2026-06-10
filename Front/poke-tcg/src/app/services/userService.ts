@@ -11,8 +11,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  // A adapter selon l'URL exposee par ton API backend.
-  private readonly _url = 'https://localhost:7009/api/users';
+  private readonly _url = 'https://localhost:7009/apiTcg/User';
 
   constructor(private _http: HttpClient) {}
 

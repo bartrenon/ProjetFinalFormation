@@ -12,7 +12,7 @@ public class UserMapper
         {
             Username = u.Username,
             Email = u.Email,
-            PasswordHash = u.PasswordHash
+            PasswordHash = u.Password
         };
     }
 }
