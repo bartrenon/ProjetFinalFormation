@@ -54,6 +54,7 @@ CREATE TABLE Collection(
     Id INT IDENTITY(1,1) PRIMARY KEY,
     UserId INT NOT NULL,
     CardId NVarchar(100) NOT NULL,
+    NbDuplicateCard INT NOT NULL DEFAULT 1, 
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 
     CONSTRAINT FK_Collection_User FOREIGN KEY (UserId) REFERENCES [User](Id),

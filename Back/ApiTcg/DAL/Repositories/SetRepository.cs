@@ -15,13 +15,26 @@ public class SetRepository : ISetRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<IEnumerable<Set>> GetAllAsync()
+    public async Task<IEnumerable<Set>> GetFilteredSets(int offset, int pageSize, string? name)
     {
+
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        const string query = "SELECT * FROM [Set] ORDER BY Name";
+        object parameters = new { Offset = offset, PageSize = pageSize };
 
-        return await connection.QueryAsync<Set>(query);
+        string query = @"SELECT * FROM [Set] ";
+
+        if(name is not null) 
+        {
+            query += "WHERE Name Like @Name ";
+            name = $"%{name}%";
+            parameters = new { Offset = offset, PageSize = pageSize, Name = name };
+        }
+
+        query += "ORDER BY Name OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+
+        return await connection.QueryAsync<Set>(query, parameters);
+
     }
 
     public async Task<Set?> GetByIdAsync(string id)
