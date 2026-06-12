@@ -13,11 +13,11 @@ public class SetService : ISetService
         _setRepository = setRepository;
     }
 
-    public async Task<IEnumerable<Set>> GetFilteredSets(int pageNumber, int pageSize, string? name)
+    public async Task<IEnumerable<Set>> GetFilteredSetsAsync(int pageNumber, int pageSize, string? name)
     {
         int offset = (pageNumber - 1) * pageSize;
 
-        return await _setRepository.GetFilteredSets(offset, pageSize, name);
+        return await _setRepository.GetFilteredSetsAsync(offset, pageSize, name);
     }
 
     public async Task<Set?> GetByIdAsync(string id)

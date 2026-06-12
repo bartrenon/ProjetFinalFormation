@@ -15,7 +15,7 @@ public class SetRepository : ISetRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<IEnumerable<Set>> GetFilteredSets(int offset, int pageSize, string? name)
+    public async Task<IEnumerable<Set>> GetFilteredSetsAsync(int offset, int pageSize, string? name)
     {
 
         using SqlConnection connection = new SqlConnection(_connectionString);

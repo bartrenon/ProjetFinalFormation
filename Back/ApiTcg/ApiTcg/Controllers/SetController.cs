@@ -18,7 +18,7 @@ public class SetController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetFilteredSets(int pageNumber, int pageSize, string? name)
     {
-        IEnumerable<Set> sets = await _setService.GetFilteredSets(pageNumber, pageSize, name);
+        IEnumerable<Set> sets = await _setService.GetFilteredSetsAsync(pageNumber, pageSize, name);
 
         return Ok(sets);
     }
