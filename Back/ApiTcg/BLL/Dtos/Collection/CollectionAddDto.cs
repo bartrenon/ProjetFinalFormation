@@ -1,4 +1,4 @@
-﻿namespace ApiTcg.Dtos.Collection;
+﻿namespace BLL.Dtos.Collection;
 
 public class CollectionAddDto
 {

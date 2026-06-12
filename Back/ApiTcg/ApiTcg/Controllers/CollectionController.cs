@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using ApiTcg.Dtos.Collection;
-using ApiTcg.Mappers;
+﻿using BLL.Dtos.Collection;
 using BLL.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +32,8 @@ public class CollectionController : ControllerBase
     }
 
     [HttpPost("Add")]
-    public async Task<IActionResult> AddCollection(CollectionAddDto u)
+    public async Task<IActionResult> AddCollection(  CollectionAddDto collection)
     {
-        Collection collection = CollectionMapper.ToCollection(u);
 
         int val = await _collectionService.AddCollectionAsync(collection);
 

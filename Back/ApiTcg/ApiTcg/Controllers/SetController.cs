@@ -26,7 +26,7 @@ public class SetController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        Set? set = await _setService.GetByIdAsync(id);
+        Set? set = await _setService.GetByIdWithCardsAsync(id);
 
         if (set is null)
         {

@@ -1,8 +1,6 @@
-﻿using ApiTcg.Dtos.User;
-using ApiTcg.Mappers;
+﻿using BLL.Dtos.User;
 
 using BLL.Interfaces;
-using Domain.Entities;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,9 +20,8 @@ public class UserController : ControllerBase
     //POST
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserCreateDto u) 
+    public async Task<IActionResult> Register(UserCreateDto user) 
     {
-        User user = UserMapper.ToUser(u);
 
         int val = await _userService.RegisterAsync(user);
 
@@ -41,7 +38,7 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserLoginDto userLogin)
     {
-        string? token = await _userService.LoginAsync(userLogin.Email, userLogin.Password);
+        string? token = await _userService.LoginAsync(userLogin);
 
         if (token is null)
         {

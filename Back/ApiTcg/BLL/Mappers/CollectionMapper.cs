@@ -1,7 +1,7 @@
-﻿using ApiTcg.Dtos.Collection;
+﻿using BLL.Dtos.Collection;
 using Domain.Entities;
 
-namespace ApiTcg.Mappers;
+namespace BLL.Mappers;
 
 public class CollectionMapper
 {

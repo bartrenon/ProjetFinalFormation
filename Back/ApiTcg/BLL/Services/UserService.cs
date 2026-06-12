@@ -1,5 +1,6 @@
-﻿using BLL.Interfaces;
-
+﻿using BLL.Dtos.User;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Entities;
 
@@ -16,29 +17,30 @@ public class UserService : IUserService
         this._jwtService = jwtService;
     }
 
-    public async Task<int> RegisterAsync(User user)
+    public async Task<int> RegisterAsync(UserCreateDto user)
     {
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, workFactor : 12);
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, workFactor : 12);
 
         if (await IsEmailTakenAsync(user.Email)) 
         {
             throw new Exception("Email déjà utilisé.");
         }
-            
 
         if (await IsUsernameTakenAsync(user.Username)) 
         {
             throw new Exception("Pseudo déjà pris.");
         }
 
-        int result = await _userRepository.RegisterAsync(user);
+        User NewUser = UserMapper.ToUser(user);
+
+        int result = await _userRepository.RegisterAsync(NewUser);
 
         return result;
     }
 
-    public async Task<string?> LoginAsync(string email, string password)
+    public async Task<string?> LoginAsync(UserLoginDto userLogin)
     {
-        User? user = await _userRepository.GetByEmailAsync(email);
+        User? user = await _userRepository.GetByEmailAsync(userLogin.Email);
 
         if (user is null)
         {
@@ -50,7 +52,7 @@ public class UserService : IUserService
             return null;
         }
 
-        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(userLogin.Password, user.PasswordHash);
 
         if (!isPasswordValid)
         {

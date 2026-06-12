@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.Dtos.Collection;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Entities;
 
@@ -13,8 +15,10 @@ public class CollectionService : ICollectionService
         this._collectionRepository = collectionRepository;
     }
 
-    public async Task<int> AddCollectionAsync(Collection collection)
+    public async Task<int> AddCollectionAsync(CollectionAddDto c)
     {
+        Collection collection = CollectionMapper.ToCollection(c);
+
         return await _collectionRepository.AddCollectionAsync(collection);
     }
 

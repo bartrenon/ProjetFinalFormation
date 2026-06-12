@@ -7,10 +7,12 @@ namespace BLL.Services;
 public class SetService : ISetService
 {
     private readonly ISetRepository _setRepository;
+    private readonly ICardRepository _cardRepository;
 
-    public SetService(ISetRepository setRepository)
+    public SetService(ISetRepository setRepository, ICardRepository cardRepository)
     {
         _setRepository = setRepository;
+        _cardRepository = cardRepository;
     }
 
     public async Task<IEnumerable<Set>> GetFilteredSetsAsync(int pageNumber, int pageSize, string? name)
@@ -20,7 +22,7 @@ public class SetService : ISetService
         return await _setRepository.GetFilteredSetsAsync(offset, pageSize, name);
     }
 
-    public async Task<Set?> GetByIdAsync(string id)
+    public async Task<Set?> GetByIdWithCardsAsync(string id)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -28,5 +30,7 @@ public class SetService : ISetService
         }
 
         return await _setRepository.GetByIdAsync(id);
+
+        //return await _setRepository.GetByIdWithCardsAsync(id);
     }
 }

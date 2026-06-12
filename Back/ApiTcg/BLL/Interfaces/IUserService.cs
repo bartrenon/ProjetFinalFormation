@@ -1,11 +1,11 @@
-﻿using Domain.Entities;
+﻿using BLL.Dtos.User;
 
 namespace BLL.Interfaces;
 
 public interface IUserService
 {
-    Task<int> RegisterAsync(User user);
-    Task<string?> LoginAsync(string email, string password);
+    Task<int> RegisterAsync(UserCreateDto user);
+    Task<string?> LoginAsync(UserLoginDto userLogin);
     Task<int> SoftDeleteUserAsync(int userId);
     Task<int> HardDeleteUserAsync(int userId);
     Task<int> HardDeleteUserAsync(DateTime? deletedDate);

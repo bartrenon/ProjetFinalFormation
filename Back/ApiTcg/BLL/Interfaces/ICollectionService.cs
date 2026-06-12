@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using BLL.Dtos.Collection;
+using Domain.Entities;
 
 namespace BLL.Interfaces;
 
@@ -8,5 +9,5 @@ public interface ICollectionService
 
     Task<int> DeleteCollectionAsync(int id);
 
-    Task<int> AddCollectionAsync(Collection collection);
+    Task<int> AddCollectionAsync(CollectionAddDto collection);
 }

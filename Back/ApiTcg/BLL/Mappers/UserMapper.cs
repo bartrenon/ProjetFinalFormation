@@ -1,8 +1,7 @@
-﻿using ApiTcg.Dtos.User;
-
+﻿using BLL.Dtos.User;
 using Domain.Entities;
 
-namespace ApiTcg.Mappers;
+namespace BLL.Mappers;
 
 public class UserMapper
 {

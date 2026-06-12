@@ -1,4 +1,4 @@
-﻿namespace ApiTcg.Dtos.User;
+﻿namespace BLL.Dtos.User;
 
 public class UserCreateDto
 {
