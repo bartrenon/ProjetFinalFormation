@@ -15,13 +15,24 @@ public class CardRepository : ICardRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<IEnumerable<Card>> GetAllAsync()
+    public async Task<IEnumerable<Card>> GetFilteredCardsAsync(int offset, int pageSize, string? name)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        const string query = "SELECT * FROM [Card] ORDER BY SetId, LocalId";
+        object parameters = new { Offset = offset, PageSize = pageSize };
 
-        return await connection.QueryAsync<Card>(query);
+        string query = "SELECT * FROM [Card] ";
+
+        if (name is not null)
+        {
+            query += "WHERE Name Like @Name ";
+            name = $"%{name}%";
+            parameters = new { Offset = offset, PageSize = pageSize, Name = name };
+        }
+
+        query += "ORDER BY SetId, LocalId OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+
+        return await connection.QueryAsync<Card>(query, parameters);
     }
 
     public async Task<Card?> GetByIdAsync(string id)

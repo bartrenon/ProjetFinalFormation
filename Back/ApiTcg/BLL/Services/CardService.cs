@@ -13,9 +13,11 @@ public class CardService : ICardService
        _cardRepository = cardRepository;
     }
 
-    public async Task<IEnumerable<Card>> GetAllAsync()
+    public async Task<IEnumerable<Card>> GetFilteredCardsAsync(int pageNumber, int pageSize, string? name)
     {
-        return await _cardRepository.GetAllAsync();
+        int offset = (pageNumber - 1) * pageSize;
+
+        return await _cardRepository.GetFilteredCardsAsync(offset, pageSize, name);
     }
 
     public async Task<Card?> GetByIdAsync(string id)

@@ -16,9 +16,9 @@ public class CardController :ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetFilteredCards(int pageNumber, int pageSize, string? name)
     {
-        IEnumerable<Card> cards = await _cardService.GetAllAsync();
+        IEnumerable<Card> cards = await _cardService.GetFilteredCardsAsync(pageNumber, pageSize, name);
 
         return Ok(cards);
     }
