@@ -1,4 +1,5 @@
-﻿using ApiTcg.Dtos.Collection;
+﻿using System.Reflection.Metadata.Ecma335;
+using ApiTcg.Dtos.Collection;
 using ApiTcg.Mappers;
 using BLL.Interfaces;
 using Domain.Entities;
@@ -49,10 +50,10 @@ public class CollectionController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id) 
+    [HttpGet("user/{userId}/card/{cardId}")]
+    public async Task<IActionResult> GetById(int userId, string cardId) 
     {
-        Collection? collection = await _collectionService.GetByIdAsync(id);
+        Collection? collection = await _collectionService.GetByIdAsync(userId, cardId);
 
         if(collection is null) 
         {

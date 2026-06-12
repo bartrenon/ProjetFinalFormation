@@ -4,7 +4,7 @@ namespace BLL.Interfaces;
 
 public interface ICollectionService
 {
-    Task<Collection?> GetByIdAsync(int id);
+    Task<Collection?> GetByIdAsync(int userId, string cardId);
 
     Task<int> DeleteCollectionAsync(int id);
 

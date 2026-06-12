@@ -35,16 +35,16 @@ public class CollectionRepository : ICollectionRepository
         return await connection.ExecuteAsync(query, new { Id = id });
     }
 
-    public async Task<Collection?> GetByIdAsync(int id)
+    public async Task<Collection?> GetByIdAsync(int userId, string cardId)
     {
 
         using  SqlConnection connection = new SqlConnection(_connectionString);
 
         string query = @"SELECT Id, UserId, CardId, CreatedAt
                              FROM Collection
-                             WHERE Id = @Id";
+                             WHERE UserId = @UserId AND CardId = @CardId";
 
-        return await connection.QueryFirstOrDefaultAsync<Collection>(query, new { Id = id });
+        return await connection.QueryFirstOrDefaultAsync<Collection>(query, new { UserId = userId, CardId = cardId });
 
     }
 }

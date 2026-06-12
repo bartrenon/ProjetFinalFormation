@@ -23,8 +23,8 @@ public class CollectionService : ICollectionService
         return await _collectionRepository.DeleteCollectionAsync(id);
     }
 
-    public async Task<Collection?> GetByIdAsync(int id)
+    public async Task<Collection?> GetByIdAsync(int userId, string cardId)
     {
-        return await _collectionRepository.GetByIdAsync(id);
+        return await _collectionRepository.GetByIdAsync(userId, cardId);
     }
 }
