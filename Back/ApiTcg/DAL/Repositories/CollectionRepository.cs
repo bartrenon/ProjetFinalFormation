@@ -47,4 +47,17 @@ public class CollectionRepository : ICollectionRepository
         return await connection.QueryFirstOrDefaultAsync<Collection>(query, new { UserId = userId, CardId = cardId });
 
     }
+
+    public async Task<bool> ExistsInCollectionAsync(int userId, string cardId) 
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"SELECT count(*)
+                             FROM Collection
+                             WHERE UserId = @UserId AND CardId = @CardId";
+
+        int count =  await connection.ExecuteScalarAsync<int>(query, new { UserId = userId, CardId = cardId });
+
+        return count > 0;
+    }
 }

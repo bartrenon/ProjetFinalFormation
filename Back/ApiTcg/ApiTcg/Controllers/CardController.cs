@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using BLL.Dtos.Card;
+using BLL.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ public class CardController :ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetFilteredCards(int pageNumber, int pageSize, string? name)
     {
-        IEnumerable<Card> cards = await _cardService.GetFilteredCardsAsync(pageNumber, pageSize, name);
+        IEnumerable<CardSummaryDto> cards = await _cardService.GetFilteredCardsAsync(pageNumber, pageSize, name);
 
         return Ok(cards);
     }
@@ -39,11 +40,11 @@ public class CardController :ControllerBase
     [HttpGet("Set/{id}")]
     public async Task<IActionResult> GetBySetIdAsync(string id)
     {
-        IEnumerable<Card> cards = await _cardService.GetBySetIdAsync(id);
+        IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id);
 
         if(cards is null) 
         {
-            cards = new List<Card>();
+            cards = new List<CardSummaryDto>();
         }
 
         return Ok(cards);

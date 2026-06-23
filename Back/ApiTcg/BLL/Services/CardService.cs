@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using BLL.Dtos.Card;
+using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Entities;
 
@@ -15,22 +17,22 @@ public class CardService : ICardService
        _collectionRepository = collectionRepository;
     }
 
-    public async Task<IEnumerable<Card>> GetFilteredCardsAsync(int pageNumber, int pageSize, string? name)
+    public async Task<IEnumerable<CardSummaryDto>> GetFilteredCardsAsync(int pageNumber, int pageSize, string? name)
     {
         int offset = (pageNumber - 1) * pageSize;
 
-        IEnumerable<Card> cards = await _cardRepository.GetFilteredCardsAsync(offset, pageSize, name);
+        List<CardSummaryDto> cardsSummaryDto = new List<CardSummaryDto>();
+
+        IEnumerable <Card> cards = await _cardRepository.GetFilteredCardsAsync(offset, pageSize, name);
 
         foreach (Card c in cards)
         {
-            Collection? collection = await _collectionRepository.GetByIdAsync(1, c.Id);
-            if (collection != null) 
-            {
-                c.Collections.Add(collection);
-            }
+            bool isExist = await _collectionRepository.ExistsInCollectionAsync(1, c.Id);
+
+            cardsSummaryDto.Add(CardMapper.ToCardSummaryDto(c, isExist));
         }
 
-        return cards;
+        return cardsSummaryDto;
     }
 
     public async Task<Card?> GetByIdAsync(string id)
@@ -51,19 +53,19 @@ public class CardService : ICardService
         return card;
     }
 
-    public async Task<IEnumerable<Card>> GetBySetIdAsync(string setId)
+    public async Task<IEnumerable<CardSummaryDto>> GetBySetIdAsync(string setId)
     {
+        List<CardSummaryDto> cardsSummaryDto = new List<CardSummaryDto>();
+
         IEnumerable<Card> cards = await _cardRepository.GetBySetIdAsync(setId);
 
         foreach (Card c in cards)
         {
-            Collection? collection = await _collectionRepository.GetByIdAsync(1, c.Id);
-            if (collection != null)
-            {
-                c.Collections.Add(collection);
-            }
+            bool isExist = await _collectionRepository.ExistsInCollectionAsync(1, c.Id);
+
+            cardsSummaryDto.Add(CardMapper.ToCardSummaryDto(c, isExist));
         }
 
-        return cards;
+        return cardsSummaryDto;
     }
 }
