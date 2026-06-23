@@ -39,7 +39,7 @@ public class CardRepository : ICardRepository
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        const string query = "SELECT * FROM [Card] WHERE LocalId = @Id";
+        const string query = "SELECT * FROM [Card] WHERE Id = @Id";
 
         return await connection.QueryFirstOrDefaultAsync<Card>(query, new { Id = id });
     }
