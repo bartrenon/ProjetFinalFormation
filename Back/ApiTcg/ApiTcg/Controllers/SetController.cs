@@ -1,3 +1,4 @@
+using BLL.Dtos.Set;
 using BLL.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,9 @@ public class SetController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<IActionResult> GetByIdWithCards(string id)
     {
-        Set? set = await _setService.GetByIdWithCardsAsync(id);
+        SetDetailDto? set = await _setService.GetByIdWithCardsAsync(id);
 
         if (set is null)
         {

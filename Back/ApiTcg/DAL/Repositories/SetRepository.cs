@@ -37,7 +37,7 @@ public class SetRepository : ISetRepository
 
     }
 
-    public async Task<Set?> GetByIdAsync(string id)
+    public async Task<Set?> GetByIdWithCardsAsync(string id)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 

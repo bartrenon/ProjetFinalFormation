@@ -1,4 +1,6 @@
+using BLL.Dtos.Set;
 using BLL.Interfaces;
+using BLL.Mappers;
 using DAL.Interfaces;
 using Domain.Entities;
 
@@ -22,15 +24,17 @@ public class SetService : ISetService
         return await _setRepository.GetFilteredSetsAsync(offset, pageSize, name);
     }
 
-    public async Task<Set?> GetByIdWithCardsAsync(string id)
+    public async Task<SetDetailDto?> GetByIdWithCardsAsync(string id)
     {
+        Set? set = await _setRepository.GetByIdWithCardsAsync(id);
+
         if (string.IsNullOrWhiteSpace(id))
         {
             return null;
         }
 
-        return await _setRepository.GetByIdAsync(id);
+        IEnumerable<Card> cards = await _cardRepository.GetBySetIdAsync(id);
 
-        //return await _setRepository.GetByIdWithCardsAsync(id);
+        return  SetMapper.ToSetDetailDto(set!, cards);
     }
 }
