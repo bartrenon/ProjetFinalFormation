@@ -15,7 +15,7 @@ public class SetMapper
             CardCountTotal = set.CardCountTotal,
             CardCountOfficial = set.CardCountOfficial,
 
-            Cards = cards.Select(CardMapper.ToCardSummaryDTO)
+            Cards = cards.Select(CardMapper.ToCardDto)
         };
     }
 }

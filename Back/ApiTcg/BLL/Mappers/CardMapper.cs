@@ -1,13 +1,24 @@
 ﻿using BLL.Dtos.Card;
-using BLL.Dtos.Set;
 using Domain.Entities;
 
 namespace BLL.Mappers;
 public class CardMapper
 {
-    public static CardSummaryDTO ToCardSummaryDTO(Card c)
+    public static CardSummaryDto ToCardSummaryDto(Card c, bool isInCollection)
     {
-        return new CardSummaryDTO
+        return new CardSummaryDto
+        {
+            Id = c.Id,
+            Name = c.Name,
+            LocalId = c.LocalId,
+            Image = c.Image,
+            IsInCollection = isInCollection
+        };
+    }
+
+    public static CardDto ToCardDto(Card c)
+    {
+        return new CardDto
         {
             Id = c.Id,
             Name = c.Name,
