@@ -81,7 +81,7 @@ public class UserRepository : IUserRepository
                 DeletedAt = GETDATE()
             WHERE Id = @UserId";
 
-            return await connection.ExecuteAsync(query, new { UserId = userId });
+            return await connection.ExecuteAsync(query, new { Id = userId });
         }
 
 
@@ -95,10 +95,12 @@ public class UserRepository : IUserRepository
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = @"DELETE FROM [User]
-                             WHERE Id = @UserId";
+            string query = @"DELETE FROM Collection 
+                             WHERE UserId = @Id;
+                             DELETE FROM [User]
+                             WHERE Id = @Id;";
 
-            return await connection.ExecuteAsync(query, new { UserId = userId });
+            return await connection.ExecuteAsync(query, new { Id = userId });
         }
 
 
@@ -106,23 +108,19 @@ public class UserRepository : IUserRepository
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = "DELETE FROM [User] ";
+            string deleteCollections = @" DELETE FROM Collection 
+                                          WHERE UserId IN (
+                                          SELECT Id FROM [User] WHERE (@DeletedAt IS NOT NULL AND DeletedAt <= @DeletedAt))";
 
-            object parameters;
+            string deleteUsers = @" DELETE FROM [User]
+                                    WHERE (@DeletedAt IS NOT NULL AND DeletedAt <= @DeletedAt))";
 
-            if (deletedDate != null)
-            {
-                query += "WHERE DeletedAt <= @DeletedAt";
-                parameters = new { DeletedAt = deletedDate };
-            }
-            else
-            {
-                query += "WHERE IsDeleted = 1";
-                parameters = new { };
-            }
+            var parameters = new { DeletedAt = deletedDate };
 
-            return await connection.ExecuteAsync(query, parameters);
+            await connection.ExecuteAsync(deleteCollections, parameters);
+            return await connection.ExecuteAsync(deleteUsers, parameters);
         }
+
 
     #endregion
 }
