@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Set } from '../models/set/set';
+import { CardSummary } from '../models/card/cardSummary';
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +16,21 @@ export class SetService {
   constructor(private _http: HttpClient) {}
 
  getAllSets(name?: string): Observable<Set[]> {
-  let params = new HttpParams()
-    .set('pageNumber', this.offset)   
-    .set('pageSize', this.pageSize);
+    let params = new HttpParams()
+      .set('pageNumber', this.offset)   
+      .set('pageSize', this.pageSize);
 
-  if (name) {
-    params = params.set('name', name);
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    return this._http.get<Set[]>(this._url, { params });
   }
 
-  return this._http.get<Set[]>(this._url, { params });
-}
+  getAllCardsOfSet(setId: string): Observable<CardSummary[]> {
+    return this._http.get<CardSummary[]>(
+      `${this._url}/${encodeURIComponent(setId)}`
+    );
+  }
   
 }
