@@ -1,3 +1,5 @@
+import { CardSummary } from "../card/cardSummary";
+
 export interface Set 
 {
    id : string;
@@ -6,4 +8,5 @@ export interface Set
    symbol  : string;
    cardCountTotal : number;
    cardCountOfficial : number;
+   cards: CardSummary[];
 }

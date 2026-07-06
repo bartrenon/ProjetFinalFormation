@@ -20,7 +20,7 @@
 
   <div class="sets-grid">
     @for (set of sets(); track set.id) {
-        <a class="set-card" [routerLink]="['/set/', set.id]">
+        <a class="set-card" [routerLink]="['/set', set.id]">
             <article class="set-card">
                 <div class="set-images">
                 @if (set.logo) {

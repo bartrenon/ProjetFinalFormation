@@ -10,9 +10,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './list-sets.scss',
 })
 export class ListSets implements OnInit {
-goToListCard(arg0: string) {
-throw new Error('Method not implemented.');
-}
   private _setService = inject(SetService);
 
   sets = signal<Set[]>([]);
@@ -30,8 +27,12 @@ throw new Error('Method not implemented.');
       next: (sets) => {
         this.sets.set(sets);
         this.sets().forEach(set => {
-          set.symbol = `${set.symbol}.${this.extension()}`;  
-          set.logo = `${set.logo}.${this.extension()}`;  
+          if (set.symbol) {
+          set.symbol = `${set.symbol}.${this.extension()}`;
+        }
+        if (set.logo) {
+          set.logo = `${set.logo}.${this.extension()}`;
+        }  
         });
         this.isLoading.set(false);
       },

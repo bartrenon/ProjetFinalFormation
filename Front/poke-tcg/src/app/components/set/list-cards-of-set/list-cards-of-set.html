@@ -1,1 +1,28 @@
-<p> voici les cartes du set </p>
+<div class="set-detail">
+  @if (loading) {
+    <p>Chargement...</p>
+  } @else if (error) {
+    <p class="error">{{ error }}</p>
+  } @else if (set) {
+    <header class="set-header">
+      <img [src]="set.logo" [alt]="set.name" class="set-logo" />
+      <div class="set-info">
+        <h1>
+          <img [src]="set.symbol" [alt]="set.name" class="set-symbol" />
+          {{ set.name }}
+        </h1>
+        <p>{{ set.cardCountOfficial }} cartes officielles sur {{ set.cardCountTotal }}</p>
+      </div>
+    </header>
+
+    <section class="cards-grid">
+      @for (card of set.cards; track card.id) {
+        <div class="card-item">
+          <img [src]="card.image" [alt]="card.name" loading="lazy" />
+          <p class="card-name">{{ card.name }}</p>
+          <p class="card-localid">#{{ card.localId }}</p>
+        </div>
+      }
+    </section>
+  }
+</div>
