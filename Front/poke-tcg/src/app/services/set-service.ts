@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Set } from '../models/set/set';
-import { CardSummary } from '../models/card/cardSummary';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +26,8 @@ export class SetService {
     return this._http.get<Set[]>(this._url, { params });
   }
 
-  getAllCardsOfSet(setId: string): Observable<CardSummary[]> {
-    return this._http.get<CardSummary[]>(
+  getAllCardsOfSet(setId: string): Observable<Set> {
+    return this._http.get<Set>(
       `${this._url}/${encodeURIComponent(setId)}`
     );
   }

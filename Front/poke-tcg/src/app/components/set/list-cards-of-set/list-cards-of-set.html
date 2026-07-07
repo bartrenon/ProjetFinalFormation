@@ -1,24 +1,30 @@
 <div class="set-detail">
-  @if (loading) {
+  @if (isLoading()) {
     <p>Chargement...</p>
-  } @else if (error) {
-    <p class="error">{{ error }}</p>
-  } @else if (set) {
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (set(); as currentSet) {
     <header class="set-header">
-      <img [src]="set.logo" [alt]="set.name" class="set-logo" />
+      @if (currentSet.logo) {
+        <img [src]="getSetLogoUrl(currentSet.logo)" [alt]="currentSet.name" class="set-logo" />
+      }
       <div class="set-info">
         <h1>
-          <img [src]="set.symbol" [alt]="set.name" class="set-symbol" />
-          {{ set.name }}
+          @if (currentSet.symbol) {
+            <img [src]="getSetSymbolUrl(currentSet.symbol)" [alt]="currentSet.name" class="set-symbol" />
+          }
+          {{ currentSet.name }}
         </h1>
-        <p>{{ set.cardCountOfficial }} cartes officielles sur {{ set.cardCountTotal }}</p>
+        <p>{{ currentSet.cardCountOfficial }} cartes officielles sur {{ currentSet.cardCountTotal }}</p>
       </div>
     </header>
 
     <section class="cards-grid">
-      @for (card of set.cards; track card.id) {
+      @for (card of currentSet.cards; track card.id) {
         <div class="card-item">
-          <img [src]="card.image" [alt]="card.name" loading="lazy" />
+          @if (card.image) {
+            <img [src]="getCardImageUrl(card.image)" [alt]="card.name" loading="lazy" />
+          }
           <p class="card-name">{{ card.name }}</p>
           <p class="card-localid">#{{ card.localId }}</p>
         </div>

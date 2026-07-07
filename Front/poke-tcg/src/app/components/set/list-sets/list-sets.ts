@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './list-sets.scss',
 })
 export class ListSets implements OnInit {
+  
   private _setService = inject(SetService);
 
   sets = signal<Set[]>([]);

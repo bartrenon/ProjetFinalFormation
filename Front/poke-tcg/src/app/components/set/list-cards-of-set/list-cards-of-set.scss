@@ -1,0 +1,135 @@
+.set-detail-page {
+  width: min(1120px, 94vw);
+  margin: 2rem auto 0;
+  box-sizing: border-box;
+}
+
+.state-message {
+  margin: 0;
+  color: var(--pokemon-muted);
+  font-weight: 700;
+}
+
+.error-message {
+  color: #c0392b;
+}
+
+.set-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 4px solid var(--pokemon-border);
+  border-radius: 8px;
+  background: rgba(255, 253, 244, 0.94);
+  box-shadow: var(--shadow-card);
+  flex-wrap: wrap;
+}
+
+.set-detail-images {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.set-detail-logo {
+  max-width: 160px;
+  max-height: 86px;
+  object-fit: contain;
+}
+
+.set-detail-symbol {
+  max-width: 42px;
+  max-height: 42px;
+  object-fit: contain;
+}
+
+.set-detail-info h2 {
+  margin: 0 0 0.25rem;
+  color: var(--pokemon-dark-blue);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--pokemon-yellow);
+  word-break: break-word;
+}
+
+.set-detail-info p {
+  margin: 0;
+  color: var(--pokemon-muted);
+  font-weight: 700;
+}
+
+/* --- Grille de cartes : le point clé --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem;
+  border: 3px solid var(--pokemon-border);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, var(--pokemon-paper));
+  box-shadow: 0 8px 20px rgba(23, 32, 51, 0.15);
+  overflow: hidden;
+}
+
+.card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 63 / 88; /* format standard d'une carte Pokémon */
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.card-content {
+  width: 100%;
+  text-align: center;
+
+  h3 {
+    margin: 0 0 0.25rem;
+    color: var(--pokemon-dark-blue);
+    font-size: 0.85rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  p {
+    margin: 0;
+    color: var(--pokemon-ink);
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .set-detail-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.5rem;
+  }
+}
