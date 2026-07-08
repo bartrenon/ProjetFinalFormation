@@ -3,6 +3,7 @@ using Dapper;
 using Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DAL.Repositories;
 
@@ -15,14 +16,14 @@ public class CollectionRepository : ICollectionRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<int> AddCollectionAsync(Collection collection)
+    public async Task<int> AddCollectionAsync(Collection c)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        string query = @"INSERT INTO Collection (UserId ,CardId)
-                         VALUES (@UserId ,@CardId)";
+        string query = @"INSERT INTO Collection (UserId, CardId, NbDuplicateCard)
+                         VALUES (@UserId, @CardId, 1)";
 
-        return await connection.ExecuteAsync(query, collection);
+        return await connection.ExecuteAsync(query, c);
     }
 
     public async Task<int> DeleteCollectionAsync(int id)
@@ -40,7 +41,7 @@ public class CollectionRepository : ICollectionRepository
 
         using  SqlConnection connection = new SqlConnection(_connectionString);
 
-        string query = @"SELECT Id, UserId, CardId, CreatedAt
+        string query = @"SELECT Id, UserId, CardId, CreatedAt, NbDuplicateCard
                              FROM Collection
                              WHERE UserId = @UserId AND CardId = @CardId";
 
@@ -59,5 +60,27 @@ public class CollectionRepository : ICollectionRepository
         int count =  await connection.ExecuteScalarAsync<int>(query, new { UserId = userId, CardId = cardId });
 
         return count > 0;
+    }
+
+    public async Task<int> UpdateCollectionAsync(int id, bool isAdding)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = "";
+
+        if (isAdding) 
+        {
+            query = @$"UPDATE Collection 
+                       SET NbDuplicateCard += 1 
+                       WHERE Id = @Id";
+        }
+        else 
+        {
+            query = @$"UPDATE Collection 
+                       SET NbDuplicateCard -= 1 
+                       WHERE Id = @Id AND NbDuplicateCard > 1";
+        }
+
+        return await connection.ExecuteAsync(query, new { Id = id });
     }
 }

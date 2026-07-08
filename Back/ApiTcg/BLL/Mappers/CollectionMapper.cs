@@ -5,12 +5,22 @@ namespace BLL.Mappers;
 
 public class CollectionMapper
 {
-    public static Collection ToCollection(CollectionAddDto uc)
+    public static Collection ToCollection(CollectionAddDto c)
     {
         return new Collection
         {
-            UserId = uc.UserId,
-            CardId = uc.CardId
+            UserId = c.UserId,
+            CardId = c.CardId
+        };
+    }
+
+    public static CollectionSummaryDto ToCollectionSummary(Collection c)
+    {
+        return new CollectionSummaryDto
+        {
+            Id = c.Id,
+            NbDuplicateCard = c.NbDuplicateCard,
+            CreatedAt = c.CreatedAt
         };
     }
 }

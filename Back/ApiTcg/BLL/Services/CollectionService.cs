@@ -17,6 +17,14 @@ public class CollectionService : ICollectionService
 
     public async Task<int> AddCollectionAsync(CollectionAddDto c)
     {
+
+        bool isExist = await _collectionRepository.ExistsInCollectionAsync(c.UserId, c.CardId);
+
+        if(c is null || isExist) 
+        {
+            return 0;
+        }
+
         Collection collection = CollectionMapper.ToCollection(c);
 
         return await _collectionRepository.AddCollectionAsync(collection);
@@ -27,8 +35,20 @@ public class CollectionService : ICollectionService
         return await _collectionRepository.DeleteCollectionAsync(id);
     }
 
-    public async Task<Collection?> GetByIdAsync(int userId, string cardId)
+    public async Task<CollectionSummaryDto?> GetByIdAsync(int userId, string cardId)
     {
-        return await _collectionRepository.GetByIdAsync(userId, cardId);
+        Collection? c =  await _collectionRepository.GetByIdAsync(userId, cardId);
+
+        if(c is not null) 
+        {
+            return CollectionMapper.ToCollectionSummary(c);
+        }
+
+        return null;
+    }
+
+    public async Task<int> UpdateCollectionAsync(int id, bool isAdding)
+    {
+        return await  _collectionRepository.UpdateCollectionAsync(id, isAdding);
     }
 }

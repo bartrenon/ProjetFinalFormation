@@ -5,6 +5,7 @@ public interface ICollectionRepository
 {
     Task<Collection?> GetByIdAsync(int userId, string cardId);
     Task<int> DeleteCollectionAsync(int id);
+    Task<int> UpdateCollectionAsync(int id, bool isAdding);
     Task<int> AddCollectionAsync(Collection collection);
     Task<bool> ExistsInCollectionAsync(int userId, string cardId);
 

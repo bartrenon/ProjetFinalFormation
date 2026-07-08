@@ -1,5 +1,6 @@
 ﻿using BLL.Dtos.Collection;
 using BLL.Interfaces;
+using BLL.Services;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,7 +51,7 @@ public class CollectionController : ControllerBase
     [HttpGet("user/{userId}/card/{cardId}")]
     public async Task<IActionResult> GetById(int userId, string cardId) 
     {
-        Collection? collection = await _collectionService.GetByIdAsync(userId, cardId);
+        CollectionSummaryDto? collection = await _collectionService.GetByIdAsync(userId, cardId);
 
         if(collection is null) 
         {
@@ -59,6 +60,19 @@ public class CollectionController : ControllerBase
 
         return Ok(collection);
     }
+
+    [HttpPatch("DeleteUser/{id}")]
+    public async Task<IActionResult> UpdateCollection(int id, bool isAdding)
+    {
+        int result = await _collectionService.UpdateCollectionAsync(id,isAdding);
+
+        if (result == 1)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return NotFound("Colletion not found");
+        }
+    }
 }
-
-
