@@ -1,5 +1,5 @@
 .set-detail {
-  width: min(1120px, 94vw);
+  width: min(1600px, 94vw);
   margin: 2rem auto 0;
   box-sizing: border-box;
 }
@@ -15,7 +15,6 @@
   color: #c0392b;
 }
 
-/* --- En-tête du set (réutilise .sets-page comme conteneur) --- */
 .sets-page {
   display: flex;
   align-items: center;
@@ -65,10 +64,9 @@
   font-weight: 700;
 }
 
-/* --- Grille de cartes --- */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 0.75rem;
   width: 100%;
   box-sizing: border-box;
@@ -90,7 +88,7 @@
 
 .card-item img {
   width: 100%;
-  aspect-ratio: 63 / 88; /* format standard carte Pokémon */
+  aspect-ratio: 63 / 88; 
   object-fit: contain;
   margin-bottom: 0.5rem;
 }
@@ -123,7 +121,7 @@
   }
 
   .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.5rem;
   }
 }

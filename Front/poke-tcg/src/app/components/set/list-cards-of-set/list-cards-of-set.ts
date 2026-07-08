@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SetService } from '../../../services/set-service';
 import { Set } from '../../../models/set/set';
 
 @Component({
   selector: 'app-list-cards-of-set',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './list-cards-of-set.html',
   styleUrl: './list-cards-of-set.scss',
 })

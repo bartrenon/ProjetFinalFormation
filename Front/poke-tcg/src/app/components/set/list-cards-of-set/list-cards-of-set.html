@@ -16,18 +16,22 @@
           }
           {{ currentSet.name }}
         </h1>
-        <p>{{ currentSet.cardCountOfficial }} cartes officielles sur {{ currentSet.cardCountTotal }}</p>
+        <p>{{ currentSet.cardCountOfficial }} cartes officielles </p>
+        <p>{{ currentSet.cardCountOfficial }} cartes globales 
+        </p>
       </div>
     </section>
 
     <section class="cards-grid">
       @for (card of currentSet.cards; track card.id) {
         <div class="card-item">
-          @if (card.image) {
+          <a class="set-card" [routerLink]="['/card', card.id]">
+              @if (card.image) {
             <img [src]="getCardImageUrl(card.image)" [alt]="card.name" loading="lazy" />
           }
           <p class="card-name">{{ card.name }}</p>
           <p class="card-localid">#{{ card.localId }}</p>
+          </a>
         </div>
       }
     </section>
