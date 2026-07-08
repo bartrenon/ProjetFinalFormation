@@ -4,7 +4,8 @@
   } @else if (error()) {
     <p class="error">{{ error() }}</p>
   } @else if (set(); as currentSet) {
-    <header class="set-header">
+
+  <section class="sets-page">
       @if (currentSet.logo) {
         <img [src]="getSetLogoUrl(currentSet.logo)" [alt]="currentSet.name" class="set-logo" />
       }
@@ -17,7 +18,7 @@
         </h1>
         <p>{{ currentSet.cardCountOfficial }} cartes officielles sur {{ currentSet.cardCountTotal }}</p>
       </div>
-    </header>
+    </section>
 
     <section class="cards-grid">
       @for (card of currentSet.cards; track card.id) {
