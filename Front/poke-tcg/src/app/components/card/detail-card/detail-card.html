@@ -1,1 +1,19 @@
-<p>detail-card works!</p>
+<div class="set-detail">
+  @if (isLoading()) {
+    <p>Chargement...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (card(); as currentCard) {
+
+  <section class="sets-page">
+      @if (currentCard.image) {
+        <img [src]="getCardImageUrl(currentCard.image)" [alt]="currentCard.name" class="set-logo" />
+      }
+      <div class="set-info">
+        <h1>{{ currentCard.name }}</h1>
+        <p>{{ currentCard.localId }} numéro de la carte </p>
+        <p>{{ currentCard.isInCollection }} est collectionné </p>
+      </div>
+    </section>
+  }
+</div>

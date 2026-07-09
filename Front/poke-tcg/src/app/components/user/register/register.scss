@@ -1,0 +1,13 @@
+h1 {
+  width: min(92vw, 720px);
+  margin: 0 auto;
+  color: #ffffff;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.95;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    3px 3px 0 #1b356e,
+    5px 5px 0 #ffcb05,
+    0 12px 28px rgba(0, 0, 0, 0.32);
+}
