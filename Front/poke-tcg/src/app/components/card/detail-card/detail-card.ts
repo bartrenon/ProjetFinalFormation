@@ -48,7 +48,7 @@ export class DetailCard implements OnInit {
 
   getCardImageUrl(imageUrl?: string): string {
     if (!imageUrl) return '';
-    return `${imageUrl}/low.${this.extension()}`;
+    return `${imageUrl}/high.${this.extension()}`;
   }
 
 }

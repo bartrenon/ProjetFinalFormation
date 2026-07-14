@@ -10,7 +10,7 @@ export class SetService {
 
   private readonly _url = 'https://localhost:7009/apiTcg/Set';
   private readonly offset = 5;
-  private readonly pageSize = 10;
+  private readonly pageSize = 20;
 
   constructor(private _http: HttpClient) {}
 
