@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../../services/user/user-service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +11,15 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class Navbar {
 
-  searchTerm = '';
+  public searchTerm = '';
+  private _userService = inject(UserService);
 
   constructor(private router: Router) {}
 
   onSearch() {
+  }
+
+  onLogout() {
+    this._userService.logout();
   }
 }
