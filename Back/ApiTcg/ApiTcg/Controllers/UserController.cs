@@ -1,7 +1,7 @@
 ﻿using BLL.Dtos.User;
 
 using BLL.Interfaces;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -49,6 +49,7 @@ public class UserController : ControllerBase
     }
 
     //PATCH
+    [Authorize]
     [HttpPatch("DeleteUser/{id}")]
     public async Task<IActionResult> SoftDeleteUser(int id)
     {
@@ -66,6 +67,7 @@ public class UserController : ControllerBase
 
 
     //DELETE
+    [Authorize]
     [HttpDelete("DeleteUser/{id}")]
     public async Task<IActionResult> HardDeleteUser(int id)
     {
@@ -81,6 +83,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("DeletedUsers")]
     public async Task<IActionResult> HardDeleteUser(DateTime? deltedDate)
     {

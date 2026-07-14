@@ -1,6 +1,7 @@
 using BLL.Dtos.Set;
 using BLL.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -16,6 +17,7 @@ public class SetController : ControllerBase
         _setService = setService;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetFilteredSets(int pageNumber, int pageSize, string? name)
     {
@@ -24,6 +26,7 @@ public class SetController : ControllerBase
         return Ok(sets);
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdWithCards(string id)
     {

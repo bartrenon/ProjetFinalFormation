@@ -2,6 +2,7 @@
 using BLL.Interfaces;
 using BLL.Services;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -17,6 +18,7 @@ public class CollectionController : ControllerBase
         this._collectionService = collectionService;
     }
 
+    [Authorize]
     [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> DeleteCollection(int id)
     {
@@ -32,6 +34,7 @@ public class CollectionController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost("Add")]
     public async Task<IActionResult> AddCollection(  CollectionAddDto collection)
     {
@@ -48,6 +51,7 @@ public class CollectionController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("user/{userId}/card/{cardId}")]
     public async Task<IActionResult> GetById(int userId, string cardId) 
     {
@@ -61,6 +65,7 @@ public class CollectionController : ControllerBase
         return Ok(collection);
     }
 
+    [Authorize]
     [HttpPatch("DeleteUser/{id}")]
     public async Task<IActionResult> UpdateCollection(int id, bool isAdding)
     {

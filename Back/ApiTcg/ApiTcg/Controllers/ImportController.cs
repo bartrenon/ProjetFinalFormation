@@ -1,4 +1,5 @@
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -14,6 +15,7 @@ public class ImportController : ControllerBase
         _importService = importService;
     }
 
+    [Authorize]
     [HttpPost("sets")]
     public async Task<IActionResult> ImportSets([FromQuery] string lang = "fr")
     {
@@ -22,6 +24,7 @@ public class ImportController : ControllerBase
         return Ok(new { importedCount });
     }
 
+    [Authorize]
     [HttpPost("cards")]
     public async Task<IActionResult> ImportCards([FromQuery] string lang = "fr")
     {

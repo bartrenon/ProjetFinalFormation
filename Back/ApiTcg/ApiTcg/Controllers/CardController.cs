@@ -1,6 +1,7 @@
 ﻿using BLL.Dtos.Card;
 using BLL.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -24,6 +25,7 @@ public class CardController :ControllerBase
         return Ok(cards);
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
@@ -37,6 +39,7 @@ public class CardController :ControllerBase
         return Ok(card);
     }
 
+    [Authorize]
     [HttpGet("Set/{id}")]
     public async Task<IActionResult> GetBySetIdAsync(string id)
     {
