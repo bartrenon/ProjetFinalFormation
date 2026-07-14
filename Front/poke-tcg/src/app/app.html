@@ -1,2 +1,4 @@
-<app-navbar></app-navbar>
+@if(userService.isAuthenticated$ | async) {
+  <app-navbar></app-navbar>
+}
 <router-outlet />
