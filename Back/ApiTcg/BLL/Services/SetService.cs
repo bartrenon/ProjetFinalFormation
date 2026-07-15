@@ -1,3 +1,4 @@
+using BLL.Dtos.Card;
 using BLL.Dtos.Set;
 using BLL.Interfaces;
 using BLL.Mappers;
@@ -9,12 +10,12 @@ namespace BLL.Services;
 public class SetService : ISetService
 {
     private readonly ISetRepository _setRepository;
-    private readonly ICardRepository _cardRepository;
+    private readonly ICardService _cardService;
 
-    public SetService(ISetRepository setRepository, ICardRepository cardRepository)
+    public SetService(ISetRepository setRepository, ICardService cardService)
     {
         _setRepository = setRepository;
-        _cardRepository = cardRepository;
+        _cardService = cardService;
     }
 
     public async Task<IEnumerable<Set>> GetFilteredSetsAsync(int pageNumber, int pageSize, string? name)
@@ -33,7 +34,7 @@ public class SetService : ISetService
             return null;
         }
 
-        IEnumerable<Card> cards = await _cardRepository.GetBySetIdAsync(id);
+        IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id);
 
         return  SetMapper.ToSetDetailDto(set!, cards);
     }

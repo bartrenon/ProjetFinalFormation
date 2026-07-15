@@ -1,10 +1,12 @@
-﻿using BLL.Dtos.Set;
+﻿using BLL.Dtos.Card;
+using BLL.Dtos.Set;
+using DAL.Repositories;
 using Domain.Entities;
 
 namespace BLL.Mappers;
 public class SetMapper
 {
-    public static SetDetailDto ToSetDetailDto(Set set, IEnumerable<Card> cards)
+    public static SetDetailDto ToSetDetailDto(Set set, IEnumerable<CardSummaryDto> cards)
     {
         return new SetDetailDto
         {
@@ -15,7 +17,7 @@ public class SetMapper
             CardCountTotal = set.CardCountTotal,
             CardCountOfficial = set.CardCountOfficial,
 
-            Cards = cards.Select(CardMapper.ToCardDto)
+            Cards = cards
         };
     }
 }

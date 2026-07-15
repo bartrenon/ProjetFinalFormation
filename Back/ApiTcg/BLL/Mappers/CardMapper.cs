@@ -15,15 +15,4 @@ public class CardMapper
             IsInCollection = isInCollection
         };
     }
-
-    public static CardDto ToCardDto(Card c)
-    {
-        return new CardDto
-        {
-            Id = c.Id,
-            Name = c.Name,
-            LocalId = c.LocalId,
-            Image = c.Image
-        };
-    }
 }
