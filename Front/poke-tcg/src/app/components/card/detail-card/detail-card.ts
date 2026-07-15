@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CardServices } from '../../../services/card-services';
-import { CardSummary } from '../../../models/card/cardSummary';
+import { Card } from '../../../models/card/card';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class DetailCard implements OnInit {
   private _cardService = inject(CardServices);
   private _route = inject(ActivatedRoute);
 
-  card = signal<CardSummary | null>(null);
+  card = signal<Card | null>(null);
   isLoading = signal(false);
   error = signal<string | null>(null);
   extension = signal('webp');

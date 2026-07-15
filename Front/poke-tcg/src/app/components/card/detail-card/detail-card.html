@@ -26,9 +26,9 @@
 
         <span
           class="collection-badge"
-          [class.in-collection]="currentCard.isInCollection"
+          [class.in-collection]="(currentCard?.collections?.length ?? 0) > 0"
         >
-          @if (currentCard.isInCollection) {
+          @if ((currentCard?.collections?.length ?? 0) > 0) {
             ✓ Dans la collection
           } @else {
             Non collectionnée
@@ -43,6 +43,12 @@
           <div class="meta-row">
             <dt>Numéro</dt>
             <dd>#{{ currentCard.localId }}</dd>
+          </div>
+        </dl>
+        <dl class="card-meta">
+          <div class="meta-row">
+            <dt>nombre de doublons</dt>
+            <dd>{{ (currentCard?.collections?.length ?? 0) }}</dd>
           </div>
         </dl>
       </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CardSummary } from '../models/card/cardSummary';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Card } from '../models/card/card';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,9 @@ export class CardServices {
 
    constructor(private _http: HttpClient) {}
 
-  getCardById(id: string): Observable<CardSummary>
+  getCardById(id: string): Observable<Card>
   {
-      return this._http.get<CardSummary>
+      return this._http.get<Card>
       (`${this._url}/${encodeURIComponent(id)}`);
   }
 }

@@ -17,6 +17,7 @@ public class CardController :ControllerBase
         _cardService = cardService;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetFilteredCards(int pageNumber, int pageSize, string? name)
     {
