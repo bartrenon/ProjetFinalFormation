@@ -26,9 +26,9 @@
 
         <span
           class="collection-badge"
-          [class.in-collection]="(currentCard?.collections?.length ?? 0) > 0"
+          [class.in-collection]="currentCard.collection"
         >
-          @if ((currentCard?.collections?.length ?? 0) > 0) {
+          @if (currentCard.collection) {
             ✓ collectionnée
           } @else {
             Non collectionnée
@@ -41,14 +41,44 @@
 
         <dl class="card-meta">
           <div class="meta-row">
-            <dt>Numéro</dt>
+            <dt>Numéro :</dt>
             <dd>#{{ currentCard.localId }}</dd>
           </div>
         </dl>
         <dl class="card-meta">
           <div class="meta-row">
-            <dt>nombre d'exemplaires</dt>
-            <dd>{{ (currentCard?.collections?.length ?? 0) }}</dd>
+            <dt>nombre d'exemplaires :</dt>
+            @if (currentCard.collection == null) {
+              <dd>{{ 0 }}</dd>
+            } @else() {
+              <dd>{{ currentCard.collection.nbDuplicateCard }}</dd>
+            }
+          </div>
+        </dl>
+        <dl class="card-meta">
+          <div class="meta-row">
+            <dt>Date d'obtention :</dt>
+            @if (currentCard.collection == null) {
+              <dd>{{ "/" }}</dd>
+            } @else() {
+              <dd>{{ currentCard.collection.createdAt | date:'dd/MM/yyyy' }}</dd>
+            }
+          </div>
+        </dl>
+        <dl class="card-meta">
+          <div class="meta-row">
+            <dt>Set :</dt>
+              <dd><a [routerLink]="['/set', currentCard.setId]">{{ currentCard.set.name }}</a></dd>
+              @if (currentCard.set.symbol) {
+                <img
+                  [src]="getSetSymbolUrl(currentCard.set.symbol)"
+                  [alt]="currentCard.set.name"
+                  class="set-symbol"/>
+              } @else {
+                  <div class="set-symbol placeholder">
+                    <span>Pas d'image</span>
+                  </div>
+              }
           </div>
         </dl>
       </div>

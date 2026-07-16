@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CardServices } from '../../../services/card-services';
 import { Card } from '../../../models/card/card';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detail-card',
-  imports: [],
+  imports: [DatePipe, RouterLink],
   templateUrl: './detail-card.html',
   styleUrl: './detail-card.scss',
 })
@@ -49,6 +50,11 @@ export class DetailCard implements OnInit {
   getCardImageUrl(imageUrl?: string): string {
     if (!imageUrl) return '';
     return `${imageUrl}/high.${this.extension()}`;
+  }
+
+   getSetSymbolUrl(symbolUrl?: string): string {
+    if (!symbolUrl) return '';
+    return `${symbolUrl}.${this.extension()}`;
   }
 
 }
