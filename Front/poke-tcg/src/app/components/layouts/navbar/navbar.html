@@ -1,24 +1,50 @@
 <nav class="navbar">
-  <div class="navbar-left">
-    <a class="brand" routerLink="/sets">TCG Pokémon</a>
+  <div class="navbar-main">
+    <a class="brand" routerLink="/sets">
+      <span class="pokeball" aria-hidden="true">
+        <span class="pokeball-top"></span>
+        <span class="pokeball-band"></span>
+        <span class="pokeball-button"></span>
+      </span>
+      <span class="brand-text">TCG <strong>Pokémon</strong></span>
+    </a>
 
-    <ul class="nav-links">
-      <li><a routerLink="/sets">Sets</a></li>
-      <li><a routerLink="/profile">Profile</a></li>
-      <li><a routerLink="/login" (click)="onLogout()">Déconnexion</a></li>
-    </ul>
+    <button
+      class="burger"
+      type="button"
+      (click)="isMenuOpen.set(!isMenuOpen())"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-label="Ouvrir le menu"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="navbar-collapsible" [class.open]="isMenuOpen()">
+      <ul class="nav-links">
+        <li><a routerLink="/sets" routerLinkActive="active">Sets</a></li>
+        <li><a routerLink="/cards" routerLinkActive="active">Cartes</a></li>
+        <li><a routerLink="/profile" routerLinkActive="active">Profil</a></li>
+      </ul>
+
+      <div class="navbar-right">
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Rechercher une carte, un set..."
+            aria-label="Rechercher"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+            (keyup.enter)="onSearch()"
+          />
+          <button type="button" (click)="onSearch()" aria-label="Lancer la recherche">
+            🔍
+          </button>
+        </div>
+
+        <button type="button" class="logout-btn" (click)="onLogout()">
+          Déconnexion
+        </button>
+      </div>
+    </div>
   </div>
-
-  <div class="navbar-right">
-    <input
-      type="text"
-      placeholder="Rechercher..."
-      [(ngModel)]="searchTerm"
-      (keyup.enter)="onSearch()"
-    />
-
-    <button (click)="onSearch()">🔍</button>
-  </div>
-  <a routerLink="/login"></a>
 </nav>
-
