@@ -15,4 +15,18 @@ public class CardMapper
             IsInCollection = isInCollection
         };
     }
+
+    public static CardDto ToCardDto(Card c)
+    {
+        return new CardDto
+        {
+            Id = c.Id,
+            Name = c.Name,
+            SetId = c.SetId,
+            LocalId = c.LocalId,
+            Image = c.Image,
+            Set = SetMapper.ToSetSummaryDto(c.Set!),
+            Collection = CollectionMapper.ToCollectionSummary(c.Collections.First())
+        };
+    }
 }

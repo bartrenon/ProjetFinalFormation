@@ -20,4 +20,13 @@ public class SetMapper
             Cards = cards
         };
     }
+
+    public static SetSummaryDto ToSetSummaryDto(Set set)
+    {
+        return new SetSummaryDto
+        {
+            Name = set.Name,
+            Symbol = set.Symbol
+        };
+    }
 }
