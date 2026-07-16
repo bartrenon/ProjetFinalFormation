@@ -39,9 +39,21 @@ public class CardRepository : ICardRepository
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        const string query = "SELECT * FROM [Card] WHERE Id = @Id";
+        const string query = @"SELECT 
+                               c.Id, c.Name, c.SetId, c.LocalId, c.Image,
+                               s.Id, s.Name, s.Logo, s.Symbol, s.CardCountTotal, s.CardCountOfficial
+                               FROM [Card] c
+                               INNER JOIN [Set] s ON c.SetId = s.Id
+                               WHERE c.Id = @Id";
 
-        return await connection.QueryFirstOrDefaultAsync<Card>(query, new { Id = id });
+        IEnumerable<Card> result = await connection.QueryAsync<Card, Set, Card> 
+        ( query, (card, set) => {
+            card.Set = set;
+            return card;
+        },
+        new { Id = id }, splitOn: "Id" );
+
+        return result.FirstOrDefault();
     }
 
     public async Task<IEnumerable<Card>> GetBySetIdAsync(string setId)

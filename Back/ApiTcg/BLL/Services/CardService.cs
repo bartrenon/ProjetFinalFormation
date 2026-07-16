@@ -11,7 +11,7 @@ public class CardService : ICardService
     private readonly ICardRepository _cardRepository;
     private readonly ICollectionRepository _collectionRepository;
 
-    public CardService(ICardRepository cardRepository, ICollectionRepository collectionRepository) 
+    public CardService(ICardRepository cardRepository, ICollectionRepository collectionRepository ) 
     {
        _cardRepository = cardRepository;
        _collectionRepository = collectionRepository;
@@ -35,7 +35,7 @@ public class CardService : ICardService
         return cardsSummaryDto;
     }
 
-    public async Task<Card?> GetByIdAsync(string id)
+    public async Task<CardDto?> GetByIdAsync(string id, int userId)
     {
         Card? card =  await _cardRepository.GetByIdAsync(id);
 
@@ -44,13 +44,14 @@ public class CardService : ICardService
             return null;
         }
 
-        Collection ? collection = await _collectionRepository.GetByIdAsync(1, card.Id);
+        Collection ? collection = await _collectionRepository.GetByIdAsync(userId, card.Id);
+
         if (collection != null)
         {
             card.Collections.Add(collection);
         }
 
-        return card;
+        return CardMapper.ToCardDto(card);
     }
 
     public async Task<IEnumerable<CardSummaryDto>> GetBySetIdAsync(string setId)
