@@ -25,8 +25,8 @@ public class CardMapper
             SetId = c.SetId,
             LocalId = c.LocalId,
             Image = c.Image,
-            Set = SetMapper.ToSetSummaryDto(c.Set!),
-            Collection = CollectionMapper.ToCollectionSummary(c.Collections.First())
+            Set = SetMapper.ToSetSummaryDto(c.Set),
+            Collection = c.Collections.FirstOrDefault() != null ? CollectionMapper.ToCollectionSummary(c.Collections.FirstOrDefault()!) : null
         };
     }
 }

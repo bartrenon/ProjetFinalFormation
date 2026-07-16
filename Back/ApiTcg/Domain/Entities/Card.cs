@@ -9,6 +9,6 @@ public class Card
     public string? Image { get; set; }
 
 
-    public Set? Set { get; set; }
+    public Set Set { get; set; } = new Set();
     public ICollection<Collection> Collections { get; set; } = [];
 }
