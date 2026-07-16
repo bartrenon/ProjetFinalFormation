@@ -1,14 +1,4 @@
 <section class="sets-page">
-  <div class="sets-header">
-    <div>
-      <h2>Extensions Pokemon TCG</h2>
-      <p>Liste des sets recuperes depuis ton API.</p>
-    </div>
-
-    <button type="button" (click)="loadSets()" [disabled]="isLoading()">
-      Actualiser
-    </button>
-  </div>
 
   @if (isLoading()) {
     <p class="state-message">Chargement des sets...</p>

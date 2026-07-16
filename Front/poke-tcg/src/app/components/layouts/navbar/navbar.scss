@@ -1,22 +1,31 @@
+$bg-dark-1: var(--nav-bg-1);
+$bg-dark-2: var(--nav-bg-2);
+$red: var(--pokemon-red);
+$yellow: var(--pokemon-yellow);
+$blue: var(--pokemon-blue);
+$text: #f5f5f7;
+$muted: #a0a3bd;
+
 .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: linear-gradient(180deg, var(--nav-bg-1) 0%, var(--nav-bg-2) 100%);
-  color: #f5f5f7;
+  background: linear-gradient(180deg, $bg-dark-1 0%, $bg-dark-2 100%);
+  color: $text;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   font-family: 'Inter', system-ui, sans-serif;
 }
 
 .navbar-main {
-  border-image: linear-gradient(
-      90deg,
-      var(--pokemon-red),
-      var(--pokemon-yellow),
-      var(--pokemon-blue)
-    )
-    1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, $red, $yellow, $blue) 1;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 // --- Brand + Poké Ball signature ---
