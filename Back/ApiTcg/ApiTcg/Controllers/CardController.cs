@@ -1,4 +1,5 @@
-﻿using BLL.Dtos.Card;
+﻿using System.Security.Claims;
+using BLL.Dtos.Card;
 using BLL.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +31,9 @@ public class CardController :ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        Card? card = await _cardService.GetByIdAsync(id);
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        CardDto? card = await _cardService.GetByIdAsync(id, userId);
 
         if (card is null)
         {
