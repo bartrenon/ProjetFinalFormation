@@ -29,7 +29,7 @@
           [class.in-collection]="(currentCard?.collections?.length ?? 0) > 0"
         >
           @if ((currentCard?.collections?.length ?? 0) > 0) {
-            ✓ Dans la collection
+            ✓ collectionnée
           } @else {
             Non collectionnée
           }
@@ -47,7 +47,7 @@
         </dl>
         <dl class="card-meta">
           <div class="meta-row">
-            <dt>nombre de doublons</dt>
+            <dt>nombre d'exemplaires</dt>
             <dd>{{ (currentCard?.collections?.length ?? 0) }}</dd>
           </div>
         </dl>
