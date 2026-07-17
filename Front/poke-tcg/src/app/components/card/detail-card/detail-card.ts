@@ -59,27 +59,44 @@ export class DetailCard implements OnInit {
     return `${symbolUrl}.${this.extension()}`;
   }
 
-  onAddDuplicate(cardId: string): void {
+  onAddDuplicate(): void {
     if (this.card().collection == null) {
-      this._collectionService.createCollection(cardId).subscribe({
-        next: () => {
-          this.card.update(card => ({
-            ...card,
+      this._collectionService.createCollection(this.card().id).subscribe({
+        next: (id: number) => {
+          this.card.update(card => ({ ...card,
             collection: {
+              id: id,
               nbDuplicateCard: 1,
-              createdAt: new Date()
-            }
+              createdAt: new Date() }
           }));
-        }
-      });
+      }});
     }
-    else
-    {
-      
+    else {
+        this._collectionService.updateCollection(this.card().collection!.id, true).subscribe({
+          next: () => {
+            this.card.update(card => ({...card,
+              collection: { ...card.collection!,
+                            nbDuplicateCard: card.collection!.nbDuplicateCard + 1
+                          }}));
+          }});
+    }}
+
+  onRemoveDuplicate(): void{
+    if (this.card().collection!.nbDuplicateCard > 1 ) {
+      this._collectionService.updateCollection(this.card().collection!.id, false).subscribe({
+          next: () => {
+            this.card.update(card => ({...card,
+              collection: { ...card.collection!,
+                            nbDuplicateCard: card.collection!.nbDuplicateCard - 1
+                          }}));
+      }});
     }
-  }
-
-  onRemoveDuplicate() {
-  }
-
+    else {
+        this._collectionService.deleteCollection(this.card().collection!.id).subscribe({
+          next: () => {
+            this.card.update(card => ({...card,
+             collection: undefined
+            }));
+          }});
+    }}
 }

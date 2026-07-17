@@ -1,7 +1,7 @@
 
 export interface Collection 
 {
-  id?: string;
+  id: number;
   nbDuplicateCard: number;
   createdAt: Date;
 }
