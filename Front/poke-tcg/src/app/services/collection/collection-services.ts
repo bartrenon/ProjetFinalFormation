@@ -16,4 +16,12 @@ export class CollectionServices {
     return this._http.post<number>(`${this._url}/${encodeURIComponent(cardId)}`,{})
   }
 
+  deleteCollection(id: number): Observable<void> {
+    return this._http.delete<void>(`${this._url}/delete/${id}`);
+  }
+
+  updateCollection(id: number, isAdding: boolean): Observable<void> {
+    return this._http.patch<void>(`${this._url}/${id}/${isAdding}`,{});
+  }
+
 }
