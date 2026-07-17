@@ -18,7 +18,7 @@ public class CollectionController : ControllerBase
     }
 
     [Authorize]
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteCollection(int id)
     {
         int result = await _collectionService.DeleteCollectionAsync(id);
@@ -41,14 +41,7 @@ public class CollectionController : ControllerBase
 
         int val = await _collectionService.AddCollectionAsync(userId, cardId);
 
-        if (val == 1)
-        {
-            return Ok(val);
-        }
-        else
-        {
-            return BadRequest("add card at collection failed.");
-        }
+        return Ok(val);
     }
 
     [Authorize]
@@ -68,7 +61,7 @@ public class CollectionController : ControllerBase
     }
 
     [Authorize]
-    [HttpPatch("DeleteUser/{id}")]
+    [HttpPatch("{id}/{isAdding}")]
     public async Task<IActionResult> UpdateCollection(int id, bool isAdding)
     {
         int result = await _collectionService.UpdateCollectionAsync(id,isAdding);
@@ -79,7 +72,7 @@ public class CollectionController : ControllerBase
         }
         else
         {
-            return NotFound("Colletion not found");
+            return NotFound("Card is not in your collection");
         }
     }
 }

@@ -19,10 +19,11 @@ public class CollectionRepository : ICollectionRepository
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        string query = @"INSERT INTO Collection (UserId, CardId, NbDuplicateCard)
-                         VALUES (@UserId, @CardId, 1)";
+        string query = @" INSERT INTO Collection (UserId, CardId, NbDuplicateCard)
+                          OUTPUT INSERTED.Id
+                          VALUES (@UserId, @CardId, 1)";
 
-        return await connection.ExecuteAsync(query, new { UserId = userId, CardId = cardId });
+        return await connection.ExecuteScalarAsync<int>(query, new { UserId = userId, CardId = cardId});
     }
 
     public async Task<int> DeleteCollectionAsync(int id)
