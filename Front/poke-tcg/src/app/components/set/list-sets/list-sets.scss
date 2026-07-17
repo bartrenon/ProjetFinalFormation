@@ -37,13 +37,40 @@
   gap: 1rem;
 }
 
+// --- Le lien devient le vrai conteneur visuel ---
 .set-card {
+  display: block;
+  position: relative;
   min-height: 260px;
-  padding: 1rem;
   border: 3px solid var(--pokemon-border);
   border-radius: 8px;
   background: linear-gradient(180deg, #ffffff, var(--pokemon-paper));
   box-shadow: 0 14px 34px rgba(23, 32, 51, 0.18);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--pokemon-red), var(--pokemon-yellow), var(--pokemon-blue));
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(23, 32, 51, 0.24);
+  }
+}
+
+// --- Contenu interne, plus de style de carte ici ---
+.set-card-content {
+  padding: 1rem;
+  padding-top: 1.25rem; // pour laisser respirer sous le liseré
 }
 
 .set-images {
@@ -69,12 +96,15 @@
 .set-content h3 {
   margin: 0 0 0.75rem;
   color: var(--pokemon-dark-blue);
+  text-transform: uppercase;
+  font-size: 1.05rem;
 }
 
 .set-content p {
   margin: 0.25rem 0;
   color: var(--pokemon-ink);
   font-weight: 700;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 640px) {
