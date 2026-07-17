@@ -15,14 +15,14 @@ public class CollectionRepository : ICollectionRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<int> AddCollectionAsync(Collection c)
+    public async Task<int> AddCollectionAsync(int userId, string cardId)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
         string query = @"INSERT INTO Collection (UserId, CardId, NbDuplicateCard)
                          VALUES (@UserId, @CardId, 1)";
 
-        return await connection.ExecuteAsync(query, c);
+        return await connection.ExecuteAsync(query, new { UserId = userId, CardId = cardId });
     }
 
     public async Task<int> DeleteCollectionAsync(int id)

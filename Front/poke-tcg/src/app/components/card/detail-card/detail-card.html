@@ -9,7 +9,6 @@
       <p>{{ error() }}</p>
     </div>
   } @else if (card(); as currentCard) {
-
     <section class="card-detail">
       <div class="card-visual">
         @if (currentCard.image) {
@@ -24,12 +23,9 @@
           </div>
         }
 
-        <span
-          class="collection-badge"
-          [class.in-collection]="currentCard.collection"
-        >
+        <span class="collection-badge" [class.in-collection]="currentCard.collection">
           @if (currentCard.collection) {
-            ✓ collectionnée
+            ✓ Collectionnée
           } @else {
             Non collectionnée
           }
@@ -37,48 +33,59 @@
       </div>
 
       <div class="card-info">
+        <span class="card-number">#{{ currentCard.localId }}</span>
         <h1>{{ currentCard.name }}</h1>
 
         <dl class="card-meta">
           <div class="meta-row">
-            <dt>Numéro :</dt>
-            <dd>#{{ currentCard.localId }}</dd>
+            <dt>Exemplaires</dt>
+            <dd class="stepper">
+              <button
+                type="button"
+                class="stepper-btn"
+                (click)="onRemoveDuplicate()"
+                [disabled]="!currentCard.collection || currentCard.collection.nbDuplicateCard <= 0"
+                aria-label="Retirer un exemplaire"
+              >
+                −
+              </button>
+              <span class="stepper-value">
+                {{ currentCard.collection?.nbDuplicateCard ?? 0 }}
+              </span>
+              <button
+                type="button"
+                class="stepper-btn add"
+                (click)="onAddDuplicate(currentCard.id)"
+                aria-label="Ajouter un exemplaire"
+              >
+                +
+              </button>
+            </dd>
           </div>
-        </dl>
-        <dl class="card-meta">
+
           <div class="meta-row">
-            <dt>nombre d'exemplaires :</dt>
+            <dt>Date d'obtention</dt>
             @if (currentCard.collection == null) {
-              <dd>{{ 0 }}</dd>
-            } @else() {
-              <dd>{{ currentCard.collection.nbDuplicateCard }}</dd>
-            }
-          </div>
-        </dl>
-        <dl class="card-meta">
-          <div class="meta-row">
-            <dt>Date d'obtention :</dt>
-            @if (currentCard.collection == null) {
-              <dd>{{ "/" }}</dd>
-            } @else() {
+              <dd>—</dd>
+            } @else {
               <dd>{{ currentCard.collection.createdAt | date:'dd/MM/yyyy' }}</dd>
             }
           </div>
-        </dl>
-        <dl class="card-meta">
+
           <div class="meta-row">
-            <dt>Set :</dt>
-              <dd><a [routerLink]="['/set', currentCard.setId]">{{ currentCard.set.name }}</a></dd>
+            <dt>Set</dt>
+            <dd class="set-value">
+              <a [routerLink]="['/set', currentCard.setId]">{{ currentCard.set.name }}</a>
               @if (currentCard.set.symbol) {
                 <img
                   [src]="getSetSymbolUrl(currentCard.set.symbol)"
                   [alt]="currentCard.set.name"
-                  class="set-symbol"/>
+                  class="set-symbol"
+                />
               } @else {
-                  <div class="set-symbol placeholder">
-                    <span>Pas d'image</span>
-                  </div>
+                <div class="set-symbol placeholder"></div>
               }
+            </dd>
           </div>
         </dl>
       </div>

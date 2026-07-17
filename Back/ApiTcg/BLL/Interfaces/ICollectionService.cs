@@ -7,7 +7,7 @@ public interface ICollectionService
 {
     Task<CollectionSummaryDto?> GetByIdAsync(int userId, string cardId);
     Task<int> DeleteCollectionAsync(int id);
-    Task<int> AddCollectionAsync(CollectionAddDto collection);
+    Task<int> AddCollectionAsync(int userId, string cardId);
     Task<int> UpdateCollectionAsync(int id, bool isAdding);
 }
 

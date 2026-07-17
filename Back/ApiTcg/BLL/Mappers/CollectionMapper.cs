@@ -5,15 +5,6 @@ namespace BLL.Mappers;
 
 public class CollectionMapper
 {
-    public static Collection ToCollection(CollectionAddDto c)
-    {
-        return new Collection
-        {
-            UserId = c.UserId,
-            CardId = c.CardId
-        };
-    }
-
     public static CollectionSummaryDto ToCollectionSummary(Collection c)
     {
         return new CollectionSummaryDto

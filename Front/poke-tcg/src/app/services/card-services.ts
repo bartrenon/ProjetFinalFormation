@@ -10,7 +10,7 @@ export class CardServices {
 
   private readonly _url = 'https://localhost:7009/apiTcg/Card';
 
-   constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) {}
 
   getCardById(id: string): Observable<Card>
   {

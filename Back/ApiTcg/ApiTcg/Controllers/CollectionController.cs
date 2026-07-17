@@ -1,4 +1,5 @@
-﻿using BLL.Dtos.Collection;
+﻿using System.Security.Claims;
+using BLL.Dtos.Collection;
 using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,11 +34,12 @@ public class CollectionController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("Add")]
-    public async Task<IActionResult> AddCollection(  CollectionAddDto collection)
+    [HttpPost("{cardId}")]
+    public async Task<IActionResult> AddCollection(string cardId)
     {
+        int.TryParse(User.FindFirstValue("id"), out int userId);
 
-        int val = await _collectionService.AddCollectionAsync(collection);
+        int val = await _collectionService.AddCollectionAsync(userId, cardId);
 
         if (val == 1)
         {
@@ -50,9 +52,11 @@ public class CollectionController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("user/{userId}/card/{cardId}")]
-    public async Task<IActionResult> GetById(int userId, string cardId) 
+    [HttpGet("card/{cardId}")]
+    public async Task<IActionResult> GetById(string cardId) 
     {
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
         CollectionSummaryDto? collection = await _collectionService.GetByIdAsync(userId, cardId);
 
         if(collection is null) 

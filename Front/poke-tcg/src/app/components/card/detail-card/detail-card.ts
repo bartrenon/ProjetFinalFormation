@@ -3,6 +3,7 @@ import { CardServices } from '../../../services/card-services';
 import { Card } from '../../../models/card/card';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { CollectionServices } from '../../../services/collection/collection-services';
 
 @Component({
   selector: 'app-detail-card',
@@ -13,9 +14,10 @@ import { DatePipe } from '@angular/common';
 export class DetailCard implements OnInit {
   
   private _cardService = inject(CardServices);
+  private _collectionService = inject(CollectionServices);
   private _route = inject(ActivatedRoute);
 
-  card = signal<Card | null>(null);
+  card = signal<Card>({} as Card);
   isLoading = signal(false);
   error = signal<string | null>(null);
   extension = signal('webp');
@@ -55,6 +57,29 @@ export class DetailCard implements OnInit {
    getSetSymbolUrl(symbolUrl?: string): string {
     if (!symbolUrl) return '';
     return `${symbolUrl}.${this.extension()}`;
+  }
+
+  onAddDuplicate(cardId: string): void {
+    if (this.card().collection == null) {
+      this._collectionService.createCollection(cardId).subscribe({
+        next: () => {
+          this.card.update(card => ({
+            ...card,
+            collection: {
+              nbDuplicateCard: 1,
+              createdAt: new Date()
+            }
+          }));
+        }
+      });
+    }
+    else
+    {
+      
+    }
+  }
+
+  onRemoveDuplicate() {
   }
 
 }

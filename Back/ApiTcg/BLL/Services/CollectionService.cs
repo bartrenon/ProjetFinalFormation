@@ -15,19 +15,17 @@ public class CollectionService : ICollectionService
         this._collectionRepository = collectionRepository;
     }
 
-    public async Task<int> AddCollectionAsync(CollectionAddDto c)
+    public async Task<int> AddCollectionAsync(int userId, string cardId)
     {
 
-        bool isExist = await _collectionRepository.ExistsInCollectionAsync(c.UserId, c.CardId);
+        bool isExist = await _collectionRepository.ExistsInCollectionAsync(userId, cardId);
 
-        if(c is null || isExist) 
+        if(isExist) 
         {
             return 0;
         }
 
-        Collection collection = CollectionMapper.ToCollection(c);
-
-        return await _collectionRepository.AddCollectionAsync(collection);
+        return await _collectionRepository.AddCollectionAsync(userId, cardId);
     }
 
     public async Task<int> DeleteCollectionAsync(int id)
