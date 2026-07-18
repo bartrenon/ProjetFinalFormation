@@ -1,25 +1,32 @@
-<h1>Welcome to the TCG pokémon App!</h1>
+<div class="login-page">
+  <div class="brand-mark" aria-hidden="true">
+    <span class="pokeball-top"></span>
+    <span class="pokeball-band"></span>
+    <span class="pokeball-button"></span>
+  </div>
 
-<div class="glass-card">
-  <h2>Bon retour</h2>
-  <p>Connecte-toi a ton compte</p>
+  <h1>Welcome to the TCG pokémon App!</h1>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="field">
-      <label>Adresse email</label>
-      <input type="email" formControlName="email" placeholder="toi@exemple.com" />
-      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
-      {
-        <span>Email invalide</span>
-      }
-    </div>
+  <div class="glass-card">
+    <h2>Bon retour</h2>
+    <p>Connecte-toi à ton compte</p>
 
-    <div class="field">
-      <label>Mot de passe</label>
-      <input type="password" formControlName="password" placeholder="********" />
-    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label>Adresse email</label>
+        <input type="email" formControlName="email" placeholder="toi@exemple.com" />
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <span>Email invalide</span>
+        }
+      </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
-    <a routerLink="/register">Creer un compte</a>
-  </form>
+      <div class="field">
+        <label>Mot de passe</label>
+        <input type="password" formControlName="password" placeholder="********" />
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+      <a routerLink="/register">Créer un compte</a>
+    </form>
+  </div>
 </div>
