@@ -320,3 +320,14 @@ $muted: #a0a3bd;
     text-align: center;
   }
 }
+
+.search-box.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+
+  input,
+  button {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}

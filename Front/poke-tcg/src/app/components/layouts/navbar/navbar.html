@@ -25,21 +25,22 @@
         <li><a routerLink="/cards" routerLinkActive="active">Cartes</a></li>
         <li><a routerLink="/profil" routerLinkActive="active">Profil</a></li>
       </ul>
+      
+        <div class="navbar-right">
+          <div class="search-box" [class.disabled]="isSearchDisabled()">
+            <input
+              type="text"
+              [placeholder]="searchPlaceholder()"
+              aria-label="Rechercher"
+              [ngModel]="searchTerm()"
+              (ngModelChange)="searchTerm.set($event)"
+              (keyup.enter)="onSearch()"
+            />
+            <button type="button" (click)="onSearch()" aria-label="Lancer la recherche">
+              🔍
+            </button>
+       </div> 
 
-      <div class="navbar-right">
-        <div class="search-box">
-          <input
-            type="text"
-            placeholder="Rechercher un set..."
-            aria-label="Rechercher"
-            [ngModel]="searchTerm()"
-            (ngModelChange)="searchTerm.set($event)"
-            (keyup.enter)="onSearch()"
-          />
-          <button type="button" (click)="onSearch()" aria-label="Lancer la recherche">
-            🔍
-          </button>
-        </div>
 
         <button type="button" class="logout-btn" (click)="onLogout()">
           Déconnexion
