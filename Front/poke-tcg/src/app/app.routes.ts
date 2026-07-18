@@ -5,6 +5,8 @@ import { ListSets } from './components/set/list-sets/list-sets';
 import { ListCardsOfSet } from './components/set/list-cards-of-set/list-cards-of-set';
 import { DetailCard } from './components/card/detail-card/detail-card';
 import { UserGuard } from './services/user/user-guard';
+import { ListCards } from './components/card/list-cards/list-cards';
+import { Profil } from './components/user/profil/profil';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,5 +14,7 @@ export const routes: Routes = [
     { path: 'register', component: Register },
     { path : 'sets', component : ListSets, canActivate: [UserGuard]},
     { path: 'set/:id', component: ListCardsOfSet, canActivate: [UserGuard] },
-    { path: 'card/:id', component: DetailCard, canActivate: [UserGuard] }
+    { path: 'card/:id', component: DetailCard, canActivate: [UserGuard] },
+    { path: 'cards', component: ListCards, canActivate: [UserGuard] },
+    { path: 'profil', component: Profil, canActivate: [UserGuard] }
 ];
