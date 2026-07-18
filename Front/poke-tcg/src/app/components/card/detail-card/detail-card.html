@@ -62,15 +62,13 @@
               </button>
             </dd>
           </div>
-
-          <div class="meta-row">
-            <dt>Date d'obtention</dt>
-            @if (currentCard.collection == null) {
-              <dd>—</dd>
-            } @else {
-              <dd>{{ currentCard.collection.createdAt | date:'dd/MM/yyyy' }}</dd>
+           @if (currentCard.collection != null) {
+            <div class="meta-row">
+              <dt>Date d'obtention</dt>
+            
+                <dd>{{ currentCard.collection.createdAt | date:'dd/MM/yyyy' }}</dd> 
+            </div>
             }
-          </div>
 
           <div class="meta-row">
             <dt>Set</dt>
