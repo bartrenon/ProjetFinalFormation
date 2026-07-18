@@ -60,7 +60,10 @@ public class CardRepository : ICardRepository
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
-        const string query = "SELECT * FROM [Card] WHERE SetId = @Id ORDER BY CAST(LocalId AS INT)";
+        const string query = @"SELECT * FROM [Card] WHERE SetId = @Id
+                               ORDER BY 
+                               CASE WHEN ISNUMERIC(LocalId) = 1 THEN 0 ELSE 1 END,
+                               CASE WHEN ISNUMERIC(LocalId) = 1 THEN CAST(LocalId AS INT) ELSE NULL END, LocalId";
 
         return await connection.QueryAsync<Card>(query, new { Id = setId });
     }
