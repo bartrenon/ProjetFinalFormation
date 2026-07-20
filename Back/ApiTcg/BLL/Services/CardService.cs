@@ -54,7 +54,7 @@ public class CardService : ICardService
         return null;
     }
 
-    public async Task<IEnumerable<CardSummaryDto>> GetBySetIdAsync(string setId)
+    public async Task<IEnumerable<CardSummaryDto>> GetBySetIdAsync(string setId, int userId)
     {
         List<CardSummaryDto> cardsSummaryDto = new List<CardSummaryDto>();
 
@@ -62,7 +62,7 @@ public class CardService : ICardService
 
         foreach (Card c in cards)
         {
-            bool isExist = await _collectionRepository.ExistsInCollectionAsync(1, c.Id);
+            bool isExist = await _collectionRepository.ExistsInCollectionAsync(userId, c.Id);
 
             cardsSummaryDto.Add(CardMapper.ToCardSummaryDto(c, isExist));
         }

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using BLL.Dtos.Set;
 using BLL.Interfaces;
 using Domain.Entities;
@@ -30,7 +31,9 @@ public class SetController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdWithCards(string id)
     {
-        SetDetailDto? set = await _setService.GetByIdWithCardsAsync(id);
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        SetDetailDto? set = await _setService.GetByIdWithCardsAsync(id, userId);
 
         if (set is null)
         {

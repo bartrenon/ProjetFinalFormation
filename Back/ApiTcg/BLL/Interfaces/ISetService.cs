@@ -6,5 +6,5 @@ namespace BLL.Interfaces;
 public interface ISetService
 {
     Task<IEnumerable<Set>> GetFilteredSetsAsync(int pageNumber, int pageSize, string? name);
-    Task<SetDetailDto?> GetByIdWithCardsAsync(string id);
+    Task<SetDetailDto?> GetByIdWithCardsAsync(string id, int userId);
 }

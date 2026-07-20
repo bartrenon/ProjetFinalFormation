@@ -46,7 +46,9 @@ public class CardController :ControllerBase
     [HttpGet("Set/{id}")]
     public async Task<IActionResult> GetBySetIdAsync(string id)
     {
-        IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id);
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id, userId);
 
         if(cards is null) 
         {

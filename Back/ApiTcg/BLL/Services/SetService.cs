@@ -25,7 +25,7 @@ public class SetService : ISetService
         return await _setRepository.GetFilteredSetsAsync(offset, pageSize, name);
     }
 
-    public async Task<SetDetailDto?> GetByIdWithCardsAsync(string id)
+    public async Task<SetDetailDto?> GetByIdWithCardsAsync(string id, int userId)
     {
         Set? set = await _setRepository.GetByIdWithCardsAsync(id);
 
@@ -34,7 +34,7 @@ public class SetService : ISetService
             return null;
         }
 
-        IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id);
+        IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id, userId);
 
         return  SetMapper.ToSetDetailDto(set!, cards);
     }

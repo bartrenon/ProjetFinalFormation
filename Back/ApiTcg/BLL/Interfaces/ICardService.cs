@@ -8,5 +8,5 @@ public interface ICardService
 
     Task<CardDto?> GetByIdAsync(string id, int userId);
 
-    Task<IEnumerable<CardSummaryDto>> GetBySetIdAsync(string setId);
+    Task<IEnumerable<CardSummaryDto>> GetBySetIdAsync(string setId, int userId);
 }
