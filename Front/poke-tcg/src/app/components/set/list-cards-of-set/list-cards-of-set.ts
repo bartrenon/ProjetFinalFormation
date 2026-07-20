@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SetService } from '../../../services/set-service';
 import { Set } from '../../../models/set/set';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-list-cards-of-set',
@@ -18,9 +19,29 @@ export class ListCardsOfSet implements OnInit {
   isLoading = signal(false);
   error = signal<string | null>(null);
   extension = signal('webp');
+  searchQuery = signal('');
 
   ngOnInit(): void {
     this.loadSet();
+  }
+
+  filteredCards = computed(() => {
+    const cards = this.set()?.cards ?? [];
+    const query = this.searchQuery().trim().toLowerCase();
+
+    if (!query) return cards;
+
+    return cards.filter((card) =>
+      card.name.toLowerCase().includes(query)
+    );
+  });
+
+  constructor() {
+    this._route.queryParamMap
+      .pipe(takeUntilDestroyed())
+      .subscribe((params) => {
+        this.searchQuery.set(params.get('q') ?? '');
+      });
   }
 
   loadSet(): void {

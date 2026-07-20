@@ -23,7 +23,7 @@
     </section>
 
     <section class="cards-grid">
-      @for (card of currentSet.cards; track card.id) {
+      @for (card of filteredCards(); track card.id) {
         <div class="card-item">
           <a class="set-card" [routerLink]="['/card', card.id]">
               @if (card.image) {
@@ -35,5 +35,9 @@
         </div>
       }
     </section>
+
+    @if (filteredCards().length === 0) {
+      <p class="state-message">Aucune carte trouvée.</p>
+    }
   }
 </div>

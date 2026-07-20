@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 import { UserService } from '../../../services/user/user-service';
 
@@ -22,6 +22,7 @@ export class Navbar {
 
   private _userService = inject(UserService);
   private _router = inject(Router);
+  private _route = inject(ActivatedRoute);
 
   private currentUrl = toSignal(
     this._router.events.pipe(
@@ -45,10 +46,18 @@ export class Navbar {
   const url = this.currentUrl();
 
   return url.startsWith('/profil') || url.startsWith('/card/');
-});
+  });
 
   onSearch() {
+    const term = this.searchTerm().trim();
+
+    if (this.isSearchDisabled()) return;
     
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams: { q: term || null },
+      queryParamsHandling: 'merge',
+    });
   }
 
   onLogout() {
