@@ -10,7 +10,7 @@ export class CardServices {
 
   private readonly _url = 'https://localhost:7009/apiTcg/Card';
 
-  private readonly offset = 5;
+  private readonly offset = 1;
   private readonly pageSize = 24;
 
   constructor(private _http: HttpClient) {}
