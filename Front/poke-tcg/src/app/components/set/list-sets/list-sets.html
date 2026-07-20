@@ -14,11 +14,11 @@
         <article class="set-card-content">
           <div class="set-images">
             @if (set.logo) {
-              <img class="set-logo" [src]="set.logo" [alt]="set.name" />
+              <img class="set-logo" [src]="getSetLogoUrl(set.logo)" [alt]="set.name" />
             }
 
             @if (set.symbol) {
-              <img class="set-symbol" [src]="set.symbol" [alt]="'Symbole ' + set.name" />
+              <img class="set-symbol" [src]="getSetSymbolUrl(set.symbol)" [alt]="'Symbole ' + set.name" />
             }
           </div>
 

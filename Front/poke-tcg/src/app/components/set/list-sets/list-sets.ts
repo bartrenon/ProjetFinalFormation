@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './list-sets.html',
   styleUrl: './list-sets.scss',
 })
-export class ListSets {
+export class ListSets implements OnInit {
 
   private _setService = inject(SetService);
   private _route = inject(ActivatedRoute);
@@ -19,6 +19,10 @@ export class ListSets {
   isLoading = signal(false);
   extension = signal('webp');
   searchQuery = signal('');
+
+   ngOnInit(): void {
+    this.loadSets();
+  }
 
   constructor() {
     this._route.queryParamMap
@@ -34,14 +38,6 @@ export class ListSets {
 
     this._setService.getAllSets(this.searchQuery()).subscribe({
       next: (sets) => {
-        sets.forEach((set) => {
-          if (set.symbol) {
-            set.symbol = `${set.symbol}.${this.extension()}`;
-          }
-          if (set.logo) {
-            set.logo = `${set.logo}.${this.extension()}`;
-          }
-        });
         this.sets.set(sets);
         this.isLoading.set(false);
       },
@@ -50,5 +46,15 @@ export class ListSets {
         this.isLoading.set(false);
       }
     });
+  }
+
+  getSetLogoUrl(logoUrl?: string): string {
+    if (!logoUrl) return '';
+    return `${logoUrl}.${this.extension()}`;
+  }
+
+  getSetSymbolUrl(symbolUrl?: string): string {
+    if (!symbolUrl) return '';
+    return `${symbolUrl}.${this.extension()}`;
   }
 }
