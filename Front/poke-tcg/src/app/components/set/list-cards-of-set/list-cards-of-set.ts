@@ -22,8 +22,10 @@ export class ListCardsOfSet implements OnInit {
   searchQuery = signal('');
 
   ngOnInit(): void {
-    this.loadSet();
+     this.loadSet();
   }
+
+  ownedCards = computed(() => this.set()?.cards.filter(card => card.isInCollection).length ?? 0 );
 
   filteredCards = computed(() => {
     const cards = this.set()?.cards ?? [];
