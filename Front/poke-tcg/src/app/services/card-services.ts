@@ -26,7 +26,7 @@ export class CardServices {
       .set('pageNumber', this.offset)   
       .set('pageSize', this.pageSize);
 
-    if (name) {
+    if (name && name != '') {
       params = params.set('name', name);
     }
 
