@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
 using System.Security.Claims;
+
 using BLL.Dtos.Set;
 using BLL.Interfaces;
 using Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
 

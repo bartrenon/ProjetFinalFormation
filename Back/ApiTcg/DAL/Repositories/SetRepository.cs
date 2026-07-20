@@ -1,8 +1,10 @@
-using DAL.Interfaces;
-using Dapper;
-using Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+
+using Dapper;
+
+using DAL.Interfaces;
+using Domain.Entities;
 
 namespace DAL.Repositories;
 
