@@ -9,7 +9,7 @@
 
     <section class="cards-grid">
       @for (card of cardsWithPagination().cards; track card.id) {
-        <div class="card-item">
+        <div class="card-item" [class.owned]="card.isInCollection" [class.missing]="!card.isInCollection">
           <a class="set-card" [routerLink]="['/card', card.id]">
               @if (card.image) {
             <img [src]="getCardImageUrl(card.image)" [alt]="card.name" loading="lazy" />

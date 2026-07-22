@@ -35,6 +35,22 @@
   background: linear-gradient(180deg, #ffffff, var(--pokemon-paper));
   box-shadow: 0 8px 20px rgba(23, 32, 51, 0.15);
   overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+
+  &.owned {
+    border-color: #1fab6f;
+    box-shadow: 0 8px 20px rgba(31, 171, 111, 0.25);
+  }
+
+  &.missing {
+    opacity: 0.55;
+    filter: grayscale(0.6);
+
+    &:hover {
+      opacity: 1;
+      filter: grayscale(0.2);
+    }
+  }
 }
 
 .card-item img {
