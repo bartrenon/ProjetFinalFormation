@@ -3,12 +3,12 @@
         <p class="state-message">Chargement des cartes...</p>
     }
 
-    @if (!isLoading() && cards().length === 0) {
+    @if (!isLoading() && cardsWithPagination().cards.length === 0) {
         <p class="state-message">Aucune carte trouvée.</p>
     }
 
     <section class="cards-grid">
-      @for (card of cards(); track card.id) {
+      @for (card of cardsWithPagination().cards; track card.id) {
         <div class="card-item">
           <a class="set-card" [routerLink]="['/card', card.id]">
               @if (card.image) {
@@ -20,4 +20,50 @@
         </div>
       }
     </section>
+
+    @if (!isLoading() && cardsWithPagination().cards.length > 0) {
+      <nav class="pagination" aria-label="Pagination">
+        <button
+          class="pagination-btn"
+          [disabled]="page() === 1"
+          (click)="previousPage()"
+        >
+          &laquo; Précédent
+        </button>
+
+        @if (pageNumbers()[0] > 1) {
+          <button class="pagination-btn page-number" (click)="goToPage(1)">1</button>
+          @if (pageNumbers()[0] > 2) {
+            <span class="pagination-ellipsis">…</span>
+          }
+        }
+
+        @for (num of pageNumbers(); track num) {
+          <button
+            class="pagination-btn page-number"
+            [class.active]="num === page()"
+            (click)="goToPage(num)"
+          >
+            {{ num }}
+          </button>
+        }
+
+        @if (pageNumbers()[pageNumbers().length - 1] < totalPages()) {
+          @if (pageNumbers()[pageNumbers().length - 1] < totalPages() - 1) {
+            <span class="pagination-ellipsis">…</span>
+          }
+          <button class="pagination-btn page-number" (click)="goToPage(totalPages())">
+            {{ totalPages() }}
+          </button>
+        }
+
+        <button
+          class="pagination-btn"
+          [disabled]="page() === totalPages()"
+          (click)="nextPage()"
+        >
+          Suivant &raquo;
+        </button>
+      </nav>
+    }
 </div>

@@ -20,7 +20,7 @@ export class ListSets implements OnInit {
   extension = signal('webp');
   searchQuery = signal('');
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.loadSets();
   }
 

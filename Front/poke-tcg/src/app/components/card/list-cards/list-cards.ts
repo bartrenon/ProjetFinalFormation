@@ -1,8 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Card } from '../../../models/card/card';
 import { CardServices } from '../../../services/card-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CardWithPagination } from '../../../models/card/card-with-pagination';
 
 @Component({
   selector: 'app-list-cards',
@@ -15,30 +15,69 @@ export class ListCards implements OnInit {
   private _cardService = inject(CardServices);
   private _route = inject(ActivatedRoute);
 
-  cards = signal<Card[]>([]);
+  cardsWithPagination = signal<CardWithPagination>({cards: [],totalcard: 0});
+  page = signal(1);
+  pageSize = this._cardService.pageSize;
   isLoading = signal(false);
   error = signal<string | null>(null);
   extension = signal('webp');
   searchQuery = signal('');
 
   ngOnInit(): void {
-    this.loadCards();
+    this.loadCards(this.page());
   }
+
+  totalPages = computed(() => {
+    const total = Number(this.cardsWithPagination().totalcard);
+    return Math.max(1, Math.ceil(total / this.pageSize));
+  });
+
+  pageNumbers = computed(() => {
+    const current = this.page();
+    const total = this.totalPages();
+    const delta = 2;
+
+    const start = Math.max(1, current - delta);
+    const end = Math.min(total, current + delta);
+
+    const pages: number[] = [];
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  });
 
    constructor() {
     this._route.queryParamMap
       .pipe(takeUntilDestroyed())
       .subscribe((params) => {
         this.searchQuery.set(params.get('q') ?? '');
-        this.loadCards();
+        this.loadCards(this.page());
       });
   }
 
-  loadCards(): void {
+  goToPage(newPage: number): void {
+    const total = this.totalPages();
+    if (newPage < 1 || newPage > total || newPage === this.page()) {
+      return;
+    }
+    this.loadCards(newPage);
+  }
+
+  previousPage(): void {
+    this.goToPage(this.page() - 1);
+  }
+
+  nextPage(): void {
+    this.goToPage(this.page() + 1);
+  }
+
+  loadCards(pageNumber: number): void {
     this.isLoading.set(true);
-    this._cardService.getCards(this.searchQuery()).subscribe({
+    this._cardService.getCards(pageNumber, this.searchQuery()).subscribe({
       next: (cards) => {
-        this.cards.set(cards);
+        this.cardsWithPagination.set(cards);
+        this.page.set(pageNumber);
         this.isLoading.set(false);
       },
       error: (err) => {
