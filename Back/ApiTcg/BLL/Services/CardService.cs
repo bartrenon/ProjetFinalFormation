@@ -39,12 +39,10 @@ public class CardService : ICardService
     {
         Card? card =  await _cardRepository.GetByIdAsync(id);
 
-        if(card is not null && card.Set is not null)
-        {
+        if(card is not null && card.Set is not null){
             Collection? collection = await _collectionRepository.GetByIdAsync(userId, card.Id);
 
-            if (collection != null)
-            {
+            if (collection != null){
                 card.Collections.Add(collection);
             }
 

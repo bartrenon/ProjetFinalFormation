@@ -17,11 +17,9 @@ public class CollectionService : ICollectionService
 
     public async Task<int> AddCollectionAsync(int userId, string cardId)
     {
-
         bool isExist = await _collectionRepository.ExistsInCollectionAsync(userId, cardId);
 
-        if(isExist) 
-        {
+        if(isExist){
             return 0;
         }
 
@@ -37,8 +35,7 @@ public class CollectionService : ICollectionService
     {
         Collection? c =  await _collectionRepository.GetByIdAsync(userId, cardId);
 
-        if(c is not null) 
-        {
+        if(c is not null){
             return CollectionMapper.ToCollectionSummary(c);
         }
 

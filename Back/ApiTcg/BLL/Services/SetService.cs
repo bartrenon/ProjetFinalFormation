@@ -31,8 +31,7 @@ public class SetService : ISetService
     {
         Set? set = await _setRepository.GetByIdWithCardsAsync(id);
 
-        if (string.IsNullOrWhiteSpace(id))
-        {
+        if (string.IsNullOrWhiteSpace(id)){
             return null;
         }
 

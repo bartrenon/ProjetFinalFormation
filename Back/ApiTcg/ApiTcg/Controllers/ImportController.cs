@@ -1,6 +1,7 @@
-using BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using BLL.Interfaces;
 
 namespace ApiTcg.Controllers;
 

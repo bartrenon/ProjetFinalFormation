@@ -1,8 +1,10 @@
 ﻿using System.Security.Claims;
-using BLL.Dtos.Collection;
-using BLL.Interfaces;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using BLL.Dtos.Collection;
+using BLL.Interfaces;
 
 namespace ApiTcg.Controllers;
 
@@ -23,14 +25,11 @@ public class CollectionController : ControllerBase
     {
         int result = await _collectionService.DeleteCollectionAsync(id);
 
-        if (result == 1)
-        {
+        if (result == 1){
             return NoContent();
         }
-        else
-        {
-            return NotFound("Data not found.");
-        }
+      
+        return NotFound("Data not found.");
     }
 
     [Authorize]
@@ -52,8 +51,7 @@ public class CollectionController : ControllerBase
 
         CollectionSummaryDto? collection = await _collectionService.GetByIdAsync(userId, cardId);
 
-        if(collection is null) 
-        {
+        if(collection is null){
             return NotFound();
         }
 
@@ -66,13 +64,10 @@ public class CollectionController : ControllerBase
     {
         int result = await _collectionService.UpdateCollectionAsync(id,isAdding);
 
-        if (result == 1)
-        {
+        if (result == 1){
             return NoContent();
         }
-        else
-        {
-            return NotFound("Card is not in your collection");
-        }
+        
+        return NotFound("Card is not in your collection");
     }
 }

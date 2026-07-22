@@ -16,5 +16,5 @@ export const routes: Routes = [
     { path: 'set/:id', component: ListCardsOfSet, canActivate: [UserGuard] },
     { path: 'card/:id', component: DetailCard, canActivate: [UserGuard] },
     { path: 'cards', component: ListCards, canActivate: [UserGuard] },
-    { path: 'profil', component: Profil, canActivate: [UserGuard] }
+    { path: 'profil', component: Profil, canActivate: [UserGuard] },
 ];

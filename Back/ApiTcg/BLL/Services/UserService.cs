@@ -21,41 +21,29 @@ public class UserService : IUserService
     {
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, workFactor : 12);
 
-        if (await IsEmailTakenAsync(user.Email)) 
-        {
+        if (await IsEmailTakenAsync(user.Email)){
             throw new Exception("Email déjà utilisé.");
         }
-
-        if (await IsUsernameTakenAsync(user.Username)) 
-        {
+        else if(await IsUsernameTakenAsync(user.Username)){
             throw new Exception("Pseudo déjà pris.");
         }
 
         User NewUser = UserMapper.ToUser(user);
 
-        int result = await _userRepository.RegisterAsync(NewUser);
-
-        return result;
+        return await _userRepository.RegisterAsync(NewUser);
     }
 
     public async Task<string?> LoginAsync(UserLoginDto userLogin)
     {
         User? user = await _userRepository.GetByEmailAsync(userLogin.Email);
 
-        if (user is null)
-        {
-            return null;
-        }
-
-        if (user.IsDeleted) 
-        {
+        if (user is null || user.IsDeleted){
             return null;
         }
 
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(userLogin.Password, user.PasswordHash);
 
-        if (!isPasswordValid)
-        {
+        if (!isPasswordValid){
             return null;
         }
 
@@ -64,45 +52,29 @@ public class UserService : IUserService
 
     public async Task<int> SoftDeleteUserAsync(int userId)
     {
-        int result = 0;
-
-        if(userId == 0) 
-        {
-            return result;
+        if(userId == 0) {
+            return 0;
         }
         
-        result = await _userRepository.SoftDeleteUserAsync(userId);
-
-        return result;
+        return await _userRepository.SoftDeleteUserAsync(userId);
     }
 
     public async Task<int> HardDeleteUserAsync(int userId)
     {
-        int result = 0;
-
-        if (userId == 0)
-        {
-            return result;
+        if (userId == 0){
+            return 0;
         }
 
-        result = await _userRepository.HardDeleteUserAsync(userId);
-
-        return result;
-
+        return await _userRepository.HardDeleteUserAsync(userId);
     }
 
     public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
     {
-        int result = 0;
-
-        if ( deletedDate > DateTime.UtcNow)
-        {
-            return result;
+        if ( deletedDate > DateTime.UtcNow){
+            return 0;
         }
 
-        result = await _userRepository.HardDeleteUserAsync(deletedDate);
-
-        return result;
+        return await _userRepository.HardDeleteUserAsync(deletedDate);
     }
 
     public async Task<bool> IsEmailTakenAsync(string email)

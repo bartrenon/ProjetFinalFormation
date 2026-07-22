@@ -1,8 +1,10 @@
 ﻿using System.Security.Claims;
-using BLL.Dtos.Card;
-using BLL.Interfaces;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using BLL.Dtos.Card;
+using BLL.Interfaces;
 
 namespace ApiTcg.Controllers;
 
@@ -36,8 +38,7 @@ public class CardController :ControllerBase
 
         CardDto? card = await _cardService.GetByIdAsync(id, userId);
 
-        if (card is null)
-        {
+        if (card is null){
             return NotFound();
         }
 
@@ -52,8 +53,7 @@ public class CardController :ControllerBase
 
         IEnumerable<CardSummaryDto> cards = await _cardService.GetBySetIdAsync(id, userId);
 
-        if(cards is null) 
-        {
+        if(cards is null){
             cards = new List<CardSummaryDto>();
         }
 

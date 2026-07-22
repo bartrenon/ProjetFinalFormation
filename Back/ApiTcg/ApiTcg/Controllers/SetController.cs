@@ -1,7 +1,7 @@
+using System.Security.Claims;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Security.Claims;
 
 using BLL.Dtos.Set;
 using BLL.Interfaces;
@@ -36,8 +36,7 @@ public class SetController : ControllerBase
 
         SetDetailDto? set = await _setService.GetByIdWithCardsAsync(id, userId);
 
-        if (set is null)
-        {
+        if (set is null){
             return NotFound();
         }
 
