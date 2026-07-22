@@ -28,4 +28,31 @@ public class SetMapper
             Symbol = set.Symbol
         };
     }
+
+    public static SetDto ToSetDto(Set set)
+    {
+        return new SetDto
+        {
+            Id = set.Id,
+            Name = set.Name,
+            Logo = set.Logo,
+            Symbol = set.Symbol
+        };
+    }
+
+    public static SetWithPaginationDto ToSetWithPaginationDto(IEnumerable<Set> sets, int nbSet)
+    {
+        List<SetDto> setDtos = new List<SetDto> ();
+
+        foreach (Set set in sets) 
+        {
+            setDtos.Add(ToSetDto(set));
+        }
+
+        return new SetWithPaginationDto
+        {
+            sets = setDtos,
+            totalSets = nbSet
+        };
+    }
 }

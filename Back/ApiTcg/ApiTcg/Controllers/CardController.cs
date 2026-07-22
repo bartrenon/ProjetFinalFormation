@@ -19,9 +19,11 @@ public class CardController :ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetFilteredCards(int pageNumber, int pageSize, string? name)
+    public async Task<IActionResult> GetFilteredCards(string? name, int pageNumber = 1, int pageSize = 24)
     {
-        IEnumerable<CardSummaryDto> cards = await _cardService.GetFilteredCardsAsync(pageNumber, pageSize, name);
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        CardWithPaginationDto cards = await _cardService.GetFilteredCardsAsync(pageNumber, pageSize, name, userId);
 
         return Ok(cards);
     }

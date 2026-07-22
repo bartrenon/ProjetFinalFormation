@@ -1,8 +1,11 @@
-﻿using DAL.Interfaces;
-using Dapper;
-using Domain.Entities;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+
+using Dapper;
+using static Dapper.SqlMapper;
+
+using DAL.Interfaces;
+using Domain.Entities;
 
 namespace DAL.Repositories;
 
@@ -15,24 +18,31 @@ public class CardRepository : ICardRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<IEnumerable<Card>> GetFilteredCardsAsync(int offset, int pageSize, string? name)
+    public async Task<(IEnumerable<Card>, int)> GetFilteredCardsAsync(int offset, int pageSize, string? name)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
 
         object parameters = new { Offset = offset, PageSize = pageSize };
 
-        string query = "SELECT * FROM [Card] ";
+        string whereClause = "";
 
-        if (name is not null)
+        if(name is not null) 
         {
-            query += "WHERE Name Like @Name ";
+            whereClause += "WHERE Name Like @Name ";
             name = $"%{name}%";
             parameters = new { Offset = offset, PageSize = pageSize, Name = name };
         }
 
-        query += "ORDER BY SetId, LocalId OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+        string query = $@" SELECT * FROM [Card] {whereClause}
+                           ORDER BY Name OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+                           SELECT COUNT(*) FROM [Card] {whereClause};";
 
-        return await connection.QueryAsync<Card>(query, parameters);
+        GridReader datas = await connection.QueryMultipleAsync(query, parameters);
+
+        IEnumerable<Card> cards = await datas.ReadAsync<Card>();
+        int totalCount = await datas.ReadSingleAsync<int>();
+
+        return (cards, totalCount);
     }
 
     public async Task<Card?> GetByIdAsync(string id)

@@ -29,4 +29,13 @@ public class CardMapper
             Collection = c.Collections.FirstOrDefault() != null ? CollectionMapper.ToCollectionSummary(c.Collections.FirstOrDefault()!) : null
         };
     }
+
+    public static CardWithPaginationDto ToCardWithPaginationDto(IEnumerable<CardSummaryDto> cards, int nbCard) {
+
+        return new CardWithPaginationDto
+        {
+            cards = cards,
+            totalCards = nbCard
+        };
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using BLL.Dtos.Collection;
 using BLL.Dtos.Set;
-using Domain.Entities;
 
 namespace BLL.Dtos.Card;
 

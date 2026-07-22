@@ -2,9 +2,11 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
 using Dapper;
+using static Dapper.SqlMapper;
 
 using DAL.Interfaces;
 using Domain.Entities;
+
 
 namespace DAL.Repositories;
 
@@ -17,26 +19,32 @@ public class SetRepository : ISetRepository
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
-    public async Task<IEnumerable<Set>> GetFilteredSetsAsync(int offset, int pageSize, string? name)
+    public async Task<(IEnumerable<Set> ,int)> GetFilteredSetsAsync(int offset, int pageSize, string? name)
     {
 
         using SqlConnection connection = new SqlConnection(_connectionString);
 
         object parameters = new { Offset = offset, PageSize = pageSize };
 
-        string query = @"SELECT * FROM [Set] ";
+        string whereClause = "";
 
         if(name is not null) 
         {
-            query += "WHERE Name Like @Name ";
+            whereClause += "WHERE Name Like @Name ";
             name = $"%{name}%";
             parameters = new { Offset = offset, PageSize = pageSize, Name = name };
         }
 
-        query += "ORDER BY Name OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+        string query = $@" SELECT * FROM [Set] {whereClause}
+                           ORDER BY Name OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+                           SELECT COUNT(*) FROM [Set] {whereClause};";
 
-        return await connection.QueryAsync<Set>(query, parameters);
+        GridReader datas = await connection.QueryMultipleAsync(query, parameters);
 
+        IEnumerable<Set> sets = await datas.ReadAsync<Set>();
+        int totalCount = await datas.ReadSingleAsync<int>();
+
+        return(sets, totalCount);
     }
 
     public async Task<Set?> GetByIdWithCardsAsync(string id)

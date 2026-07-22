@@ -17,22 +17,22 @@ public class CardService : ICardService
        _collectionRepository = collectionRepository;
     }
 
-    public async Task<IEnumerable<CardSummaryDto>> GetFilteredCardsAsync(int pageNumber, int pageSize, string? name)
+    public async Task<CardWithPaginationDto> GetFilteredCardsAsync(int pageNumber, int pageSize, string? name, int userId)
     {
         int offset = (pageNumber - 1) * pageSize;
 
         List<CardSummaryDto> cardsSummaryDto = new List<CardSummaryDto>();
 
-        IEnumerable <Card> cards = await _cardRepository.GetFilteredCardsAsync(offset, pageSize, name);
+        (IEnumerable<Card> cards, int nbCards) = await _cardRepository.GetFilteredCardsAsync(offset, pageSize, name);
 
         foreach (Card c in cards)
         {
-            bool isExist = await _collectionRepository.ExistsInCollectionAsync(1, c.Id);
+            bool isExist = await _collectionRepository.ExistsInCollectionAsync(userId, c.Id);
 
             cardsSummaryDto.Add(CardMapper.ToCardSummaryDto(c, isExist));
         }
 
-        return cardsSummaryDto;
+        return CardMapper.ToCardWithPaginationDto(cardsSummaryDto, nbCards);
     }
 
     public async Task<CardDto?> GetByIdAsync(string id, int userId)

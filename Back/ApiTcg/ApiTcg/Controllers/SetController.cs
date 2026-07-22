@@ -5,7 +5,6 @@ using System.Security.Claims;
 
 using BLL.Dtos.Set;
 using BLL.Interfaces;
-using Domain.Entities;
 
 namespace ApiTcg.Controllers;
 
@@ -22,9 +21,9 @@ public class SetController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetFilteredSets(int pageNumber, int pageSize, string? name)
+    public async Task<IActionResult> GetFilteredSets(string? name, int pageNumber = 1, int pageSize = 20)
     {
-        IEnumerable<Set> sets = await _setService.GetFilteredSetsAsync(pageNumber, pageSize, name);
+        SetWithPaginationDto sets = await _setService.GetFilteredSetsAsync(pageNumber, pageSize, name);
 
         return Ok(sets);
     }

@@ -18,11 +18,13 @@ public class SetService : ISetService
         _cardService = cardService;
     }
 
-    public async Task<IEnumerable<Set>> GetFilteredSetsAsync(int pageNumber, int pageSize, string? name)
+    public async Task<SetWithPaginationDto> GetFilteredSetsAsync(int pageNumber, int pageSize, string? name)
     {
         int offset = (pageNumber - 1) * pageSize;
 
-        return await _setRepository.GetFilteredSetsAsync(offset, pageSize, name);
+        (IEnumerable<Set> sets, int nbSet) = await _setRepository.GetFilteredSetsAsync(offset, pageSize, name);
+
+        return SetMapper.ToSetWithPaginationDto(sets, nbSet);
     }
 
     public async Task<SetDetailDto?> GetByIdWithCardsAsync(string id, int userId)
@@ -38,4 +40,5 @@ public class SetService : ISetService
 
         return  SetMapper.ToSetDetailDto(set!, cards);
     }
+
 }
