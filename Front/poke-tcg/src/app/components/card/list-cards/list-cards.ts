@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CardServices } from '../../../services/card-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -10,12 +10,12 @@ import { CardWithPagination } from '../../../models/card/card-with-pagination';
   templateUrl: './list-cards.html',
   styleUrl: './list-cards.scss',
 })
-export class ListCards implements OnInit {
+export class ListCards {
   
   private _cardService = inject(CardServices);
   private _route = inject(ActivatedRoute);
 
-  cardsWithPagination = signal<CardWithPagination>({cards: [],totalcard: 0});
+  cardsWithPagination = signal<CardWithPagination>({cards: [],totalCards: 0});
   page = signal(1);
   pageSize = this._cardService.pageSize;
   isLoading = signal(false);
@@ -23,12 +23,8 @@ export class ListCards implements OnInit {
   extension = signal('webp');
   searchQuery = signal('');
 
-  ngOnInit(): void {
-    this.loadCards(this.page());
-  }
-
   totalPages = computed(() => {
-    const total = Number(this.cardsWithPagination().totalcard);
+    const total = Number(this.cardsWithPagination().totalCards);
     return Math.max(1, Math.ceil(total / this.pageSize));
   });
 

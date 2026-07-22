@@ -112,4 +112,55 @@
     align-items: stretch;
     flex-direction: column;
   }
+
+  .pagination-btn {
+    min-width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 2rem 0 1rem;
+}
+
+.pagination-btn {
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 0.6rem;
+  border: 2px solid var(--pokemon-border);
+  border-radius: 6px;
+  background: var(--pokemon-paper);
+  color: var(--pokemon-dark-blue);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--pokemon-yellow);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &.active {
+    background: var(--pokemon-blue);
+    border-color: var(--pokemon-dark-blue);
+    color: #fff;
+  }
+}
+
+.pagination-ellipsis {
+  color: var(--pokemon-muted);
+  font-weight: 700;
+  padding: 0 0.2rem;
 }

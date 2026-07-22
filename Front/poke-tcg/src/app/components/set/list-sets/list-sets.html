@@ -4,12 +4,12 @@
     <p class="state-message">Chargement des sets...</p>
   }
 
-  @if (!isLoading() && sets().length === 0) {
+  @if (!isLoading() && setsWithPagination().sets.length === 0) {
     <p class="state-message">Aucun set trouvé.</p>
   }
 
   <div class="sets-grid">
-    @for (set of sets(); track set.id) {
+    @for (set of setsWithPagination().sets; track set.id) {
       <a class="set-card" [routerLink]="['/set', set.id]">
         <article class="set-card-content">
           <div class="set-images">
@@ -29,4 +29,50 @@
       </a>
     }
   </div>
+  
+    @if (!isLoading() && setsWithPagination().sets.length > 0) {
+      <nav class="pagination" aria-label="Pagination">
+        <button
+          class="pagination-btn"
+          [disabled]="page() === 1"
+          (click)="previousPage()"
+        >
+          &laquo; Précédent
+        </button>
+
+        @if (pageNumbers()[0] > 1) {
+          <button class="pagination-btn page-number" (click)="goToPage(1)">1</button>
+          @if (pageNumbers()[0] > 2) {
+            <span class="pagination-ellipsis">…</span>
+          }
+        }
+
+        @for (num of pageNumbers(); track num) {
+          <button
+            class="pagination-btn page-number"
+            [class.active]="num === page()"
+            (click)="goToPage(num)"
+          >
+            {{ num }}
+          </button>
+        }
+
+        @if (pageNumbers()[pageNumbers().length - 1] < totalPages()) {
+          @if (pageNumbers()[pageNumbers().length - 1] < totalPages() - 1) {
+            <span class="pagination-ellipsis">…</span>
+          }
+          <button class="pagination-btn page-number" (click)="goToPage(totalPages())">
+            {{ totalPages() }}
+          </button>
+        }
+
+        <button
+          class="pagination-btn"
+          [disabled]="page() === totalPages()"
+          (click)="nextPage()"
+        >
+          Suivant &raquo;
+        </button>
+      </nav>
+    }
 </section>

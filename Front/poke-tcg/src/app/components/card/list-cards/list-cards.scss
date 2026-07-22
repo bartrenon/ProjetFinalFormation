@@ -71,6 +71,12 @@
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.5rem;
   }
+
+  .pagination-btn {
+    min-width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
 }
 
 .pagination {
@@ -116,12 +122,4 @@
   color: var(--pokemon-muted);
   font-weight: 700;
   padding: 0 0.2rem;
-}
-
-@media (max-width: 640px) {
-  .pagination-btn {
-    min-width: 2rem;
-    height: 2rem;
-    font-size: 0.75rem;
-  }
 }
