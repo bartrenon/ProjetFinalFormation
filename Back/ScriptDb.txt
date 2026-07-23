@@ -61,3 +61,18 @@ CREATE TABLE Collection(
     CONSTRAINT FK_Collection_Card FOREIGN KEY (CardId) REFERENCES Card(Id)
 );
 
+
+-- ============================
+--     TABLE : RefreshToken 
+-- ============================
+CREATE TABLE RefreshToken (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Token NVARCHAR(200) NOT NULL,
+    UserId INT NOT NULL,
+    CreatedAt DATETIME2 NOT NULL,
+    ExpiresAt DATETIME2 NOT NULL,
+    RevokedAt DATETIME2 NULL,
+    CONSTRAINT FK_RefreshTokens_User FOREIGN KEY (UserId) REFERENCES [User](Id)
+);
+
+CREATE UNIQUE INDEX IX_RefreshToken_Token ON RefreshToken(Token);
