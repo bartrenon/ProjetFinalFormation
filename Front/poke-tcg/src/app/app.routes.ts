@@ -7,6 +7,8 @@ import { DetailCard } from './components/card/detail-card/detail-card';
 import { UserGuard } from './services/user/user-guard';
 import { ListCards } from './components/card/list-cards/list-cards';
 import { Profil } from './components/user/profil/profil';
+import { Rules } from './components/page/rules/rules';
+import { Anatomy } from './components/page/anatomy/anatomy';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,4 +19,6 @@ export const routes: Routes = [
     { path: 'card/:id', component: DetailCard, canActivate: [UserGuard] },
     { path: 'cards', component: ListCards, canActivate: [UserGuard] },
     { path: 'profil', component: Profil, canActivate: [UserGuard] },
+    { path: 'rules', component: Rules, canActivate: [UserGuard] },
+    { path: 'anatomy', component: Anatomy, canActivate: [UserGuard] },
 ];

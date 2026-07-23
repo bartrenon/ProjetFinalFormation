@@ -24,26 +24,66 @@
         <li><a routerLink="/sets" routerLinkActive="active">Sets</a></li>
         <li><a routerLink="/cards" routerLinkActive="active">Cartes</a></li>
         <li><a routerLink="/profil" routerLinkActive="active">Profil</a></li>
-        <li><a routerLink="/profil" routerLinkActive="active">Info</a></li>
+
+        <li class="dropdown">
+          <button
+            type="button"
+            class="dropdown-btn"
+            (click)="isInfoMenuOpen.set(!isInfoMenuOpen())"
+          >
+            Informations ▼
+          </button>
+
+          @if (isInfoMenuOpen()) {
+            <ul class="dropdown-menu">
+              <li>
+                <a
+                  routerLink="/rules"
+                  routerLinkActive="active"
+                  (click)="isInfoMenuOpen.set(false)"
+                >
+                  Règles
+                </a>
+              </li>
+
+              <li>
+                <a
+                  routerLink="/anatomy"
+                  routerLinkActive="active"
+                  (click)="isInfoMenuOpen.set(false)"
+                >
+                  Info TCG
+                </a>
+              </li>
+            </ul>
+          }
+        </li>
       </ul>
-      
-        <div class="navbar-right">
-          <div class="search-box" [class.disabled]="isSearchDisabled()">
-            <input
-              type="text"
-              [placeholder]="searchPlaceholder()"
-              aria-label="Rechercher"
-              [ngModel]="searchTerm()"
-              (ngModelChange)="searchTerm.set($event)"
-              (keyup.enter)="onSearch()"
-            />
-            <button type="button" (click)="onSearch()" aria-label="Lancer la recherche">
-              🔍
-            </button>
-       </div> 
 
+      <div class="navbar-right">
+        <div class="search-box" [class.disabled]="isSearchDisabled()">
+          <input
+            type="text"
+            [placeholder]="searchPlaceholder()"
+            aria-label="Rechercher"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+            (keyup.enter)="onSearch()"
+          />
+          <button
+            type="button"
+            (click)="onSearch()"
+            aria-label="Lancer la recherche"
+          >
+            🔍
+          </button>
+        </div>
 
-        <button type="button" class="logout-btn" (click)="onLogout()">
+        <button
+          type="button"
+          class="logout-btn"
+          (click)="onLogout()"
+        >
           Déconnexion
         </button>
       </div>

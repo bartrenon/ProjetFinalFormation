@@ -19,6 +19,7 @@ interface Generation {
 export class Navbar {
   public searchTerm = signal('');
   public isMenuOpen = signal(false);
+  isInfoMenuOpen = signal(false);
 
   private _userService = inject(UserService);
   private _router = inject(Router);

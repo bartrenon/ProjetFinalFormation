@@ -285,6 +285,63 @@ $muted: #a0a3bd;
   }
 }
 
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  background: none;
+  border: none;
+  color: $muted;
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 2px;
+  cursor: pointer;
+  transition: color .2s;
+
+  &:hover {
+    color: $text;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 180px;
+  background: $bg-dark-2;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  z-index: 1000;
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    display: block;
+    padding: 10px 16px;
+    color: $muted;
+    text-decoration: none;
+    border: none !important;
+
+    &:hover {
+      background: rgba(255,255,255,.08);
+      color: $text;
+    }
+
+    &.active {
+      color: $yellow;
+      background: rgba(255,255,255,.05);
+    }
+  }
+}
+
 @media (max-width: 860px) {
   .burger {
     display: flex;
@@ -321,6 +378,19 @@ $muted: #a0a3bd;
   .logout-btn {
     text-align: center;
   }
+
+  .dropdown {
+  width: 100%;
+}
+
+.dropdown-menu {
+  position: static;
+  margin-top: 8px;
+  width: 100%;
+  box-shadow: none;
+  border: none;
+  background: rgba(255,255,255,.05);
+}
 }
 
 .search-box.disabled {
