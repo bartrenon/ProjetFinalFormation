@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { UserLogin } from '../../../models/user/userLogin';
 import { UserService } from '../../../services/user/user-service';
+import { UserJwt } from '../../../models/user/user-jwt';
 
 @Component({
   selector: 'app-login',
@@ -35,8 +36,7 @@ export class LoginComponent {
 
     this.userService.login(credentials)
       .subscribe({
-        next: (response) => {
-          console.log('Utilisateur connecte', response);
+        next: (response: UserJwt) => {
           this.router.navigate(['/sets']);
         },
         error: (err) => {
