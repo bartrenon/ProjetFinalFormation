@@ -13,7 +13,7 @@
       <div class="card-visual">
         @if (currentCard.image) {
           <img
-            [src]="getCardImageUrl(currentCard.image)"
+            [src]="currentCard.image"
             [alt]="currentCard.name"
             class="card-image"
           />
@@ -76,7 +76,7 @@
               <a [routerLink]="['/set', currentCard.setId]">{{ currentCard.set.name }}</a>
               @if (currentCard.set.symbol) {
                 <img
-                  [src]="getSetSymbolUrl(currentCard.set.symbol)"
+                  [src]="currentCard.set.symbol"
                   [alt]="currentCard.set.name"
                   class="set-symbol"
                 />

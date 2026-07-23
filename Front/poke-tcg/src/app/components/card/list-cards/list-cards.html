@@ -12,7 +12,7 @@
         <div class="card-item" [class.owned]="card.isInCollection" [class.missing]="!card.isInCollection">
           <a class="set-card" [routerLink]="['/card', card.id]">
               @if (card.image) {
-            <img [src]="getCardImageUrl(card.image)" [alt]="card.name" />
+            <img [src]="_imageUrlService.getCardImageUrl(card.image)" [alt]="card.name" />
           }
           <p class="card-name">{{ card.name }}</p>
           <p class="card-localid">#{{ card.localId }}</p>

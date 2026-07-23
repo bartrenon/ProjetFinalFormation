@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SetService } from '../../../services/set-service';
 import { Set } from '../../../models/set/set';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ImageUrlService } from '../../../services/tools/image-url-service';
 
 @Component({
   selector: 'app-list-cards-of-set',
@@ -14,11 +15,11 @@ export class ListCardsOfSet implements OnInit {
 
   private _setService = inject(SetService);
   private _route = inject(ActivatedRoute);
+  public _imageUrlService = inject(ImageUrlService);
 
   set = signal<Set | null>(null);
   isLoading = signal(false);
   error = signal<string | null>(null);
-  extension = signal('webp');
   searchQuery = signal('');
 
   ngOnInit(): void {
@@ -58,6 +59,8 @@ export class ListCardsOfSet implements OnInit {
 
     this._setService.getAllCardsOfSet(setId).subscribe({
       next: (data) => {
+        data.logo = this._imageUrlService.getSetLogoUrl(data.logo);
+        data.symbol = this._imageUrlService.getSetSymbolUrl(data.symbol);
         this.set.set(data);
         this.isLoading.set(false);
       },
@@ -67,20 +70,5 @@ export class ListCardsOfSet implements OnInit {
         this.isLoading.set(false);
       }
     });
-  }
-
-  getCardImageUrl(imageUrl?: string): string {
-    if (!imageUrl) return '';
-    return `${imageUrl}/high.${this.extension()}`;
-  }
-
-  getSetLogoUrl(logoUrl?: string): string {
-    if (!logoUrl) return '';
-    return `${logoUrl}.${this.extension()}`;
-  }
-
-  getSetSymbolUrl(symbolUrl?: string): string {
-    if (!symbolUrl) return '';
-    return `${symbolUrl}.${this.extension()}`;
   }
 }

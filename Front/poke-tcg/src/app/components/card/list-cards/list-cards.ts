@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CardServices } from '../../../services/card-services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardWithPagination } from '../../../models/card/card-with-pagination';
+import { ImageUrlService } from '../../../services/tools/image-url-service';
 
 @Component({
   selector: 'app-list-cards',
@@ -14,13 +15,13 @@ export class ListCards {
   
   private _cardService = inject(CardServices);
   private _route = inject(ActivatedRoute);
+  public _imageUrlService = inject(ImageUrlService);
 
   cardsWithPagination = signal<CardWithPagination>({cards: [],totalCards: 0});
   page = signal(1);
   pageSize = this._cardService.pageSize;
   isLoading = signal(false);
   error = signal<string | null>(null);
-  extension = signal('webp');
   searchQuery = signal('');
 
   totalPages = computed(() => {
@@ -81,10 +82,5 @@ export class ListCards {
         this.isLoading.set(false);
       }
     });
-  }
-
-   getCardImageUrl(imageUrl?: string): string {
-    if (!imageUrl) return '';
-    return `${imageUrl}/high.${this.extension()}`;
   }
 }

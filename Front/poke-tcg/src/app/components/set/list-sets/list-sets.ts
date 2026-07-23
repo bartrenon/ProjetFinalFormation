@@ -3,6 +3,7 @@ import { SetService } from '../../../services/set-service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SetWithPagination } from '../../../models/set/set-with-pagination';
+import { ImageUrlService } from '../../../services/tools/image-url-service';
 
 @Component({
   selector: 'app-list-sets',
@@ -14,13 +15,13 @@ export class ListSets {
 
   private _setService = inject(SetService);
   private _route = inject(ActivatedRoute);
+  public _imageUrlService = inject(ImageUrlService);
 
   setsWithPagination = signal<SetWithPagination>({sets: [],totalSets: 0});
   page = signal(1);
   pageSize = this._setService.pageSize;
   isLoading = signal(false);
   error = signal<string | null>(null);
-  extension = signal('webp');
   searchQuery = signal('');
 
    totalPages = computed(() => {
@@ -81,15 +82,5 @@ export class ListSets {
         this.isLoading.set(false);
       }
     });
-  }
-
-  getSetLogoUrl(logoUrl?: string): string {
-    if (!logoUrl) return '';
-    return `${logoUrl}.${this.extension()}`;
-  }
-
-  getSetSymbolUrl(symbolUrl?: string): string {
-    if (!symbolUrl) return '';
-    return `${symbolUrl}.${this.extension()}`;
   }
 }

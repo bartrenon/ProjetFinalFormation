@@ -4,6 +4,7 @@ import { Card } from '../../../models/card/card';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CollectionServices } from '../../../services/collection/collection-services';
+import { ImageUrlService } from '../../../services/tools/image-url-service';
 
 @Component({
   selector: 'app-detail-card',
@@ -16,11 +17,11 @@ export class DetailCard implements OnInit {
   private _cardService = inject(CardServices);
   private _collectionService = inject(CollectionServices);
   private _route = inject(ActivatedRoute);
+  private _imageUrlService = inject(ImageUrlService);
 
   card = signal<Card>({} as Card);
   isLoading = signal(false);
   error = signal<string | null>(null);
-  extension = signal('webp');
 
   ngOnInit(): void {
     this.loadCard();
@@ -38,6 +39,8 @@ export class DetailCard implements OnInit {
 
     this._cardService.getCardById(cardId).subscribe({
       next: (card) => {
+        card.image = this._imageUrlService.getCardImageUrl(card.image);
+        card.set.symbol = this._imageUrlService.getSetSymbolUrl(card.set.symbol);
         this.card.set(card);
         this.isLoading.set(false);
       },
@@ -47,16 +50,6 @@ export class DetailCard implements OnInit {
       }
     });
 
-  }
-
-  getCardImageUrl(imageUrl?: string): string {
-    if (!imageUrl) return '';
-    return `${imageUrl}/high.${this.extension()}`;
-  }
-
-   getSetSymbolUrl(symbolUrl?: string): string {
-    if (!symbolUrl) return '';
-    return `${symbolUrl}.${this.extension()}`;
   }
 
   onAddDuplicate(): void {
