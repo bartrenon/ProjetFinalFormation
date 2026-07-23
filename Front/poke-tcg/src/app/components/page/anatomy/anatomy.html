@@ -1,0 +1,130 @@
+<article class="anatomy">
+ 
+ 
+  <header class="hero">
+    <p class="hero__eyebrow">Le TCG en détail</p>
+    <h1 class="hero__title">Cartes, raretés &amp; symboles</h1>
+    <p class="hero__subtitle">
+      Trois familles de cartes, une anatomie précise, et un système de rareté qui va
+      du simple point noir jusqu'à l'étoile secrète. Voici comment lire n'importe
+      quelle carte Pokémon.
+    </p>
+  </header>
+ 
+  
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">01</span>Les trois familles de cartes</h2>
+    <div class="family-grid">
+      <div class="family-card" *ngFor="let f of cardFamilies">
+        <span class="family-card__count">{{ f.count }}</span>
+        <h3>{{ f.name }}</h3>
+        <p>{{ f.detail }}</p>
+      </div>
+    </div>
+  </section>
+ 
+  
+  <section class="section section--dark">
+    <h2 class="section__title"><span class="section__num">02</span>Anatomie d'une carte Pokémon</h2>
+    <p class="section__lead">Cliquez sur un repère pour voir ce qu'il indique.</p>
+ 
+    <div class="anatomy-layout">
+      <!-- Mockup visuel de carte -->
+      <div class="card-mock" role="img" aria-label="Schéma d'une carte Pokémon annotée">
+        <div class="card-mock__frame">
+          <div class="card-mock__art"></div>
+          <div class="card-mock__attack-line" *ngFor="let n of [1,2]"></div>
+        </div>
+ 
+        <button
+          class="card-mock__pin"
+          *ngFor="let c of callouts"
+          [style.left.%]="c.x"
+          [style.top.%]="c.y"
+          [class.card-mock__pin--active]="activeCallout() === c.id"
+          type="button"
+          (click)="setCallout(c.id)"
+          [attr.aria-pressed]="activeCallout() === c.id"
+          [attr.aria-label]="c.label"
+        >
+          {{ c.id }}
+        </button>
+      </div>
+ 
+      
+      <div class="callout-panel">
+        <span class="callout-panel__index">{{ currentCallout.id }}</span>
+        <h3>{{ currentCallout.label }}</h3>
+        <p>{{ currentCallout.detail }}</p>
+ 
+        <div class="callout-panel__nav">
+          <button
+            *ngFor="let c of callouts"
+            type="button"
+            class="callout-panel__dot"
+            [class.callout-panel__dot--active]="activeCallout() === c.id"
+            (click)="setCallout(c.id)"
+            [attr.aria-label]="'Repère ' + c.id"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">03</span>Le système de rareté</h2>
+    <p class="section__lead">
+      Le symbole en bas à droite d'une carte indique sa rareté, du plus courant au plus recherché.
+    </p>
+ 
+    <div class="rarity-tabs" role="tablist">
+      <button
+        *ngFor="let r of rarities"
+        role="tab"
+        type="button"
+        class="rarity-tabs__tab"
+        [class.rarity-tabs__tab--active]="activeRarity() === r.id"
+        [class]="'rarity-tabs__tab--' + r.swatch"
+        (click)="setRarity(r.id)"
+        [attr.aria-selected]="activeRarity() === r.id"
+      >
+        <span class="rarity-tabs__symbol">{{ r.symbol }}</span>
+        {{ r.name }}
+      </button>
+    </div>
+ 
+    <div class="rarity-panel">
+      <span class="rarity-panel__symbol" [class]="'rarity-panel__symbol--' + currentRarity.swatch">
+        {{ currentRarity.symbol }}
+      </span>
+      <div>
+        <p class="rarity-panel__era">{{ currentRarity.era }}</p>
+        <h3>{{ currentRarity.name }}</h3>
+        <p>{{ currentRarity.detail }}</p>
+      </div>
+    </div>
+  </section>
+ 
+  <section class="section section--dark">
+    <h2 class="section__title"><span class="section__num">04</span>Les types d'énergie</h2>
+    <p class="section__lead">
+      Dix types actifs aujourd'hui déterminent les affinités, faiblesses et résistances des Pokémon.
+    </p>
+ 
+    <div class="energy-grid">
+      <div
+        class="energy-chip"
+        *ngFor="let e of energyTypes"
+        [style.background]="e.color"
+        [style.color]="e.textColor"
+      >
+        {{ e.name }}
+      </div>
+    </div>
+    <p class="energy-note">
+      Le type Fée a existé de 2013 à 2019 avant d'être retiré du jeu et réparti entre les types Psy et Combat.
+    </p>
+  </section>
+ 
+</article>

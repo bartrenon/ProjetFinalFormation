@@ -1,0 +1,120 @@
+<article class="rules">
+ 
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero__eyebrow">Guide de jeu</p>
+    <h1 class="hero__title">Les règles du Pokémon TCG</h1>
+    <p class="hero__subtitle">
+      Deux joueurs, un banc de Pokémon, six Pions Prix à récupérer avant l'autre.
+      Voici tout ce qu'il faut savoir pour poser votre première carte.
+    </p>
+    <div class="hero__prize" aria-hidden="true">
+      <span class="prize-card" *ngFor="let i of [1,2,3,4,5,6]"></span>
+    </div>
+  </header>
+ 
+  <!-- OBJECTIF -->
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">Objectif</span>Comment gagner la partie</h2>
+    <div class="win-grid">
+      <div class="win-card" *ngFor="let w of winConditions">
+        <span class="win-card__icon">{{ w.icon }}</span>
+        <h3>{{ w.title }}</h3>
+        <p>{{ w.detail }}</p>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- MATERIEL -->
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">Matériel</span>Ce que contient un deck</h2>
+    <p class="section__lead">
+      Un deck légal contient exactement <strong>60 cartes</strong>, réparties librement entre trois familles :
+    </p>
+    <div class="deck-grid">
+      <div class="deck-card" *ngFor="let d of deckParts">
+        <h3>{{ d.name }}</h3>
+        <p>{{ d.detail }}</p>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- MISE EN PLACE -->
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">Mise en place</span>Avant le premier tour</h2>
+    <ol class="setup-list">
+      <li *ngFor="let step of setupSteps; let i = index">
+        <span class="setup-list__index">{{ i + 1 }}</span>
+        <span>{{ step }}</span>
+      </li>
+    </ol>
+  </section>
+ 
+  <!-- DEROULEMENT D'UN TOUR (signature : accordéon en éventail) -->
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">Déroulement</span>Les 4 temps d'un tour</h2>
+    <p class="section__lead">L'ordre est fixe : on ne peut pas revenir en arrière une fois une phase passée.</p>
+ 
+    <div class="phase-stack">
+      <div
+        class="phase"
+        *ngFor="let phase of turnPhases"
+        [class.phase--open]="openPhase() === phase.id"
+      >
+        <button
+          class="phase__header"
+          type="button"
+          (click)="togglePhase(phase.id)"
+          [attr.aria-expanded]="openPhase() === phase.id"
+        >
+          <span class="phase__index">{{ phase.id }}</span>
+          <span class="phase__heading">
+            <span class="phase__title">{{ phase.title }}</span>
+            <span class="phase__tag">{{ phase.tag }}</span>
+          </span>
+          <span class="phase__chevron">⌄</span>
+        </button>
+ 
+        <div class="phase__body" *ngIf="openPhase() === phase.id">
+          <p>{{ phase.detail }}</p>
+          <ul *ngIf="phase.bullets.length">
+            <li *ngFor="let b of phase.bullets">{{ b }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- COMBAT -->
+  <section class="section section--dark">
+    <h2 class="section__title"><span class="section__num">Combat</span>Faiblesse, résistance, K.O.</h2>
+    <div class="combat-grid">
+      <div class="combat-card">
+        <span class="combat-card__symbol">×2</span>
+        <h3>Faiblesse</h3>
+        <p>Si le type d'attaque correspond à la faiblesse du défenseur, les dégâts sont doublés dans la plupart des cas.</p>
+      </div>
+      <div class="combat-card">
+        <span class="combat-card__symbol">−30</span>
+        <h3>Résistance</h3>
+        <p>Si le défenseur possède une résistance à ce type, les dégâts sont réduits (généralement de 30).</p>
+      </div>
+      <div class="combat-card">
+        <span class="combat-card__symbol">K.O.</span>
+        <h3>Mise K.O.</h3>
+        <p>Dès que les dégâts cumulés égalent ou dépassent les PV du Pokémon, il est mis K.O. et son propriétaire remet un Pokémon du banc en jeu.</p>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- FIN DE PARTIE -->
+  <section class="section">
+    <h2 class="section__title"><span class="section__num">Fin</span>Récapitulatif des conditions de victoire</h2>
+    <p class="section__lead">
+      La partie s'arrête dès que l'une des trois conditions vues plus haut est remplie : 6 Pions Prix, plus aucun Pokémon en jeu chez l'adversaire, ou deck épuisé au moment de piocher.
+    </p>
+  </section>
+ 
+</article>
+ 
+
