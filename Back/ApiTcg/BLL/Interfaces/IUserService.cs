@@ -5,7 +5,9 @@ namespace BLL.Interfaces;
 public interface IUserService
 {
     Task<int> RegisterAsync(UserCreateDto user);
-    Task<string?> LoginAsync(UserLoginDto userLogin);
+    Task<UserJwtDto?> LoginAsync(UserLoginDto userLogin);
+    Task<UserJwtDto?> RefreshTokenAsync(string refreshToken);
+    Task<bool> RevokeRefreshTokenAsync(string refreshToken);
     Task<int> SoftDeleteUserAsync(int userId);
     Task<int> HardDeleteUserAsync(int userId);
     Task<int> HardDeleteUserAsync(DateTime? deletedDate);

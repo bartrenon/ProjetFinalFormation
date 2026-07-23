@@ -77,7 +77,7 @@ public class UserRepository : IUserRepository
             UPDATE [User]
             SET IsDeleted = 1,
                 DeletedAt = GETDATE()
-            WHERE Id = @UserId";
+            WHERE Id = @Id";
 
             return await connection.ExecuteAsync(query, new { Id = userId });
         }

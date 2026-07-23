@@ -33,14 +33,16 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserLoginDto userLogin)
     {
-        string? token = await _userService.LoginAsync(userLogin);
+        UserJwtDto? result = await _userService.LoginAsync(userLogin);
 
-        if (token is null){
+        if (result is null)
+        {
             return Unauthorized("Email ou mot de passe incorrect.");
         }
 
-        return Ok(new { token });
+        return Ok(result);
     }
+
 
     [Authorize]
     [HttpPatch("DeleteUser/{id}")]
@@ -95,6 +97,32 @@ public class UserController : ControllerBase
         bool taken = await _userService.IsUsernameTakenAsync(username);
 
         return Ok(new { available = !taken });
+    }
+
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken(UserJwtRequestDto request)
+    {
+        UserJwtDto? result = await _userService.RefreshTokenAsync(request.RefreshToken);
+
+        if (result is null)
+        {
+            return Unauthorized("Refresh token invalide ou expiré.");
+        }
+
+        return Ok(result);
+    }
+
+    [HttpPost("revoke-token")]
+    public async Task<IActionResult> RevokeToken(UserJwtRequestDto request)
+    {
+        bool result = await _userService.RevokeRefreshTokenAsync(request.RefreshToken);
+
+        if (!result)
+        {
+            return NotFound("Refresh token introuvable ou déjà révoqué.");
+        }
+
+        return NoContent();
     }
 
 }

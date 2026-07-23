@@ -4,5 +4,6 @@ namespace BLL.Interfaces;
 
 public interface IJwtService
 {
-    string GenerateToken(User user);
+    string GenerateAccessToken(User user);
+    string GenerateRefreshToken();
 }
