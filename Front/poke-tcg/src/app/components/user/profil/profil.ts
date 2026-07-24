@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profil',
@@ -6,4 +6,11 @@ import { Component } from '@angular/core';
   templateUrl: './profil.html',
   styleUrl: './profil.scss',
 })
-export class Profil {}
+export class Profil implements OnInit{
+
+  email = '';
+
+ ngOnInit(): void {
+
+  }
+}
