@@ -7,21 +7,45 @@ namespace BLL.Services;
 public class CardPriceService : ICardPriceService
 {
     private readonly ICardPriceRepository _cardPriceRepository;
+    private readonly IImportService _importService;
+    private static readonly TimeSpan timeExpired = TimeSpan.FromHours(24);
 
-    public CardPriceService(ICardPriceRepository cardPriceRepository)
+    public CardPriceService(ICardPriceRepository cardPriceRepository, IImportService importService)
     {
         _cardPriceRepository = cardPriceRepository;
+        _importService = importService;
     }
 
     public async Task<CardPrice?> GetByCardIdAsync(string cardId)
     {
         CardPrice? price = await _cardPriceRepository.GetByCardIdAsync(cardId);
 
-        if (price is not null) 
+        bool isExpired = price is null || IsExpired(price.UpdatedAt);
+
+        if (!isExpired) 
         {
             return price;
         }
 
-        return null;
+        CardPrice? freshPrice = await FetchAndUpsertPriceAsync(cardId);
+
+        return freshPrice ?? price; 
+    }
+
+    private async Task<CardPrice?> FetchAndUpsertPriceAsync(string cardId)
+    {
+        int val = await _importService.ImportPricesForCardAsync(cardId);
+
+        if (val == 0)
+        {
+            return null;
+        }
+
+       return await _cardPriceRepository.GetByCardIdAsync(cardId);
+    }
+
+    private static bool IsExpired(DateTime updatedAt)
+    {
+        return DateTime.UtcNow - updatedAt > timeExpired;
     }
 }
