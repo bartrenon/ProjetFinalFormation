@@ -32,18 +32,12 @@ CardCountOfficial INT NOT NULL,
 CREATE TABLE Card
 (
     Id NVARCHAR(100) NOT NULL PRIMARY KEY,
-
     Name NVARCHAR(250) NOT NULL,
-
     SetId NVARCHAR(50) NOT NULL,
-
     LocalId NVARCHAR(50) NULL,
-
     Image NVARCHAR(500) NULL,
 
-    FOREIGN KEY (SetId)
-        REFERENCES [Set](Id)
-        ON DELETE CASCADE
+    FOREIGN KEY (SetId) REFERENCES [Set](Id) ON DELETE CASCADE
 );
 
 
@@ -76,3 +70,18 @@ CREATE TABLE RefreshToken (
 );
 
 CREATE UNIQUE INDEX IX_RefreshToken_Token ON RefreshToken(Token);
+
+
+-- ============================
+--     TABLE : CardPrice  
+-- ============================
+CREATE TABLE CardPrice (
+    Id INT IDENTITY PRIMARY KEY,
+    CardId NVARCHAR(100) NOT NULL,  
+    [Avg] DECIMAL(10,2) NULL,
+    Avg30 DECIMAL(10,2) NULL,
+    UpdatedAt DATETIME2 NOT NULL,
+
+    CONSTRAINT FK_CardPrice_Card FOREIGN KEY (CardId) REFERENCES Card(Id),
+    CONSTRAINT UQ_CardPrice UNIQUE (CardId)
+);

@@ -37,4 +37,14 @@ public class TcgDexClient
 
         return cards ?? new List<TcgDexCardBriefDto>();
     }
+
+    public async Task<TcgDexCardDto?> GetCardAsync(string id, string lang = "fr")
+    {
+        HttpResponseMessage response = await _http.GetAsync($"{BaseUrl}/{lang}/cards/{id}");
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return null;
+
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<TcgDexCardDto>();
+    }
 }

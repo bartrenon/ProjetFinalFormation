@@ -33,4 +33,17 @@ public class ImportController : ControllerBase
 
         return Ok(new { importedCount });
     }
+
+    [HttpPost("price")]
+    public async Task<IActionResult> SyncPrice(string cardId, [FromQuery] string lang = "fr")
+    {
+        int val = await _importService.ImportPricesForCardAsync(cardId, lang);
+
+        if (val == 0) 
+        {
+            return NotFound($"Pas de pricing disponible pour {cardId}");
+        }
+
+        return Ok(val);
+    }
 }

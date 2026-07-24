@@ -71,12 +71,14 @@ builder.Services.AddScoped<ISetRepository, SetRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<ICardPriceRepository, CardPriceRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IImportService, ImportService>();
 builder.Services.AddScoped<ISetService, SetService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
+builder.Services.AddScoped<ICardPriceService, CardPriceService>();
 builder.Services.AddHttpClient<TcgDexClient>();
 
 var app = builder.Build();
