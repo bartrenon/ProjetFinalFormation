@@ -16,7 +16,7 @@ public class CardMapper
         };
     }
 
-    public static CardDto ToCardDto(Card c)
+    public static CardDto ToCardDto(Card c, CardPrice price)
     {
         return new CardDto
         {
@@ -26,7 +26,8 @@ public class CardMapper
             LocalId = c.LocalId,
             Image = c.Image,
             Set = SetMapper.ToSetSummaryDto(c.Set),
-            Collection = c.Collections.FirstOrDefault() != null ? CollectionMapper.ToCollectionSummary(c.Collections.FirstOrDefault()!) : null
+            Collection = c.Collections.FirstOrDefault() != null ? CollectionMapper.ToCollectionSummary(c.Collections.FirstOrDefault()!) : null,
+            Price = price
         };
     }
 
