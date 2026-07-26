@@ -38,7 +38,7 @@
 
         <dl class="card-meta">
           <div class="meta-row">
-            <dt>Exemplaires</dt>
+            <dt>Exemplaires :</dt>
             <dd class="stepper">
               <button
                 type="button"
@@ -64,14 +64,14 @@
           </div>
            @if (currentCard.collection != null) {
             <div class="meta-row">
-              <dt>Date d'obtention</dt>
+              <dt>Date d'obtention :</dt>
             
                 <dd>{{ currentCard.collection.createdAt | date:'dd/MM/yyyy' }}</dd> 
             </div>
             }
 
           <div class="meta-row">
-            <dt>Set</dt>
+            <dt>Set :</dt>
             <dd class="set-value">
               <a [routerLink]="['/set', currentCard.setId]">{{ currentCard.set.name }}</a>
               @if (currentCard.set.symbol) {
@@ -85,6 +85,22 @@
               }
             </dd>
           </div>
+          <div class="meta-row">
+            <dt>Prix (24h) :</dt>
+            <dd class="set-value">
+              {{currentCard.price?.avg}} €
+            </dd>
+          </div>
+           <div class="meta-row">
+            <dt>Moyenne (30j) :</dt>
+            <dd class="set-value"> {{currentCard.price?.avg30}} € </dd>
+          </div>
+           @if (currentCard.collection != null && currentCard.price != null) {
+            <div class="meta-row">
+              <dt>Valeur totale :</dt>
+                <dd>{{ currentCard.collection.nbDuplicateCard * currentCard.price.avg  }} € </dd> 
+            </div>
+            }
         </dl>
       </div>
     </section>

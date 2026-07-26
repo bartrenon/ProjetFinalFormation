@@ -1,3 +1,4 @@
+import { CardPriceSummary } from "../cardPrice/card-price-summary";
 import { Collection } from "../collection/collection";
 import { SetSummary } from "../set/set-summary";
 
@@ -10,4 +11,5 @@ export interface Card
   image?: string;
   set: SetSummary;
   collection?: Collection;
+  price?: CardPriceSummary;
 }
