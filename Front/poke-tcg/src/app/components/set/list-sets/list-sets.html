@@ -13,15 +13,9 @@
       <a class="set-card" [routerLink]="['/set', set.id]">
         <article class="set-card-content">
           <div class="set-images">
-            @if (set.logo) {
-              <img class="set-logo" [src]="_imageUrlService.getSetLogoUrl(set.logo)" [alt]="set.name" />
-            }
-
-            @if (set.symbol) {
-              <img class="set-symbol" [src]="_imageUrlService.getSetSymbolUrl(set.symbol)" [alt]="'Symbole ' + set.name" />
-            }
+            <img class="set-logo" [src]="_imageUrlService.getSetLogoUrl(set.logo)" [alt]="set.name" />
+            <img class="set-symbol" [src]="_imageUrlService.getSetSymbolUrl(set.symbol)" [alt]="'Symbole ' + set.name" />
           </div>
-
           <div class="set-content">
             <h3>{{ set.name }}</h3>
           </div>

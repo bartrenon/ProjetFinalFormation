@@ -6,14 +6,10 @@
   } @else if (set(); as currentSet) {
 
   <section class="sets-page">
-      @if (currentSet.logo) {
-        <img [src]="currentSet.logo" [alt]="currentSet.name" class="set-logo" />
-      }
+      <img [src]="currentSet.logo" [alt]="currentSet.name" class="set-logo" />
       <div class="set-info">
         <h1>
-          @if (currentSet.symbol) {
-            <img [src]="currentSet.symbol" [alt]="currentSet.name" class="set-symbol" />
-          }
+          <img [src]="currentSet.symbol" [alt]="currentSet.name" class="set-symbol" />
           {{ currentSet.name }}
         </h1>
         <p>{{ownedCards()}} / {{ currentSet.cardCountOfficial }}</p>
@@ -24,9 +20,7 @@
       @for (card of filteredCards(); track card.id) {
         <div class="card-item" [class.owned]="card.isInCollection" [class.missing]="!card.isInCollection">
           <a class="set-card" [routerLink]="['/card', card.id]">
-              @if (card.image) {
-            <img [src]="_imageUrlService.getCardImageUrl(card.image)" [alt]="card.name"/>
-          }
+          <img [src]="_imageUrlService.getCardImageUrl(card.image)" [alt]="card.name"/>
           <p class="card-name">{{ card.name }}</p>
           <p class="card-localid">#{{ card.localId }}</p>
           </a>

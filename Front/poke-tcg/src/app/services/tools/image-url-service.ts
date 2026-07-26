@@ -7,19 +7,22 @@ export class ImageUrlService {
 
   private extension = 'webp';
   private quality = 'high';
+  private fallbackCardImage = '/imageDefaultCard.webp';
+  private fallbackCardLogo = '/logoDefaultSet.png';
+  private fallbackCardSymbol = '/symbolDefaultSet.png';
 
   getCardImageUrl(imageUrl?: string): string {
-    if (!imageUrl) return '';
+    if (!imageUrl) return this.fallbackCardImage;
     return `${imageUrl}/${this.quality}.${this.extension}`;
   }
 
    getSetSymbolUrl(symbolUrl?: string): string {
-    if (!symbolUrl) return '';
+    if (!symbolUrl) return this.fallbackCardSymbol;
     return `${symbolUrl}.${this.extension}`;
   }
 
   getSetLogoUrl(logoUrl?: string): string {
-    if (!logoUrl) return '';
+    if (!logoUrl) return this.fallbackCardLogo;
     return `${logoUrl}.${this.extension}`;
   }
 

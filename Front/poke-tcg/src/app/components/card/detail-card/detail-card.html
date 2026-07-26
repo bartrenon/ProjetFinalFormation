@@ -11,19 +11,12 @@
   } @else if (card(); as currentCard) {
     <section class="card-detail">
       <div class="card-visual">
-        @if (currentCard.image) {
-          <img
+         <img
             [src]="currentCard.image"
             [alt]="currentCard.name"
             class="card-image"
-          />
-        } @else {
-          <div class="card-image placeholder">
-            <span>Pas d'image</span>
-          </div>
-        }
-
-        <span class="collection-badge" [class.in-collection]="currentCard.collection">
+          />   
+         <span class="collection-badge" [class.in-collection]="currentCard.collection">
           @if (currentCard.collection) {
             ✓ Collectionnée
           } @else {
@@ -74,15 +67,11 @@
             <dt>Set :</dt>
             <dd class="set-value">
               <a [routerLink]="['/set', currentCard.setId]">{{ currentCard.set.name }}</a>
-              @if (currentCard.set.symbol) {
                 <img
                   [src]="currentCard.set.symbol"
                   [alt]="currentCard.set.name"
                   class="set-symbol"
                 />
-              } @else {
-                <div class="set-symbol placeholder"></div>
-              }
             </dd>
           </div>
           <div class="meta-row">
