@@ -5,14 +5,21 @@
     <p class="error">{{ error() }}</p>
   } @else if (set(); as currentSet) {
 
-  <section class="sets-page">
-      <img [src]="currentSet.logo" [alt]="currentSet.name" class="set-logo" />
-      <div class="set-info">
-        <h1>
-          <img [src]="currentSet.symbol" [alt]="currentSet.name" class="set-symbol" />
+  <section class="sets-page" [class.complete]="isSetComplete()">
+    <img [src]="currentSet.logo" [alt]="currentSet.name" class="set-logo" />
+    <div class="set-info">
+      <h1>
+         <img [src]="currentSet.symbol" [alt]="currentSet.name" class="set-symbol" />
           {{ currentSet.name }}
         </h1>
-        <p>{{ownedCards()}} / {{ currentSet.cardCountOfficial }}</p>
+        <p class="progress" [class.complete]="isSetComplete()">
+          {{ ownedCards() }} / {{ currentSet.cardCountTotal }}
+          @if (isSetComplete()) {
+            <span class="complete-badge">
+              ✓ Set complet
+            </span>
+          }
+        </p>
       </div>
     </section>
 
@@ -20,7 +27,8 @@
       @for (card of filteredCards(); track card.id) {
         <div class="card-item" [class.owned]="card.isInCollection" [class.missing]="!card.isInCollection">
           <a class="set-card" [routerLink]="['/card', card.id]">
-          <img [src]="_imageUrlService.getCardImageUrl(card.image)" [alt]="card.name"/>
+
+         <img [src]="_imageUrlService.getCardImageUrl(card.image)" [alt]="card.name"/>
           <p class="card-name">{{ card.name }}</p>
           <p class="card-localid">#{{ card.localId }}</p>
           </a>

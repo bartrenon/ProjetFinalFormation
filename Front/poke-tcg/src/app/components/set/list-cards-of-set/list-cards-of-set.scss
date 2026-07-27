@@ -26,6 +26,33 @@
   background: rgba(255, 253, 244, 0.94);
   box-shadow: var(--shadow-card);
   flex-wrap: wrap;
+  transition: border-color .3s ease, box-shadow .3s ease, background .3s ease;
+
+  &.complete {
+    border-color: var(--pokemon-yellow, #ffcb05);
+    background: linear-gradient(135deg, rgba(255, 253, 244, 0.94), rgba(255, 226, 130, 0.35));
+    box-shadow: 0 0 0 3px rgba(255, 203, 5, 0.35), 0 8px 24px rgba(255, 203, 5, 0.25);
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -60%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.55),
+        transparent
+      );
+      transform: skewX(-20deg);
+      animation: shine 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+  }
 }
 
 .set-logo {
@@ -140,5 +167,59 @@
   .cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.5rem;
+  }
+
+   .progress {
+    justify-content: flex-start;
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -60%;
+  }
+  50% {
+    left: 130%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+
+  &.complete {
+    color: #b5860a;
+  }
+}
+
+.complete-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--pokemon-yellow, #ffcb05);
+  color: var(--pokemon-dark-blue, #1c2b4a);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: pop-in 0.35s ease-out;
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }

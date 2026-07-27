@@ -39,6 +39,11 @@ export class ListCardsOfSet implements OnInit {
     );
   });
 
+  isSetComplete = computed(() => {
+    const total = this.set()?.cardCountOfficial ?? 0;
+    return total > 0 && this.ownedCards() === total;
+  });
+
   constructor() {
     this._route.queryParamMap
       .pipe(takeUntilDestroyed())
