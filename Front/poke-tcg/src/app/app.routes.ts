@@ -9,6 +9,7 @@ import { ListCards } from './components/card/list-cards/list-cards';
 import { Profil } from './components/user/profil/profil';
 import { Rules } from './components/page/rules/rules';
 import { Anatomy } from './components/page/anatomy/anatomy';
+import { CardBuy } from './components/card/card-buy/card-buy';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,4 +22,5 @@ export const routes: Routes = [
     { path: 'profil', component: Profil, canActivate: [UserGuard] },
     { path: 'rules', component: Rules, canActivate: [UserGuard] },
     { path: 'anatomy', component: Anatomy, canActivate: [UserGuard] },
+    { path: 'cardBuy', component: CardBuy, canActivate: [UserGuard] },
 ];

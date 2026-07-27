@@ -1,26 +1,34 @@
 <section class="user-info-card">
+
+  @if (isLoading()) {
+    <p class="state-message">Chargement des infos...</p>
+  } @else if (!data()) {
+    <p class="state-message state-message--empty">Aucune infos disponible actuellement.</p>
+  } @else {
     <header class="user-info-card__header">
       <div class="user-info-card__avatar">
+        {{ data().username.charAt(0).toUpperCase() }}
       </div>
       <div>
-        <h2></h2>
-        <p class="user-info-card__email">{{ email }}</p>
+        <h2 class="user-info-card__username">{{ data().username }}</h2>
+        <p class="user-info-card__email">{{ data().email }}</p>
       </div>
     </header>
- 
+
     <dl class="user-info-card__details">
       <div class="user-info-card__row">
         <dt>Nom d'utilisateur</dt>
-        <dd></dd>
+        <dd>{{ data().username }}</dd>
       </div>
       <div class="user-info-card__row">
         <dt>Email</dt>
-        <dd>{{ email }}</dd>
+        <dd>{{ data().email }}</dd>
       </div>
       <div class="user-info-card__row">
         <dt>Membre depuis</dt>
-        <dd></dd>
+        <dd>{{ data().createdAt | date:'dd/MM/yyyy' }}</dd>
       </div>
     </dl>
-  </section>
-  
+  }
+
+</section>

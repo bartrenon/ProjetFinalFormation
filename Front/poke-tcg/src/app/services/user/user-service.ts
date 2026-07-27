@@ -4,6 +4,8 @@ import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserJwt } from '../../models/user/user-jwt';
+import { UserSummary } from '../../models/user/user-summary';
+import { jwtDecode } from 'jwt-decode';
 
 
 @Injectable({
@@ -22,6 +24,26 @@ export class UserService {
   createUser(user: UserCreate): Observable<UserCreate> {
     return this._http.post<UserCreate>(`${this._url}/register`, user);
   }
+
+  getById(): Observable<UserSummary> {
+    return this._http.get<UserSummary>(`${this._url}/${this.getCurrentUserId()}`);
+  }
+
+  getCurrentUserId(): number | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode<Record<string, any>>(token);
+    const values = Object.values(decoded);
+
+    if (values.length === 0) return null;
+
+    return Number(values[0]);
+  } catch {
+    return null;
+  }
+}
 
   login(credentials: UserLogin): Observable<UserJwt> {
     return this._http.post<UserJwt>(`${this._url}/login`, credentials)
