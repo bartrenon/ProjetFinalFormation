@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using BLL.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
@@ -17,6 +18,7 @@ public class CardPriceController : ControllerBase
         _cardPriceService = cardPriceService;
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPriceByIdCard(string id)
     {
@@ -30,6 +32,7 @@ public class CardPriceController : ControllerBase
 
     }
 
+    [Authorize]
     [HttpGet("value")]
     public async Task<ActionResult<decimal>> GetTotalValue()
     {
@@ -40,6 +43,7 @@ public class CardPriceController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpGet("value/set/{setId}")]
     public async Task<ActionResult<decimal>> GetTotalValueBySet(string setId)
     {

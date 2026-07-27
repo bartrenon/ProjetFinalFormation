@@ -17,16 +17,20 @@
 
     <dl class="user-info-card__details">
       <div class="user-info-card__row">
-        <dt>Nom d'utilisateur</dt>
+        <dt>Nom d'utilisateur :</dt>
         <dd>{{ data().username }}</dd>
       </div>
       <div class="user-info-card__row">
-        <dt>Email</dt>
+        <dt>Email :</dt>
         <dd>{{ data().email }}</dd>
       </div>
       <div class="user-info-card__row">
-        <dt>Membre depuis</dt>
+        <dt>Membre depuis :</dt>
         <dd>{{ data().createdAt | date:'dd/MM/yyyy' }}</dd>
+      </div>
+      <div class="user-info-card__row">
+        <dt>Valeur total de la collection :</dt>
+        <dd>{{ valuePriceTotal() | number:'1.2-2'}} €</dd>
       </div>
     </dl>
   }

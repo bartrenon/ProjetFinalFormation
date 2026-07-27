@@ -6,22 +6,26 @@
   } @else if (set(); as currentSet) {
 
   <section class="sets-page" [class.complete]="isSetComplete()">
-    <img [src]="currentSet.logo" [alt]="currentSet.name" class="set-logo" />
-    <div class="set-info">
-      <h1>
-         <img [src]="currentSet.symbol" [alt]="currentSet.name" class="set-symbol" />
-          {{ currentSet.name }}
-        </h1>
-        <p class="progress" [class.complete]="isSetComplete()">
-          {{ ownedCards() }} / {{ currentSet.cardCountTotal }}
-          @if (isSetComplete()) {
-            <span class="complete-badge">
-              ✓ Set complet
-            </span>
-          }
-        </p>
-      </div>
-    </section>
+  <img [src]="currentSet.logo" [alt]="currentSet.name" class="set-logo" />
+
+  <div class="set-info">
+    <h1>
+      <img [src]="currentSet.symbol" [alt]="currentSet.name" class="set-symbol" />
+      {{ currentSet.name }}
+    </h1>
+    <p class="progress" [class.complete]="isSetComplete()">
+      {{ ownedCards() }} / {{ currentSet.cardCountTotal }}
+      @if (isSetComplete()) {
+        <span class="complete-badge">✓ Set complet</span>
+      }
+    </p>
+  </div>
+
+  <div class="set-value">
+    <span class="set-value-label">Valeur estimée</span>
+    <span class="set-value-amount">{{ valuePriceSet() | currency:'EUR':'symbol':'1.2-2' }}</span>
+  </div>
+</section>
 
     <section class="cards-grid">
       @for (card of filteredCards(); track card.id) {

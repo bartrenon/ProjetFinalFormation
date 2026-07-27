@@ -20,7 +20,7 @@
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border: 4px solid var(--pokemon-border);
   border-radius: 8px;
   background: rgba(255, 253, 244, 0.94);
@@ -65,7 +65,10 @@
 .set-info {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 200px;
 }
+
 
 .set-info h1 {
   display: flex;
@@ -90,6 +93,38 @@
   color: var(--pokemon-muted);
   font-weight: 700;
 }
+
+.set-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  margin-left: auto;
+  padding: 0.6rem 1.2rem;
+  border: 3px solid var(--pokemon-yellow, #ffcb05);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fffdf4, #fff2c9);
+  box-shadow: 0 4px 12px rgba(255, 203, 5, 0.3);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.set-value-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--pokemon-muted);
+}
+
+.set-value-amount {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--pokemon-dark-blue);
+  text-shadow: 1px 1px 0 var(--pokemon-yellow, #ffcb05);
+}
+
 
 .cards-grid {
   display: grid;
@@ -164,12 +199,17 @@
     flex-direction: column;
   }
 
+  .set-value {
+    margin-left: 0;
+    align-self: center;
+  }
+
   .cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.5rem;
   }
 
-   .progress {
+  .progress {
     justify-content: flex-start;
   }
 }
