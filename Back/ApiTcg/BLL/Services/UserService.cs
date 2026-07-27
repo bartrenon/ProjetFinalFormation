@@ -162,4 +162,16 @@ public class UserService : IUserService
             RefreshToken = refreshTokenValue
         };
     }
+
+    public async Task<UserSummaryDto?> GetByIdAsync(int id)
+    {
+        User? u = await _userRepository.GetByIdAsync(id);
+
+        if(u is null) 
+        {
+            return null;
+        }
+
+        return UserMapper.toUserSummary(u);
+    }
 }

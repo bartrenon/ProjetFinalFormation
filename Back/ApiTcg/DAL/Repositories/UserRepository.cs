@@ -68,32 +68,42 @@ public class UserRepository : IUserRepository
             return await connection.ExecuteAsync(query, new { Id = userId });
         }
 
-        public async Task<int> HardDeleteUserAsync(int userId)
-        {
-            using SqlConnection connection = new SqlConnection(_connectionString);
+    public async Task<int> HardDeleteUserAsync(int userId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = @"DELETE FROM Collection 
+        string query = @"DELETE FROM Collection 
                              WHERE UserId = @Id;
                              DELETE FROM [User]
                              WHERE Id = @Id;";
 
-            return await connection.ExecuteAsync(query, new { Id = userId });
-        }
+        return await connection.ExecuteAsync(query, new { Id = userId });
+    }
 
-        public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
-        {
-            using SqlConnection connection = new SqlConnection(_connectionString);
+    public async Task<int> HardDeleteUserAsync(DateTime? deletedDate)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
 
-            string query = @" DELETE FROM Collection 
-                                          WHERE UserId IN (
-                                          SELECT Id FROM [User] WHERE (@DeletedAt IS NOT NULL AND DeletedAt <= @DeletedAt))
+        string query = @" DELETE FROM Collection 
+                          WHERE UserId IN (
+                          SELECT Id FROM [User] WHERE (@DeletedAt IS NOT NULL AND DeletedAt <= @DeletedAt))
                                           
-                                          DELETE FROM [User]
-                                          WHERE @DeletedAt IS NOT NULL 
-                                          AND DeletedAt <= @DeletedAt";
+                          DELETE FROM [User]
+                          WHERE @DeletedAt IS NOT NULL 
+                          AND DeletedAt <= @DeletedAt";
 
-            var parameters = new { DeletedAt = deletedDate };
+        var parameters = new { DeletedAt = deletedDate };
 
-            return await connection.ExecuteAsync(query, parameters);
-        }
+        return await connection.ExecuteAsync(query, parameters);
+    }
+
+    public async Task<User?> GetByIdAsync(int id)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        string query = @"SELECT * FROM [User]
+                         WHERE Id = @Id AND IsDeleted = 0;";
+
+        return await connection.QueryFirstOrDefaultAsync<User>(query, new { Id = id });
+    }
 }

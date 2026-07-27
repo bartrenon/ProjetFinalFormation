@@ -14,4 +14,14 @@ public class UserMapper
             PasswordHash = u.Password
         };
     }
+
+    public static UserSummaryDto toUserSummary(User u)
+    {
+        return new UserSummaryDto
+        {
+            Username = u.Username,
+            Email = u.Email,
+            CreatedAt = u.CreatedAt
+        };
+    }
 }

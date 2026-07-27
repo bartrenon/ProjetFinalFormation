@@ -43,6 +43,20 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        UserSummaryDto? result = await _userService.GetByIdAsync(id);
+
+        if (result is null)
+        {
+            return NotFound("Infos introuvable");
+        }
+
+        return Ok(result);
+    }
+
 
     [Authorize]
     [HttpPatch("DeleteUser/{id}")]
