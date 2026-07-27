@@ -2,13 +2,13 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CardServices } from '../../../services/card-services';
 import { Card } from '../../../models/card/card';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { CollectionServices } from '../../../services/collection/collection-services';
 import { ImageUrlService } from '../../../services/tools/image-url-service';
 
 @Component({
   selector: 'app-detail-card',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, DecimalPipe, RouterLink],
   templateUrl: './detail-card.html',
   styleUrl: './detail-card.scss',
 })

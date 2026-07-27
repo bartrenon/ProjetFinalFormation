@@ -26,7 +26,7 @@
       </div>
 
       <div class="card-info">
-        <span class="card-number">#{{ currentCard.localId }}</span>
+        <span class="card-number">#{{ +currentCard.localId }}</span>
         <h1>{{ currentCard.name }}</h1>
 
         <dl class="card-meta">
@@ -87,7 +87,7 @@
            @if (currentCard.collection != null && currentCard.price != null) {
             <div class="meta-row">
               <dt>Valeur totale :</dt>
-                <dd>{{ currentCard.collection.nbDuplicateCard * currentCard.price.avg  }} € </dd> 
+                <dd>{{ currentCard.collection.nbDuplicateCard * currentCard.price.avg | number:'1.2-2' }} € </dd> 
             </div>
             }
         </dl>

@@ -30,7 +30,7 @@
 
          <img [src]="_imageUrlService.getCardImageUrl(card.image)" [alt]="card.name"/>
           <p class="card-name">{{ card.name }}</p>
-          <p class="card-localid">#{{ card.localId }}</p>
+          <p class="card-localid">#{{ +card.localId }}</p>
           </a>
         </div>
       }
