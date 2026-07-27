@@ -1,14 +1,9 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, viewChild, ElementRef, HostListener } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 import { UserService } from '../../../services/user/user-service';
-
-interface Generation {
-  label: string;
-  slug: string;
-}
 
 @Component({
   selector: 'app-navbar',
@@ -19,11 +14,21 @@ interface Generation {
 export class Navbar {
   public searchTerm = signal('');
   public isMenuOpen = signal(false);
-  isInfoMenuOpen = signal(false);
+  isInfoMenuOpen = signal(false);  
+
+  infoDropdown = viewChild<ElementRef<HTMLElement>>('infoDropdown');
 
   private _userService = inject(UserService);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const el = this.infoDropdown()?.nativeElement;
+    if (this.isInfoMenuOpen() && el && !el.contains(event.target as Node)) {
+      this.isInfoMenuOpen.set(false);
+    }
+  }
 
   private currentUrl = toSignal(
     this._router.events.pipe(

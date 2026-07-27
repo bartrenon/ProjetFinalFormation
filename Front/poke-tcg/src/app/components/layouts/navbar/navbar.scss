@@ -290,6 +290,9 @@ $muted: #a0a3bd;
 }
 
 .dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: none;
   border: none;
   color: $muted;
@@ -300,24 +303,47 @@ $muted: #a0a3bd;
   cursor: pointer;
   transition: color .2s;
 
-  &:hover {
+  &:hover,
+  &.active {
     color: $text;
+  }
+
+  .chevron {
+    transition: transform .25s ease;
+    transform: rotate(0deg);
+
+    &.open {
+      transform: rotate(180deg);
+    }
   }
 }
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   left: 0;
-  min-width: 180px;
+  min-width: 190px;
   background: $bg-dark-2;
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(255, 255, 255, .12);
   border-radius: 12px;
   list-style: none;
   padding: 8px 0;
   margin: 0;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .4);
   z-index: 1000;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 
   li {
     margin: 0;
@@ -329,15 +355,17 @@ $muted: #a0a3bd;
     color: $muted;
     text-decoration: none;
     border: none !important;
+    font-size: 14px;
+    transition: background .15s, color .15s;
 
     &:hover {
-      background: rgba(255,255,255,.08);
+      background: rgba(255, 255, 255, .08);
       color: $text;
     }
 
     &.active {
       color: $yellow;
-      background: rgba(255,255,255,.05);
+      background: rgba(255, 255, 255, .05);
     }
   }
 }
@@ -380,17 +408,22 @@ $muted: #a0a3bd;
   }
 
   .dropdown {
-  width: 100%;
-}
+    width: 100%;
+  }
 
-.dropdown-menu {
-  position: static;
-  margin-top: 8px;
-  width: 100%;
-  box-shadow: none;
-  border: none;
-  background: rgba(255,255,255,.05);
-}
+  .dropdown-menu {
+    position: static;
+    margin-top: 8px;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    background: rgba(255, 255, 255, .05);
+    transform: none;
+
+    &.open {
+      transform: none;
+    }
+  }
 }
 
 .search-box.disabled {

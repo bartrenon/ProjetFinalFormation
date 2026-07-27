@@ -26,38 +26,41 @@
         <li><a routerLink="/cards" routerLinkActive="active">Cartes</a></li>
         <li><a routerLink="/profil" routerLinkActive="active">Profil</a></li>
 
-        <li class="dropdown">
+        <li class="dropdown" #infoDropdown>
           <button
             type="button"
             class="dropdown-btn"
+            [class.active]="isInfoMenuOpen()"
             (click)="isInfoMenuOpen.set(!isInfoMenuOpen())"
+            aria-haspopup="true"
+            [attr.aria-expanded]="isInfoMenuOpen()"
           >
-            Informations ▼
+            Informations
+            <svg class="chevron" [class.open]="isInfoMenuOpen()" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
 
-          @if (isInfoMenuOpen()) {
-            <ul class="dropdown-menu">
-              <li>
-                <a
-                  routerLink="/rules"
-                  routerLinkActive="active"
-                  (click)="isInfoMenuOpen.set(false)"
-                >
-                  Règles
-                </a>
-              </li>
-
-              <li>
-                <a
-                  routerLink="/anatomy"
-                  routerLinkActive="active"
-                  (click)="isInfoMenuOpen.set(false)"
-                >
-                  Info TCG
-                </a>
-              </li>
-            </ul>
-          }
+          <ul class="dropdown-menu" [class.open]="isInfoMenuOpen()">
+            <li>
+              <a
+                routerLink="/rules"
+                routerLinkActive="active"
+                (click)="isInfoMenuOpen.set(false)"
+              >
+                Règles
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/anatomy"
+                routerLinkActive="active"
+                (click)="isInfoMenuOpen.set(false)"
+              >
+                Info TCG
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
 
