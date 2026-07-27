@@ -93,14 +93,14 @@ CREATE TABLE CardPrice (
 CREATE TABLE CardListing
 (
     ListingId           INT IDENTITY(1,1) PRIMARY KEY,
-    CardId              INT             NOT NULL,
-    Price               DECIMAL(10,2)   NOT NULL CHECK (Price >= 0),
-    SellerId            INT             NOT NULL,
-    BuyerId		INT             NULL,
-    Status              NVARCHAR(20)    NOT NULL DEFAULT 'Active',
-    CreatedDate         DATETIME2       NOT NULL DEFAULT SYSDATETIME(),
-    ModifiedDate        DATETIME2       NULL,
-    Description NVARCHAR(500),
+    CardId              NVARCHAR(100) NOT NULL,
+    Price               DECIMAL(10,2) NOT NULL CHECK (Price >= 0),
+    SellerId            INT NOT NULL,
+    BuyerId		INT NULL,
+    Status              NVARCHAR(20) NOT NULL DEFAULT 'Active',
+    CreatedDate         DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
+    ModifiedDate        DATETIME2 NULL,
+    Description 	NVARCHAR(500),
 
     CONSTRAINT FK_CardListings_Card FOREIGN KEY (CardId) REFERENCES Card(Id),
     CONSTRAINT FK_CardListing_Seller FOREIGN KEY (SellerId) REFERENCES [User](Id),
