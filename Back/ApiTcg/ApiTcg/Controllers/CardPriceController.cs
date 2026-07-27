@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using System.Security.Claims;
+using BLL.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,4 +29,25 @@ public class CardPriceController : ControllerBase
         return Ok(price);
 
     }
+
+    [HttpGet("value")]
+    public async Task<ActionResult<decimal>> GetTotalValue()
+    {
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        decimal result = await _cardPriceService.GetTotalCollectionValueAsync(userId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("value/set/{setId}")]
+    public async Task<ActionResult<decimal>> GetTotalValueBySet(string setId)
+    {
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        decimal result = await _cardPriceService.GetTotalValueBySetAsync(userId, setId);
+
+        return Ok(result);
+    }
 }
+

@@ -24,6 +24,32 @@ public class CardPriceRepository : ICardPriceRepository
         return await connection.QuerySingleOrDefaultAsync<CardPrice>(sql, new { cardId });
     }
 
+    public async Task<decimal> GetTotalCollectionValueAsync(int userId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        const string query = @"SELECT ISNULL(SUM(c.NbDuplicateCard * cp.[Avg]), 0)
+                             FROM Collection c
+                             INNER JOIN CardPrice cp ON cp.CardId = c.CardId
+                             WHERE c.UserId = @UserId;";
+
+        return await connection.ExecuteScalarAsync<decimal>(query, new { UserId = userId });
+    }
+
+    public async Task<decimal> GetTotalCollectionValueBySetAsync(int userId, string setId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        const string query = @"SELECT ISNULL(SUM(col.NbDuplicateCard * cp.[Avg]), 0)
+                               FROM Collection col
+                               INNER JOIN Card ca      ON ca.Id = col.CardId
+                               INNER JOIN CardPrice cp ON cp.CardId = col.CardId
+                               WHERE col.UserId = @UserId
+                               AND ca.SetId = @SetId;";
+        
+        return await connection.ExecuteScalarAsync<decimal>(query, new { UserId = userId, SetId = setId });
+    }
+
     public async Task UpsertAsync(CardPrice price)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);

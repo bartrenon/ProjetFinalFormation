@@ -48,4 +48,14 @@ public class CardPriceService : ICardPriceService
     {
         return DateTime.UtcNow - updatedAt > timeExpired;
     }
+
+    public async Task<decimal> GetTotalCollectionValueAsync(int userId)
+    {
+        return await _cardPriceRepository.GetTotalCollectionValueAsync(userId);
+    }
+
+    public async Task<decimal> GetTotalValueBySetAsync(int userId, string setId)
+    {
+        return await _cardPriceRepository.GetTotalCollectionValueBySetAsync(userId, setId);
+    }
 }
