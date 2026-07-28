@@ -9,5 +9,6 @@ public class SetDetailDto
     public string? Symbol { get; set; }
     public int CardCountTotal { get; set; }
     public int CardCountOfficial { get; set; }
+
     public IEnumerable<CardSummaryDto> Cards { get; set; } = [];
 }

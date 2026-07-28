@@ -83,4 +83,25 @@ public class CollectionRepository : ICollectionRepository
 
         return await connection.ExecuteAsync(query, new { Id = id });
     }
+
+    public async Task<bool> CollectionSetIsCompletedAsync(int userId, string setId)
+    {
+        using SqlConnection connection = new(_connectionString);
+
+        const string query = @"
+        SELECT
+            CASE
+                WHEN COUNT(c.Id) > 0
+                AND COUNT(DISTINCT col.CardId) = COUNT(c.Id)
+                THEN CAST(1 AS BIT)
+                ELSE CAST(0 AS BIT)
+            END
+        FROM Card c
+        LEFT JOIN Collection col
+            ON col.CardId = c.Id
+            AND col.UserId = @UserId
+        WHERE c.SetId = @SetId;";
+
+        return await connection.ExecuteScalarAsync<bool>(query, new { UserId = userId, SetId = setId });
+    }
 }

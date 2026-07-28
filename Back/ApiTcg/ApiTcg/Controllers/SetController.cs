@@ -23,7 +23,9 @@ public class SetController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetFilteredSets(string? name, int pageNumber = 1, int pageSize = 20)
     {
-        SetWithPaginationDto sets = await _setService.GetFilteredSetsAsync(pageNumber, pageSize, name);
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        SetWithPaginationDto sets = await _setService.GetFilteredSetsAsync(userId, pageNumber, pageSize, name);
 
         return Ok(sets);
     }

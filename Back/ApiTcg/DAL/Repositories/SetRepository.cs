@@ -36,7 +36,8 @@ public class SetRepository : ISetRepository
         }
 
         string query = $@" SELECT * FROM [Set] {whereClause}
-                           ORDER BY Name OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+                           ORDER BY Name 
+                           OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
                            SELECT COUNT(*) FROM [Set] {whereClause};";
 
         GridReader datas = await connection.QueryMultipleAsync(query, parameters);

@@ -9,5 +9,6 @@ public interface ICollectionService
     Task<int> DeleteCollectionAsync(int id);
     Task<int> AddCollectionAsync(int userId, string cardId);
     Task<int> UpdateCollectionAsync(int id, bool isAdding);
+    Task<bool> CollectionSetIsCompletedAsync(int userId, string setId);
 }
 

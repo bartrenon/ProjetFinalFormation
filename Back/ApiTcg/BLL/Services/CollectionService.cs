@@ -26,6 +26,11 @@ public class CollectionService : ICollectionService
         return await _collectionRepository.AddCollectionAsync(userId, cardId);
     }
 
+    public async Task<bool> CollectionSetIsCompletedAsync(int userId, string setId)
+    {
+        return await _collectionRepository.CollectionSetIsCompletedAsync(userId, setId);
+    }
+
     public async Task<int> DeleteCollectionAsync(int id)
     {
         return await _collectionRepository.DeleteCollectionAsync(id);

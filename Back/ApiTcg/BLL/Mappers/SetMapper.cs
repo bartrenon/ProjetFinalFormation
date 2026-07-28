@@ -29,29 +29,25 @@ public class SetMapper
         };
     }
 
-    public static SetDto ToSetDto(Set set)
+    public static SetDto ToSetDto(Set set, bool isCompleted)
     {
         return new SetDto
         {
             Id = set.Id,
             Name = set.Name,
             Logo = set.Logo,
-            Symbol = set.Symbol
+            Symbol = set.Symbol,
+            IsCompleted = isCompleted
         };
     }
 
-    public static SetWithPaginationDto ToSetWithPaginationDto(IEnumerable<Set> sets, int nbSet)
+    public static SetWithPaginationDto ToSetWithPaginationDto(IEnumerable<Set> sets, int nbSet, IEnumerable<bool> completed)
     {
-        List<SetDto> setDtos = new List<SetDto> ();
-
-        foreach (Set set in sets) 
-        {
-            setDtos.Add(ToSetDto(set));
-        }
-
         return new SetWithPaginationDto
         {
-            sets = setDtos,
+            sets = sets
+             .Zip(completed, (set, isCompleted) => ToSetDto(set, isCompleted))
+             .ToList(),
             totalSets = nbSet
         };
     }

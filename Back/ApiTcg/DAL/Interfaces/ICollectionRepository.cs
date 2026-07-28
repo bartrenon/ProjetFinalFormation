@@ -8,5 +8,6 @@ public interface ICollectionRepository
     Task<int> UpdateCollectionAsync(int id, bool isAdding);
     Task<int> AddCollectionAsync(int userId, string cardId);
     Task<bool> ExistsInCollectionAsync(int userId, string cardId);
+    Task<bool> CollectionSetIsCompletedAsync(int userId, string setId);
 
 }
