@@ -37,7 +37,6 @@
   gap: 1rem;
 }
 
-// --- Le lien devient le vrai conteneur visuel ---
 .set-card {
   display: block;
   position: relative;
@@ -65,9 +64,64 @@
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(23, 32, 51, 0.24);
   }
+
+   &--completed {
+    border-color: #d4af37;
+    background: linear-gradient(180deg, #fffdf0, #fff3cf);
+    box-shadow: 0 14px 34px rgba(212, 175, 55, 0.4);
+    overflow: hidden; // nécessaire pour le ruban
+
+    &::before {
+      background: linear-gradient(90deg, #d4af37, #fff2a8, #d4af37);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        115deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.55) 35%,
+        transparent 50%
+      );
+      background-size: 250% 250%;
+      background-position: 200% 0;
+      pointer-events: none;
+      animation: shine 3.5s ease-in-out infinite;
+    }
+
+    &:hover {
+      box-shadow: 0 22px 46px rgba(212, 175, 55, 0.55);
+    }
+  }
 }
 
-// --- Contenu interne, plus de style de carte ici ---
+.completed-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--pokemon-yellow);
+  color: var(--pokemon-dark-blue);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.set-progress {
+  margin: 0.25rem 0 0;
+  color: var(--pokemon-muted);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
 .set-card-content {
   padding: 1rem;
   padding-top: 1.25rem; // pour laisser respirer sous le liseré
@@ -163,4 +217,29 @@
   color: var(--pokemon-muted);
   font-weight: 700;
   padding: 0 0.2rem;
+}
+
+@keyframes shine {
+  0%   { background-position: 200% 0; }
+  60%  { background-position: -50% 0; }
+  100% { background-position: -50% 0; }
+}
+
+.completed-ribbon {
+  position: absolute;
+  top: 14px;
+  right: -34px;
+  z-index: 2;
+  width: 130px;
+  padding: 0.3rem 0;
+  transform: rotate(45deg);
+  text-align: center;
+  background: linear-gradient(180deg, #f5d873, #d4af37);
+  color: #3a2a00;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }

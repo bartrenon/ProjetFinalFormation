@@ -9,4 +9,5 @@ export interface Set
    cardCountTotal : number;
    cardCountOfficial : number;
    cards: CardSummary[];
+   isCompleted: boolean; 
 }

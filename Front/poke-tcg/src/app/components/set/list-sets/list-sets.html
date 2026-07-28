@@ -11,14 +11,17 @@
   <div class="sets-grid">
     @for (set of setsWithPagination().sets; track set.id) {
       <a class="set-card" [routerLink]="['/set', set.id]">
-        <article class="set-card-content">
-          <div class="set-images">
-            <img class="set-logo" [src]="_imageUrlService.getSetLogoUrl(set.logo)" [alt]="set.name" />
-            <img class="set-symbol" [src]="_imageUrlService.getSetSymbolUrl(set.symbol)" [alt]="'Symbole ' + set.name" />
-          </div>
-          <div class="set-content">
-            <h3>{{ set.name }}</h3>
-          </div>
+         <article class="set-card-content">
+            @if (set.isCompleted) {
+              <span class="completed-ribbon">Complet</span>
+            }
+            <div class="set-images">
+              <img class="set-logo" [src]="_imageUrlService.getSetLogoUrl(set.logo)" [alt]="set.name" />
+              <img class="set-symbol" [src]="_imageUrlService.getSetSymbolUrl(set.symbol)" [alt]="'Symbole ' + set.name" />
+            </div>
+            <div class="set-content">
+              <h3>{{ set.name }}</h3>
+            </div>
         </article>
       </a>
     }
