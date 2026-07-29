@@ -18,7 +18,9 @@ public class CardListingMapper
              Status = listing.Status.ToString(),
              CreatedDate = listing.CreatedDate,
              ModifiedDate = listing.ModifiedDate,
-             Description = listing.Description
+             Description = listing.Description,
+             CardName = listing.CardName,
+             CardImage = listing.CardImage
         };
     }
 

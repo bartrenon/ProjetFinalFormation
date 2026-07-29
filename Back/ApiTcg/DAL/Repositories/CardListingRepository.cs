@@ -59,11 +59,13 @@ public class CardListingRepository : ICardListingRepository
         using SqlConnection connection = new SqlConnection(_connectionString);
 
         const string sql = @"
-        SELECT ListingId, CardId, Price, SellerId, BuyerId, Status,
-               CreatedDate, ModifiedDate, Description
-        FROM CardListing
-        WHERE Status = @Status
-        ORDER BY CreatedDate DESC";
+        SELECT l.ListingId, l.CardId, l.Price, l.SellerId, l.BuyerId, l.Status,
+               l.CreatedDate, l.ModifiedDate, l.Description,
+               c.Name AS CardName, c.Image AS CardImage
+        FROM CardListing l
+        INNER JOIN Card c ON c.Id = l.CardId
+        WHERE l.Status = @Status
+        ORDER BY l.CreatedDate DESC";
 
         return await connection.QueryAsync<CardListing>(sql, new { Status = ListingStatus.Active.ToString() });
     }
@@ -73,10 +75,12 @@ public class CardListingRepository : ICardListingRepository
         using SqlConnection connection = new SqlConnection(_connectionString);
 
         const string sql = @"
-            SELECT ListingId, CardId, Price, SellerId, BuyerId, Status,
-                   CreatedDate, ModifiedDate, Description
-            FROM CardListing
-            WHERE ListingId = @ListingId";
+            SELECT l.ListingId, l.CardId, l.Price, l.SellerId, l.BuyerId, l.Status,
+                   l.CreatedDate, l.ModifiedDate, l.Description,
+                   c.Name AS CardName, c.Image AS CardImage
+            FROM CardListing l
+            INNER JOIN Card c ON c.Id = l.CardId
+            WHERE l.ListingId = @ListingId";
 
         return await connection.QuerySingleOrDefaultAsync<CardListing>(sql, new { ListingId = listingId });
     }
@@ -86,11 +90,13 @@ public class CardListingRepository : ICardListingRepository
         using SqlConnection connection = new SqlConnection(_connectionString);
 
         const string sql = @"
-            SELECT ListingId, CardId, Price, SellerId, BuyerId, Status,
-                   CreatedDate, ModifiedDate, Description
-            FROM CardListing
-            WHERE SellerId = @SellerId
-            ORDER BY CreatedDate DESC";
+            SELECT l.ListingId, l.CardId, l.Price, l.SellerId, l.BuyerId, l.Status,
+                   l.CreatedDate, l.ModifiedDate, l.Description,
+                   c.Name AS CardName, c.Image AS CardImage
+            FROM CardListing l
+            INNER JOIN Card c ON c.Id = l.CardId
+            WHERE l.SellerId = @SellerId
+            ORDER BY l.CreatedDate DESC";
 
         return await connection.QueryAsync<CardListing>(sql, new { SellerId = sellerId });
     }
