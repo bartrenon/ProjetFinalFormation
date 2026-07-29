@@ -35,15 +35,18 @@ export class EditListing {
  
   constructor() {
     const idParam = this._route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = Number(idParam);
+    const id = Number(idParam);
+    if (idParam !== null && Number.isInteger(id) && id > 0) {
       this.listingId.set(id);
       this.loadListing(id);
+    } else {
+      this.error.set('Identifiant d’annonce invalide.');
     }
   }
  
   loadListing(id: number): void {
     this.isLoading.set(true);
+    this.error.set(null);
     this._listingService.getById(id).subscribe({
       next: (listing) => {
         this.form.patchValue({
@@ -68,6 +71,7 @@ export class EditListing {
     }
  
     this.isSubmitting.set(true);
+    this.error.set(null);
     const value = this.form.getRawValue();
  
     this._listingService

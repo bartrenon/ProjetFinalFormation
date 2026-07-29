@@ -26,7 +26,14 @@ public class CardListingRepository : ICardListingRepository
             OUTPUT INSERTED.ListingId
             VALUES (@CardId, @Price, @SellerId, @Status, @Description)";
 
-        return await connection.ExecuteScalarAsync<int>(sql, listing);
+        return await connection.ExecuteScalarAsync<int>(sql, new
+        {
+            listing.CardId,
+            listing.Price,
+            listing.SellerId,
+            Status = ListingStatus.Active.ToString(),
+            listing.Description
+        });
     }
 
     public async Task<bool> DeleteAsync(int listingId)
@@ -35,10 +42,14 @@ public class CardListingRepository : ICardListingRepository
 
         const string sql = @"
             UPDATE CardListing
-            SET Status = 'Removed', ModifiedDate = SYSDATETIME()
+            SET Status = @Status, ModifiedDate = SYSDATETIME()
             WHERE ListingId = @ListingId";
 
-        int affected = await connection.ExecuteAsync(sql, new { ListingId = listingId });
+        int affected = await connection.ExecuteAsync(sql, new
+        {
+            ListingId = listingId,
+            Status = ListingStatus.Removed.ToString()
+        });
 
         return affected > 0;
     }
@@ -54,7 +65,7 @@ public class CardListingRepository : ICardListingRepository
         WHERE Status = @Status
         ORDER BY CreatedDate DESC";
 
-        return await connection.QueryAsync<CardListing>(sql, new { Status = ListingStatus.Active });
+        return await connection.QueryAsync<CardListing>(sql, new { Status = ListingStatus.Active.ToString() });
     }
 
     public async Task<CardListing?> GetByIdAsync(int listingId)
@@ -97,8 +108,8 @@ public class CardListingRepository : ICardListingRepository
         {
             ListingId = listingId,
             BuyerId = buyerId,
-            Status = ListingStatus.Sold,
-            ActiveStatus = ListingStatus.Active
+            Status = ListingStatus.Sold.ToString(),
+            ActiveStatus = ListingStatus.Active.ToString()
         });
 
         return affected > 0;
@@ -116,7 +127,13 @@ public class CardListingRepository : ICardListingRepository
                 ModifiedDate = SYSDATETIME()
             WHERE ListingId = @ListingId";
 
-        int affected = await connection.ExecuteAsync(sql, listing);
+        int affected = await connection.ExecuteAsync(sql, new
+        {
+            listing.Price,
+            listing.Description,
+            Status = listing.Status.ToString(),
+            listing.ListingId
+        });
 
         return affected > 0;
     }

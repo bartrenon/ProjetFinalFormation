@@ -3,8 +3,12 @@
   @if (isLoading()) {
     <p class="state-message">Chargement des annonces...</p>
   }
+
+  @if (error()) {
+    <p class="error-message">{{ error() }}</p>
+  }
  
-  @if (!isLoading() && listingsWithPagination().listings.length === 0) {
+  @if (!isLoading() && listingsWithPagination().listings.length === 0 && !error()) {
     <p class="state-message">Aucune annonce trouvée.</p>
   }
  

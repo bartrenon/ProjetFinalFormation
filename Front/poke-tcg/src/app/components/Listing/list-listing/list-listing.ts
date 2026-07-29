@@ -5,6 +5,7 @@ import { ImageUrlService } from '../../../services/tools/image-url-service';
 import { CardListingWithPagination } from '../../../models/Listing/card-listing-with-pagination';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DecimalPipe } from '@angular/common';
+import { catchError, finalize, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-list-listing',
@@ -47,10 +48,28 @@ export class ListListing {
  
   constructor() {
     this._route.queryParamMap
-      .pipe(takeUntilDestroyed())
-      .subscribe((params) => {
-        this.searchQuery.set(params.get('q') ?? '');
-        this.loadListings(this.page());
+      .pipe(
+        takeUntilDestroyed(),
+        switchMap((params) => {
+          const query = (params.get('q') ?? '').trim();
+          this.searchQuery.set(query);
+          this.page.set(1);
+          this.isLoading.set(true);
+          this.error.set(null);
+
+          return this._listingService.getActiveListings(1, query).pipe(
+            catchError((err) => {
+              this.error.set(this.getErrorMessage(err, 'Impossible de charger les annonces.'));
+              return of(null);
+            }),
+            finalize(() => this.isLoading.set(false))
+          );
+        })
+      )
+      .subscribe((result) => {
+        if (result) {
+          this.listingsWithPagination.set(result);
+        }
       });
   }
  
@@ -72,6 +91,7 @@ export class ListListing {
  
   loadListings(pageNumber: number): void {
     this.isLoading.set(true);
+    this.error.set(null);
     this._listingService.getActiveListings(pageNumber, this.searchQuery()).subscribe({
       next: (result) => {
         this.listingsWithPagination.set(result);
@@ -79,9 +99,21 @@ export class ListListing {
         this.isLoading.set(false);
       },
       error: (err) => {
-        this.error.set(err);
+        this.error.set(this.getErrorMessage(err, 'Impossible de charger les annonces.'));
         this.isLoading.set(false);
       },
     });
+  }
+
+  private getErrorMessage(error: unknown, fallback: string): string {
+    if (typeof error === 'object' && error !== null && 'error' in error) {
+      const response = (error as { error?: unknown }).error;
+      if (typeof response === 'string') return response;
+      if (typeof response === 'object' && response !== null && 'message' in response) {
+        const message = (response as { message?: unknown }).message;
+        if (typeof message === 'string') return message;
+      }
+    }
+    return fallback;
   }
 }

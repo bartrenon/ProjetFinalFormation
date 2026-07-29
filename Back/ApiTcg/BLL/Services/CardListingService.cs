@@ -31,8 +31,19 @@ public class CardListingService : ICardListingService
 
     public async Task<CardListingResponseDto> CreateAsync(CreateCardListingDto dto)
     {
-        if (dto.Price < 0)
-            throw new ArgumentException("Le prix ne peut pas être négatif.");
+        if (string.IsNullOrWhiteSpace(dto.CardId))
+            throw new ArgumentException("La carte est obligatoire.");
+
+        if (dto.CardId.Trim().Length > 100)
+            throw new ArgumentException("L'identifiant de la carte est trop long.");
+
+        if (dto.Price <= 0)
+            throw new ArgumentException("Le prix doit être supérieur à zéro.");
+
+        if (dto.Description?.Length > 500)
+            throw new ArgumentException("La description ne peut pas dépasser 500 caractères.");
+
+        dto.CardId = dto.CardId.Trim();
 
         CardListing listing = CardListingMapper.ToCardListing(dto) ;
 
@@ -76,9 +87,30 @@ public class CardListingService : ICardListingService
         if (existing is null)
             return false;
 
-        existing.Price = dto.Price ?? existing.Price;
-        existing.Description = dto.Description ?? existing.Description;
-        existing.Status = dto.Status ?? existing.Status;
+        if (dto.Price.HasValue)
+        {
+            if (dto.Price.Value <= 0)
+                throw new ArgumentException("Le prix doit être supérieur à zéro.");
+
+            existing.Price = dto.Price.Value;
+        }
+
+        if (dto.Description?.Length > 500)
+            throw new ArgumentException("La description ne peut pas dépasser 500 caractères.");
+
+        // Le formulaire envoie null pour effacer une description : il faut le conserver.
+        existing.Description = dto.Description;
+
+        if (dto.Status.HasValue)
+        {
+            if (!Enum.IsDefined(dto.Status.Value))
+                throw new ArgumentException("Le statut de l'annonce est invalide.");
+
+            if (dto.Status.Value == ListingStatus.Sold)
+                throw new ArgumentException("Une annonce ne peut être vendue que via l'achat.");
+
+            existing.Status = dto.Status.Value;
+        }
 
         return await _repository.UpdateAsync(existing);
     }

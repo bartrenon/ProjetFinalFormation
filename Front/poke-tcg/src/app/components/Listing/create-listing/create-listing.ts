@@ -33,10 +33,17 @@ export class CreateListing {
     this.error.set(null);
  
     const value = this.form.getRawValue();
- 
+    const cardId = value.cardId.trim();
+    if (!cardId) {
+      this.form.controls.cardId.setErrors({ required: true });
+      this.form.controls.cardId.markAsTouched();
+      this.isSubmitting.set(false);
+      return;
+    }
+
     this._listingService
       .create({
-        cardId: value.cardId,
+        cardId,
         price: value.price,
         description: value.description || null,
       })
@@ -47,7 +54,7 @@ export class CreateListing {
         },
         error: (err) => {
           this.isSubmitting.set(false);
-          this.error.set(err?.error ?? "Impossible de créer l'annonce.");
+          this.error.set(err?.error?.message ?? err?.error ?? "Impossible de créer l'annonce.");
         },
       });
   }

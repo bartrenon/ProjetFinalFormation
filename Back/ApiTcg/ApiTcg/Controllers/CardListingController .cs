@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using BLL.Dtos.CardListing;
 using BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTcg.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("apiTcg/[controller]")]
 public class CardListingController : ControllerBase
 {
@@ -24,17 +26,44 @@ public class CardListingController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetActive()
+    public async Task<IActionResult> GetActive([FromQuery] int page = 1, [FromQuery] int pageSize = 12, [FromQuery] string? q = null)
     {
-        var listings = await _service.GetActiveAsync();
-        return Ok(listings);
+        page = Math.Max(page, 1);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
+        var listings = (await _service.GetActiveAsync()).AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            string query = q.Trim();
+            listings = listings.Where(listing => listing.CardId.Contains(query, StringComparison.OrdinalIgnoreCase));
+        }
+
+        int totalListings = listings.Count();
+        var pageListings = listings
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        return Ok(new { listings = pageListings, totalListings });
     }
 
     [HttpGet("seller/{sellerId:int}")]
-    public async Task<IActionResult> GetBySeller(int sellerId)
+    public async Task<IActionResult> GetBySeller(int sellerId, [FromQuery] int page = 1, [FromQuery] int pageSize = 12)
     {
-        var listings = await _service.GetBySellerAsync(sellerId);
-        return Ok(listings);
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+        if (sellerId != userId)
+            return Forbid();
+
+        page = Math.Max(page, 1);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
+        var listings = (await _service.GetBySellerAsync(sellerId)).ToList();
+        int totalListings = listings.Count;
+        var pageListings = listings
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        return Ok(new { listings = pageListings, totalListings });
     }
 
     [HttpPost]

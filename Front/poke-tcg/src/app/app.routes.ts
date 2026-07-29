@@ -30,7 +30,7 @@ export const routes: Routes = [
     { path: 'cardBuy', component: CardBuy, canActivate: [UserGuard] },
     { path: 'listings', component: ListListing, canActivate: [UserGuard] },
     { path: 'listings/new', component: CreateListing, canActivate: [UserGuard] },
-    { path: 'listings/:id', component: DetailListing, canActivate: [UserGuard] },
     { path: 'listings/:id/edit', component: EditListing, canActivate: [UserGuard] },
+    { path: 'listings/:id', component: DetailListing, canActivate: [UserGuard] },
     { path: 'my-listings', component: MyListing, canActivate: [UserGuard] },
 ];

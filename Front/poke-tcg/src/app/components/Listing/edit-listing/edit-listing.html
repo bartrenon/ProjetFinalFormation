@@ -9,7 +9,7 @@
     <p class="error-message">{{ error() }}</p>
   }
  
-  @if (!isLoading()) {
+  @if (!isLoading() && listingId() !== null) {
     <form [formGroup]="form" (ngSubmit)="submit()" class="listing-form">
       <label class="form-field">
         <span>Prix (€)</span>

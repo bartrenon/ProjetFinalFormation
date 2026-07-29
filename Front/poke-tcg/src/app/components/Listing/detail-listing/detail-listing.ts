@@ -41,20 +41,24 @@ export class DetailListing {
  
   constructor() {
     const idParam = this._route.snapshot.paramMap.get('id');
-    if (idParam) {
-      this.loadListing(Number(idParam));
+    const id = Number(idParam);
+    if (idParam !== null && Number.isInteger(id) && id > 0) {
+      this.loadListing(id);
+    } else {
+      this.error.set('Identifiant d’annonce invalide.');
     }
   }
  
   loadListing(id: number): void {
     this.isLoading.set(true);
+    this.error.set(null);
     this._listingService.getById(id).subscribe({
       next: (listing) => {
         this.listing.set(listing);
         this.isLoading.set(false);
       },
       error: (err) => {
-        this.error.set(err);
+        this.error.set(err?.error?.message ?? err?.error ?? 'Annonce introuvable.');
         this.isLoading.set(false);
       },
     });

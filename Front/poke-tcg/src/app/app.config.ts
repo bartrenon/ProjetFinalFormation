@@ -9,7 +9,5 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptors([UserInterceptor])),
     provideRouter(routes),
-    // Rend HttpClient injectable dans toute l'application.
-    provideHttpClient()
   ]
 };

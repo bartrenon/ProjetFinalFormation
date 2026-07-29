@@ -14,6 +14,12 @@ public class ListingStatusTypeHandler : SqlMapper.TypeHandler<ListingStatus>
 
     public override ListingStatus Parse(object value)
     {
-        return Enum.Parse<ListingStatus>((string)value, ignoreCase: true);
+        if (value is null || !Enum.TryParse(value.ToString(), ignoreCase: true, out ListingStatus status)
+            || !Enum.IsDefined(status))
+        {
+            throw new DataException("Le statut de l'annonce enregistré est invalide.");
+        }
+
+        return status;
     }
 }

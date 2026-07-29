@@ -34,12 +34,13 @@ export class UserService {
   if (!token) return null;
 
   try {
-    const decoded = jwtDecode<Record<string, any>>(token);
-    const values = Object.values(decoded);
+    const decoded = jwtDecode<Record<string, unknown>>(token);
+    const userId = decoded['id'];
+    const parsedUserId = typeof userId === 'string' || typeof userId === 'number'
+      ? Number(userId)
+      : NaN;
 
-    if (values.length === 0) return null;
-
-    return Number(values[0]);
+    return Number.isInteger(parsedUserId) && parsedUserId > 0 ? parsedUserId : null;
   } catch {
     return null;
   }

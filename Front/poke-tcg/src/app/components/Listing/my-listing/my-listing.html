@@ -40,4 +40,16 @@
       </div>
     }
   </div>
+
+  @if (!isLoading() && listings().length > 0 && totalPages() > 1) {
+    <nav class="pagination" aria-label="Pagination de mes annonces">
+      <button class="pagination-btn" [disabled]="page() === 1" (click)="previousPage()">
+        &laquo; Précédent
+      </button>
+      <span>Page {{ page() }} / {{ totalPages() }}</span>
+      <button class="pagination-btn" [disabled]="page() === totalPages()" (click)="nextPage()">
+        Suivant &raquo;
+      </button>
+    </nav>
+  }
 </section>
