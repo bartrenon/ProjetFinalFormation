@@ -10,6 +10,11 @@ import { Profil } from './components/user/profil/profil';
 import { Rules } from './components/page/rules/rules';
 import { Anatomy } from './components/page/anatomy/anatomy';
 import { CardBuy } from './components/card/card-buy/card-buy';
+import { CreateListing } from './components/Listing/create-listing/create-listing';
+import { EditListing } from './components/Listing/edit-listing/edit-listing';
+import { MyListing } from './components/Listing/my-listing/my-listing';
+import { DetailListing } from './components/Listing/detail-listing/detail-listing';
+import { ListListing } from './components/Listing/list-listing/list-listing';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -23,4 +28,9 @@ export const routes: Routes = [
     { path: 'rules', component: Rules, canActivate: [UserGuard] },
     { path: 'anatomy', component: Anatomy, canActivate: [UserGuard] },
     { path: 'cardBuy', component: CardBuy, canActivate: [UserGuard] },
+    { path: 'listings', component: ListListing, canActivate: [UserGuard] },
+    { path: 'listings/new', component: CreateListing, canActivate: [UserGuard] },
+    { path: 'listings/:id', component: DetailListing, canActivate: [UserGuard] },
+    { path: 'listings/:id/edit', component: EditListing, canActivate: [UserGuard] },
+    { path: 'my-listings', component: MyListing, canActivate: [UserGuard] },
 ];

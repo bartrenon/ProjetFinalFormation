@@ -1,10 +1,13 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using ApiTcg.MiddleWares;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Dapper;
 using Infrastructure.External;
+using Infrastructure.Mapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -66,12 +69,20 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISetRepository, SetRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<ICardPriceRepository, CardPriceRepository>();
+builder.Services.AddScoped<ICardListingRepository, CardListingRepository>();
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IImportService, ImportService>();
@@ -79,7 +90,10 @@ builder.Services.AddScoped<ISetService, SetService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<ICardPriceService, CardPriceService>();
+builder.Services.AddScoped<ICardListingService, CardListingService>();
+
 builder.Services.AddHttpClient<TcgDexClient>();
+SqlMapper.AddTypeHandler(new ListingStatusTypeHandler());
 
 var app = builder.Build();
 

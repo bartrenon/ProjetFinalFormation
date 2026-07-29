@@ -1,0 +1,136 @@
+.listing-detail-page {
+  padding: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+ 
+.state-message {
+  text-align: center;
+  opacity: 0.7;
+  padding: 2rem 0;
+}
+ 
+.error-message {
+  background: rgba(185, 28, 28, 0.15);
+  color: #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+ 
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: 2rem;
+ 
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+.detail-image {
+  aspect-ratio: 3 / 4;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+ 
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+ 
+.detail-image-placeholder {
+  opacity: 0.5;
+  padding: 1rem;
+  text-align: center;
+}
+ 
+.detail-info {
+  h1 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.5rem;
+  }
+}
+ 
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: #16a34a;
+ 
+  &.status-sold { background: #b91c1c; }
+  &.status-reserved { background: #b45309; }
+  &.status-removed { background: #4b5563; }
+}
+ 
+.detail-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0.25rem 0 1rem;
+}
+ 
+.detail-description {
+  opacity: 0.85;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+ 
+.detail-meta {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+}
+ 
+.detail-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+ 
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+ 
+.btn-primary {
+  background: var(--accent, #3b82f6);
+  color: #fff;
+ 
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+ 
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+ 
+.btn-danger {
+  background: transparent;
+  border: 1px solid #b91c1c;
+  color: #f87171;
+}
+ 
+.unavailable-message {
+  opacity: 0.7;
+  font-style: italic;
+}

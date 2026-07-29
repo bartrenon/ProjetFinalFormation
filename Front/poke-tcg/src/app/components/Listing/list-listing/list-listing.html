@@ -1,0 +1,76 @@
+<section class="listings-page">
+ 
+  @if (isLoading()) {
+    <p class="state-message">Chargement des annonces...</p>
+  }
+ 
+  @if (!isLoading() && listingsWithPagination().listings.length === 0) {
+    <p class="state-message">Aucune annonce trouvée.</p>
+  }
+ 
+  <div class="listings-grid">
+    @for (listing of listingsWithPagination().listings; track listing.listingId) {
+      <a class="listing-card" [routerLink]="['/listings', listing.listingId]">
+        <article class="listing-card-content">
+          @if (listing.status !== 'Active') {
+            <span class="status-ribbon" [class]="'status-' + listing.status.toLowerCase()">
+              {{ listing.status }}
+            </span>
+          }
+          <div class="listing-image">
+            @if (listing.cardImage) {
+              <img [src]="_imageUrlService.getCardImageUrl(listing.cardImage)" [alt]="listing.cardName ?? listing.cardId" />
+            } @else {
+              <div class="listing-image-placeholder">{{ listing.cardId }}</div>
+            }
+          </div>
+          <div class="listing-content">
+            <h3>{{ listing.cardName ?? listing.cardId }}</h3>
+            <p class="listing-price">{{ listing.price | number: '1.2-2' }} €</p>
+            @if (listing.description) {
+              <p class="listing-description">{{ listing.description }}</p>
+            }
+          </div>
+        </article>
+      </a>
+    }
+  </div>
+ 
+  @if (!isLoading() && listingsWithPagination().listings.length > 0) {
+    <nav class="pagination" aria-label="Pagination">
+      <button class="pagination-btn" [disabled]="page() === 1" (click)="previousPage()">
+        &laquo; Précédent
+      </button>
+ 
+      @if (pageNumbers()[0] > 1) {
+        <button class="pagination-btn page-number" (click)="goToPage(1)">1</button>
+        @if (pageNumbers()[0] > 2) {
+          <span class="pagination-ellipsis">…</span>
+        }
+      }
+ 
+      @for (num of pageNumbers(); track num) {
+        <button
+          class="pagination-btn page-number"
+          [class.active]="num === page()"
+          (click)="goToPage(num)"
+        >
+          {{ num }}
+        </button>
+      }
+ 
+      @if (pageNumbers()[pageNumbers().length - 1] < totalPages()) {
+        @if (pageNumbers()[pageNumbers().length - 1] < totalPages() - 1) {
+          <span class="pagination-ellipsis">…</span>
+        }
+        <button class="pagination-btn page-number" (click)="goToPage(totalPages())">
+          {{ totalPages() }}
+        </button>
+      }
+ 
+      <button class="pagination-btn" [disabled]="page() === totalPages()" (click)="nextPage()">
+        Suivant &raquo;
+      </button>
+    </nav>
+  }
+</section>

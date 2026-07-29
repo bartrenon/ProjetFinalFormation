@@ -1,0 +1,75 @@
+.edit-listing-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.5rem;
+ 
+  h1 {
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+  }
+}
+ 
+.state-message {
+  text-align: center;
+  opacity: 0.7;
+  padding: 2rem 0;
+}
+ 
+.error-message {
+  background: rgba(185, 28, 28, 0.15);
+  color: #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+ 
+.listing-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+ 
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+ 
+  span {
+    font-weight: 600;
+  }
+ 
+  input,
+  textarea,
+  select {
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+    color: inherit;
+    font: inherit;
+  }
+ 
+  textarea {
+    resize: vertical;
+  }
+}
+ 
+.field-error {
+  color: #f87171;
+}
+ 
+.btn-primary {
+  padding: 0.65rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent, #3b82f6);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+ 
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

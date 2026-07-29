@@ -1,0 +1,43 @@
+<section class="my-listings-page">
+  <header class="page-header">
+    <h1>Mes annonces</h1>
+    <a class="btn-primary" routerLink="/listings/new">+ Nouvelle annonce</a>
+  </header>
+ 
+  @if (isLoading()) {
+    <p class="state-message">Chargement...</p>
+  }
+ 
+  @if (error()) {
+    <p class="error-message">{{ error() }}</p>
+  }
+ 
+  @if (!isLoading() && listings().length === 0 && !error()) {
+    <p class="state-message">Tu n'as aucune annonce en cours.</p>
+  }
+ 
+  <div class="listings-table">
+    @for (listing of listings(); track listing.listingId) {
+      <div class="listing-row">
+        <div class="listing-row-info">
+          <span class="status-dot" [class]="'status-' + listing.status.toLowerCase()"></span>
+          <div>
+            <a [routerLink]="['/listings', listing.listingId]" class="listing-name">
+              {{ listing.cardName ?? listing.cardId }}
+            </a>
+            <p class="listing-status-text">{{ listing.status }}</p>
+          </div>
+        </div>
+ 
+        <div class="listing-row-price">{{ listing.price | number: '1.2-2' }} €</div>
+ 
+        <div class="listing-row-actions">
+          <a class="btn-secondary" [routerLink]="['/listings', listing.listingId, 'edit']">
+            Modifier
+          </a>
+          <button class="btn-danger" (click)="remove(listing)">Retirer</button>
+        </div>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,56 @@
+<section class="listing-detail-page">
+ 
+  @if (isLoading()) {
+    <p class="state-message">Chargement de l'annonce...</p>
+  }
+ 
+  @if (error()) {
+    <p class="error-message">{{ error() }}</p>
+  }
+ 
+  @if (!isLoading() && listing(); as l) {
+    <div class="detail-layout">
+      <div class="detail-image">
+        @if (l.cardImage) {
+          <img [src]="_imageUrlService.getCardImageUrl(l.cardImage)" [alt]="l.cardName ?? l.cardId" />
+        } @else {
+          <div class="detail-image-placeholder">{{ l.cardId }}</div>
+        }
+      </div>
+ 
+      <div class="detail-info">
+        <span class="status-badge" [class]="'status-' + l.status.toLowerCase()">
+          {{ l.status }}
+        </span>
+ 
+        <h1>{{ l.cardName ?? l.cardId }}</h1>
+        <p class="detail-price">{{ l.price | number: '1.2-2' }} €</p>
+ 
+        @if (l.description) {
+          <p class="detail-description">{{ l.description }}</p>
+        }
+ 
+        <p class="detail-meta">Mis en vente le {{ l.createdDate | date: 'dd/MM/yyyy' }}</p>
+ 
+        <div class="detail-actions">
+          @if (canBuy()) {
+            <button class="btn-primary" [disabled]="isBuying()" (click)="buy()">
+              {{ isBuying() ? 'Achat en cours...' : 'Acheter cette carte' }}
+            </button>
+          }
+ 
+          @if (isOwner()) {
+            <a class="btn-secondary" [routerLink]="['/listings', l.listingId, 'edit']">
+              Modifier
+            </a>
+            <button class="btn-danger" (click)="delete()">Retirer l'annonce</button>
+          }
+ 
+          @if (!canBuy() && !isOwner() && l.status !== 'Active') {
+            <p class="unavailable-message">Cette carte n'est plus disponible.</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</section>
