@@ -29,13 +29,17 @@
     <p class="section__lead">Cliquez sur un repère pour voir ce qu'il indique.</p>
  
     <div class="anatomy-layout">
-      <!-- Mockup visuel de carte -->
-      <div class="card-mock" role="img" aria-label="Schéma d'une carte Pokémon annotée">
+      
+      <div class="card-mock" role="img" aria-label="Carte Pokémon annotée">
         <div class="card-mock__frame">
-          <div class="card-mock__art"></div>
-          <div class="card-mock__attack-line" *ngFor="let n of [1,2]"></div>
+          <img
+            class="card-mock__image"
+            src="https://assets.tcgdex.net/fr/sv/sv02/062/high.webp"
+            alt="Exemple de carte Pokémon"
+            loading="lazy"
+          />
         </div>
- 
+
         <button
           class="card-mock__pin"
           *ngFor="let c of callouts"
@@ -49,7 +53,7 @@
         >
           {{ c.id }}
         </button>
-      </div>
+    </div>
  
       
       <div class="callout-panel">

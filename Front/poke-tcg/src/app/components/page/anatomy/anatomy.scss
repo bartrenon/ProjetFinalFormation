@@ -136,17 +136,16 @@
 .card-mock {
   position: relative;
   width: 100%;
-  max-width: 260px;
-  aspect-ratio: 5 / 7;
+  max-width: 280px;
   margin: 0 auto;
+  aspect-ratio: 63 / 88;
  
   &__frame {
-    position: absolute;
-    inset: 0;
+    position: relative;
     border-radius: 14px;
     background: var(--parchment);
     border: 3px solid var(--foil-gold);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
     overflow: hidden;
   }
  
@@ -158,6 +157,12 @@
     height: 40%;
     border-radius: 8px;
     background: linear-gradient(135deg, #6bb0e0, #4a8fd1 55%, #3a6ea8);
+  }
+
+   &__image {
+    display: block;
+    width: 100%;
+    height: auto;
   }
  
   &__attack-line {
@@ -172,33 +177,34 @@
     &:nth-child(2) { top: 72%; }
   }
  
-  &__pin {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    border: 2px solid var(--paper-text);
-    background: var(--pokeball-red);
-    color: var(--paper-text);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
-    transition: transform 0.15s ease, background 0.15s ease;
- 
-    &:hover { transform: translate(-50%, -50%) scale(1.12); }
- 
-    &--active {
-      background: var(--foil-gold);
-      color: var(--ink-navy);
-      transform: translate(-50%, -50%) scale(1.15);
-    }
+ &__pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 1.6rem;   // ← au lieu de 100%
+  height: 1.6rem;
+  z-index: 5;
+  border-radius: 50%;
+  border: 2px solid var(--paper-text);
+  background: var(--pokeball-red);
+  color: var(--paper-text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  &:hover { transform: translate(-50%, -50%) scale(1.12); }
+
+  &--active {
+    background: var(--foil-gold);
+    color: var(--ink-navy);
+    transform: translate(-50%, -50%) scale(1.15);
   }
+ }
 }
  
 .callout-panel {

@@ -86,7 +86,7 @@ export class Anatomy {
     { id: 4, x: 50, y: 66, label: "Attaques", detail: "Chaque attaque affiche son coût en énergie à gauche, son nom, et les dégâts infligés à droite. Certaines ont un effet additionnel décrit en petit texte." },
     { id: 5, x: 30, y: 86, label: "Faiblesse / Résistance", detail: "En bas à gauche : le type contre lequel ce Pokémon encaisse plus de dégâts (faiblesse) ou moins de dégâts (résistance)." },
     { id: 6, x: 62, y: 86, label: "Coût de retraite", detail: "Le nombre d'énergies à défausser pour retirer ce Pokémon du poste actif et le remplacer par un Pokémon du banc." },
-    { id: 7, x: 90, y: 94, label: "Rareté et numéro", detail: "En bas à droite : le symbole de rareté et le numéro de la carte dans son extension (ex. 24/102)." },
+    { id: 7, x: 10, y: 90, label: "Rareté et numéro", detail: "En bas à droite : le symbole de rareté et le numéro de la carte dans son extension (ex. 24/102)." },
   ];
  
   readonly rarities: Rarity[] = [
