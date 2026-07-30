@@ -51,4 +51,10 @@ public class CollectionService : ICollectionService
     {
         return await  _collectionRepository.UpdateCollectionAsync(id, isAdding);
     }
+
+    public async Task<IEnumerable<CollectionCardDto>> GetAllByUserAsync(int userId)
+    {
+        var collections = await _collectionRepository.GetAllByUserAsync(userId);
+        return collections.Select(CollectionMapper.ToCollectionCardDto);
+    }
 }

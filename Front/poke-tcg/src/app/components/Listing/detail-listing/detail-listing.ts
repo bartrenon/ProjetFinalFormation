@@ -63,6 +63,16 @@ export class DetailListing {
       },
     });
   }
+
+  reactivate(): void {
+  const l = this.listing();
+  if (!l) return;
+
+  this._listingService.update(l.listingId, { status: ListingStatus.Active }).subscribe({
+    next: () => this.loadListing(l.listingId),
+    error: (err) => this.error.set(err?.error?.message ?? err?.error ?? 'Impossible de remettre en vente.'),
+  });
+}
  
  buy(): void {
     const l = this.listing();

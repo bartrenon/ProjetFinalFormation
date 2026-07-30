@@ -104,4 +104,19 @@ public class CollectionRepository : ICollectionRepository
 
         return await connection.ExecuteScalarAsync<bool>(query, new { UserId = userId, SetId = setId });
     }
+
+    public async Task<IEnumerable<Collection>> GetAllByUserAsync(int userId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        const string query = @"
+        SELECT col.Id, col.UserId, col.CardId, col.NbDuplicateCard, col.CreatedAt,
+               c.Name AS CardName, c.Image AS CardImage
+        FROM Collection col
+        INNER JOIN Card c ON c.Id = col.CardId
+        WHERE col.UserId = @UserId
+        ORDER BY c.Name";
+
+        return await connection.QueryAsync<Collection>(query, new { UserId = userId });
+    }
 }

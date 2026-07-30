@@ -10,5 +10,7 @@ public interface ICollectionService
     Task<int> AddCollectionAsync(int userId, string cardId);
     Task<int> UpdateCollectionAsync(int id, bool isAdding);
     Task<bool> CollectionSetIsCompletedAsync(int userId, string setId);
+
+    Task<IEnumerable<CollectionCardDto>> GetAllByUserAsync(int userId);
 }
 

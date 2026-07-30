@@ -3,3 +3,12 @@
 .detail-image { display: grid; place-items: center; align-self: start; aspect-ratio: 63 / 88; padding: .75rem; border: 2px solid #c9d6ec; border-radius: 7px; background: #eef4fc; }.detail-image img { width: 100%; height: 100%; object-fit: contain; }.detail-image-placeholder { color: var(--pokemon-muted); font-weight: 700; text-align: center; word-break: break-word; }
 .detail-info { padding-top: .4rem; }.detail-info h1 { margin: .7rem 0 .35rem; color: var(--pokemon-dark-blue); font-size: clamp(1.5rem, 4vw, 2.2rem); }.status-badge { display: inline-block; padding: .28rem .65rem; border-radius: 999px; background: #1fab6f; color: #fff; font-size: .75rem; font-weight: 900; text-transform: uppercase; }.status-badge.status-sold { background: var(--pokemon-danger); }.status-badge.status-reserved { background: #b7791f; }.status-badge.status-removed { background: #64748b; }.detail-price { margin: 0 0 1rem; color: var(--pokemon-red); font-size: 1.8rem; font-weight: 900; }.detail-description { margin: 0 0 1rem; color: var(--pokemon-ink); line-height: 1.55; }.detail-meta { color: var(--pokemon-muted); font-size: .85rem; font-weight: 700; }.detail-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }.btn-primary, .btn-secondary, .btn-danger { min-height: 2.6rem; padding: .55rem .9rem; border: 2px solid var(--pokemon-border); border-radius: 6px; cursor: pointer; font-weight: 900; text-decoration: none; }.btn-primary { background: var(--pokemon-yellow); color: var(--pokemon-dark-blue); }.btn-secondary { background: #fff; color: var(--pokemon-dark-blue); }.btn-danger { border-color: var(--pokemon-danger); background: #fff2f2; color: var(--pokemon-danger); }.btn-primary:hover:not(:disabled), .btn-secondary:hover { background: var(--pokemon-blue); color: #fff; }.btn-danger:hover { background: var(--pokemon-danger); color: #fff; }.btn-primary:disabled { opacity: .5; cursor: not-allowed; }.unavailable-message { margin: 0; color: var(--pokemon-muted); font-weight: 700; }
 @media (max-width: 680px) { .listing-detail-page { margin-top: 1rem; }.detail-layout { grid-template-columns: 1fr; gap: 1rem; }.detail-image { width: min(280px, 100%); justify-self: center; } }
+
+.listing-sold-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+}

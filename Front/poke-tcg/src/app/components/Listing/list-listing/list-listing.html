@@ -22,11 +22,7 @@
             </span>
           }
           <div class="listing-image">
-            @if (listing.cardImage) {
-              <img [src]="_imageUrlService.getCardImageUrl(listing.cardImage)" [alt]="listing.cardName ?? listing.cardId" />
-            } @else {
-              <div class="listing-image-placeholder">{{ listing.cardId }}</div>
-            }
+              <img [src]="_imageUrlService.getCardImageUrl(listing.cardImage)" />
           </div>
           <div class="listing-content">
             <h3>{{ listing.cardName ?? listing.cardId }}</h3>

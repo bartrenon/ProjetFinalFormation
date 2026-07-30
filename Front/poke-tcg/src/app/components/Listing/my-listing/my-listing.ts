@@ -4,6 +4,8 @@ import { CardListingService } from '../../../services/card-listing-service';
 import { CardListing } from '../../../models/Listing/card-listing';
 import { UserService } from '../../../services/user/user-service';
 import { DecimalPipe } from '@angular/common';
+import { ImageUrlService } from '../../../services/tools/image-url-service';
+import { ListingStatus } from '../../../models/Listing/listing-status';
 
 @Component({
   selector: 'app-my-listing',
@@ -14,7 +16,10 @@ import { DecimalPipe } from '@angular/common';
 export class MyListing {
   private _listingService = inject(CardListingService);
   private _authService = inject(UserService);
+  _imageUrlService= inject(ImageUrlService);
   private readonly userId = this._authService.getCurrentUserId();
+
+  readonly ListingStatus = ListingStatus;
  
   listings = signal<CardListing[]>([]);
   totalListings = signal(0);
@@ -64,6 +69,14 @@ export class MyListing {
       error: (err) => this.error.set(err?.error?.message ?? err?.error ?? 'Suppression impossible.'),
     });
   }
+
+  reactivate(listing: CardListing): void {
+  this._listingService.update(listing.listingId, { status: ListingStatus.Active }).subscribe({
+    next: () => this.loadListings(this.page()),
+    error: (err) => this.error.set(err?.error?.message ?? err?.error ?? 'Impossible de remettre en vente.'),
+  });
+
+}
 
   previousPage(): void {
     if (this.page() > 1) this.loadListings(this.page() - 1);

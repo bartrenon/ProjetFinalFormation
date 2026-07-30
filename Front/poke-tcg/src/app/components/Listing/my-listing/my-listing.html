@@ -21,6 +21,9 @@
       <div class="listing-row">
         <div class="listing-row-info">
           <span class="status-dot" [class]="'status-' + listing.status.toLowerCase()"></span>
+          <div class="detail-image">
+          <img [src]="_imageUrlService.getCardImageUrl(listing.cardImage)" />
+          </div>
           <div>
             <a [routerLink]="['/listings', listing.listingId]" class="listing-name">
               {{ listing.cardName ?? listing.cardId }}
@@ -32,10 +35,20 @@
         <div class="listing-row-price">{{ listing.price | number: '1.2-2' }} €</div>
  
         <div class="listing-row-actions">
-          <a class="btn-secondary" [routerLink]="['/listings', listing.listingId, 'edit']">
-            Modifier
-          </a>
-          <button class="btn-danger" (click)="remove(listing)">Retirer</button>
+          @if (listing.status === ListingStatus.Active) {
+            <a class="btn-secondary" [routerLink]="['/listings', listing.listingId, 'edit']">
+              Modifier
+            </a>
+            <button class="btn-danger" (click)="remove(listing)">Retirer</button>
+          }
+
+          @if (listing.status === ListingStatus.Removed) {
+            <button class="btn-primary" (click)="reactivate(listing)">Remettre en vente</button>
+          }
+
+          @if (listing.status === ListingStatus.Sold) {
+            <span class="listing-sold-label">Vendue</span>
+          }
         </div>
       </div>
     }

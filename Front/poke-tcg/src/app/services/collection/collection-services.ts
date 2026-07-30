@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CollectionCard } from '../../models/collection/collection-card';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,9 @@ export class CollectionServices {
   updateCollection(id: number, isAdding: boolean): Observable<void> {
     return this._http.patch<void>(`${this._url}/${id}/${isAdding}`,{});
   }
+
+  getMyCollection(): Observable<CollectionCard[]> {
+  return this._http.get<CollectionCard[]>(`${this._url}/mine`);
+}
 
 }

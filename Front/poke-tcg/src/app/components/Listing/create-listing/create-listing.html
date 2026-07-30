@@ -1,35 +1,79 @@
 <section class="create-listing-page">
   <h1>Mettre une carte en vente</h1>
- 
+
   @if (error()) {
     <p class="error-message">{{ error() }}</p>
   }
- 
-  <form [formGroup]="form" (ngSubmit)="submit()" class="listing-form">
-    <label class="form-field">
-      <span>Identifiant de la carte</span>
-      <input type="text" formControlName="cardId" placeholder="ex: swsh1-1" />
-      @if (form.controls.cardId.invalid && form.controls.cardId.touched) {
-        <small class="field-error">L'identifiant de la carte est requis.</small>
-      }
-    </label>
- 
-    <label class="form-field">
-      <span>Prix (€)</span>
-      <input type="number" step="0.01" min="0.01" formControlName="price" />
-      @if (form.controls.price.invalid && form.controls.price.touched) {
-        <small class="field-error">Le prix doit être supérieur à 0.</small>
-      }
-    </label>
- 
-    <label class="form-field">
-      <span>Description (optionnel)</span>
-      <textarea formControlName="description" rows="4" maxlength="500"
-        placeholder="État de la carte, langue, édition..."></textarea>
-    </label>
- 
-    <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
-      {{ isSubmitting() ? 'Publication...' : "Publier l'annonce" }}
-    </button>
-  </form>
+
+  @if (isLoadingCollection()) {
+    <p class="state-message">Chargement de votre collection...</p>
+  }
+
+  @if (!isLoadingCollection() && myCards().length === 0) {
+    <p class="state-message">Vous n'avez aucune carte dans votre collection à mettre en vente.</p>
+  }
+
+  @if (!isLoadingCollection() && myCards().length > 0) {
+    <form [formGroup]="form" (ngSubmit)="submit()" class="listing-form">
+      <label class="form-field">
+        <span>Carte à vendre</span>
+
+        <div class="card-search">
+          <input
+            type="text"
+            placeholder="Rechercher une carte..."
+            [value]="searchTerm()"
+            (input)="onSearchInput($any($event.target).value)"
+            (focus)="showSuggestions.set(true)"
+            (blur)="onSearchBlur()"
+            autocomplete="off"
+          />
+
+          @if (selectedCard()) {
+            <img
+              class="card-search-thumb"
+              [src]="_imageUrlService.getCardImageUrl(selectedCard()?.cardImage )"
+            />
+          }
+
+          @if (showSuggestions() && filteredCards().length > 0) {
+            <ul class="card-suggestions">
+              @for (card of filteredCards(); track card.cardId) {
+                <li (mousedown)="selectCard(card)">
+                  <img [src]="_imageUrlService.getCardImageUrl(card.cardImage )" />
+                  <span>{{ card.cardName ?? card.cardId }} <em>(x{{ card.nbDuplicateCard }})</em></span>
+                </li>
+              }
+            </ul>
+          }
+
+          @if (showSuggestions() && searchTerm() && filteredCards().length === 0) {
+            <div class="card-suggestions card-suggestions-empty">Aucune carte trouvée.</div>
+          }
+        </div>
+
+        @if (form.controls.cardId.invalid && form.controls.cardId.touched) {
+          <small class="field-error">Veuillez sélectionner une carte.</small>
+        }
+      </label>
+
+      <label class="form-field">
+        <span>Prix (€)</span>
+        <input type="number" step="0.01" min="0.01" formControlName="price" />
+        @if (form.controls.price.invalid && form.controls.price.touched) {
+          <small class="field-error">Le prix doit être supérieur à 0.</small>
+        }
+      </label>
+
+      <label class="form-field">
+        <span>Description (optionnel)</span>
+        <textarea formControlName="description" rows="4" maxlength="500"
+          placeholder="État de la carte, langue, édition..."></textarea>
+      </label>
+
+      <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Publication...' : "Publier l'annonce" }}
+      </button>
+    </form>
+  }
 </section>

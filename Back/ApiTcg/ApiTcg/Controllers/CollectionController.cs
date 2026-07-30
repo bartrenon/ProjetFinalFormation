@@ -70,4 +70,16 @@ public class CollectionController : ControllerBase
         
         return NotFound("Card is not in your collection");
     }
+
+    [Authorize]
+    [HttpGet("mine")]
+    public async Task<IActionResult> GetMyCollection()
+    {
+        int.TryParse(User.FindFirstValue("id"), out int userId);
+
+        IEnumerable<CollectionCardDto> collection = await _collectionService.GetAllByUserAsync(userId);
+
+        return Ok(collection);
+    }
+
 }

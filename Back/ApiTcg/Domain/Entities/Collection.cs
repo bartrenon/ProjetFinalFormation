@@ -8,6 +8,9 @@ public class Collection
     public int NbDuplicateCard { get; set; }
     public DateTime CreatedAt { get; set; }
 
+    public string? CardName { get; set; }
+    public string? CardImage { get; set; }
+
     public User? User { get; set; }
     public Card? Card { get; set; }
 }
