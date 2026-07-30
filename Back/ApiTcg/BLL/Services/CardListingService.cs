@@ -29,6 +29,12 @@ public class CardListingService : ICardListingService
         return await _repository.MarkAsSoldAsync(listingId, buyerId);
     }
 
+    public async Task<IEnumerable<CardListingResponseDto>> GetByBuyerAsync(int buyerId)
+    {
+        IEnumerable<CardListing> listings = await _repository.GetByBuyerAsync(buyerId);
+        return listings.Select(CardListingMapper.ToCardListingResponseDto);
+    }
+
     public async Task<CardListingResponseDto> CreateAsync(CreateCardListingDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.CardId))

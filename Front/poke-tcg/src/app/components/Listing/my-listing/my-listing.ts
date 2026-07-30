@@ -6,6 +6,9 @@ import { UserService } from '../../../services/user/user-service';
 import { DecimalPipe } from '@angular/common';
 import { ImageUrlService } from '../../../services/tools/image-url-service';
 import { ListingStatus } from '../../../models/Listing/listing-status';
+import { CardListingWithPagination } from '../../../models/Listing/card-listing-with-pagination';
+
+type ListingTab = 'selling' | 'buying';
 
 @Component({
   selector: 'app-my-listing',
@@ -21,6 +24,7 @@ export class MyListing {
 
   readonly ListingStatus = ListingStatus;
  
+  activeTab = signal<ListingTab>('selling');
   listings = signal<CardListing[]>([]);
   totalListings = signal(0);
   page = signal(1);
@@ -37,12 +41,24 @@ export class MyListing {
       this.error.set('Vous devez être connecté pour voir vos annonces.');
     }
   }
+
+  switchTab(tab: ListingTab): void {
+    if (this.activeTab() === tab) return;
+    this.activeTab.set(tab);
+    this.loadListings(1);
+  }
  
   loadListings(pageNumber: number): void {
     if (this.userId === null) return;
     this.isLoading.set(true);
     this.error.set(null);
-    this._listingService.getBySeller(this.userId, pageNumber).subscribe({
+    this.listings.set([]);
+
+    const request = this.activeTab() === 'selling'
+      ? this._listingService.getBySeller(this.userId, pageNumber)
+      : this._listingService.getByBuyer();
+
+    request.subscribe({
       next: (result) => {
         this.listings.set(result.listings);
         this.totalListings.set(Number(result.totalListings));

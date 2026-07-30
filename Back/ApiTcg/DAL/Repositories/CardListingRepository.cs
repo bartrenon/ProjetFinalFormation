@@ -36,6 +36,22 @@ public class CardListingRepository : ICardListingRepository
         });
     }
 
+    public async Task<IEnumerable<CardListing>> GetByBuyerAsync(int buyerId)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+
+        const string sql = @"
+        SELECT l.ListingId, l.CardId, l.Price, l.SellerId, l.BuyerId, l.Status,
+               l.CreatedDate, l.ModifiedDate, l.Description,
+               c.Name AS CardName, c.Image AS CardImage
+        FROM CardListing l
+        INNER JOIN Card c ON c.Id = l.CardId
+        WHERE l.BuyerId = @BuyerId
+        ORDER BY l.ModifiedDate DESC";
+
+        return await connection.QueryAsync<CardListing>(sql, new { BuyerId = buyerId });
+    }
+
     public async Task<bool> DeleteAsync(int listingId)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);

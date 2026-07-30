@@ -3,51 +3,74 @@
     <h1>Mes annonces</h1>
     <a class="btn-primary" routerLink="/listings/new">+ Nouvelle annonce</a>
   </header>
- 
+
+  <div class="tabs">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'selling'"
+      (click)="switchTab('selling')"
+    >
+      Mes ventes
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab() === 'buying'"
+      (click)="switchTab('buying')"
+    >
+      Mes achats
+    </button>
+  </div>
+
   @if (isLoading()) {
     <p class="state-message">Chargement...</p>
   }
- 
+
   @if (error()) {
     <p class="error-message">{{ error() }}</p>
   }
- 
+
   @if (!isLoading() && listings().length === 0 && !error()) {
-    <p class="state-message">Tu n'as aucune annonce en cours.</p>
+    <p class="state-message">
+      {{ activeTab() === 'selling' ? "Tu n'as aucune annonce en cours." : "Tu n'as encore rien acheté." }}
+    </p>
   }
- 
+
   <div class="listings-table">
     @for (listing of listings(); track listing.listingId) {
       <div class="listing-row">
         <div class="listing-row-info">
           <span class="status-dot" [class]="'status-' + listing.status.toLowerCase()"></span>
-          <div class="detail-image">
-          <img [src]="_imageUrlService.getCardImageUrl(listing.cardImage)" />
-          </div>
-          <div>
-            <a [routerLink]="['/listings', listing.listingId]" class="listing-name">
-              {{ listing.cardName ?? listing.cardId }}
-            </a>
-            <p class="listing-status-text">{{ listing.status }}</p>
-          </div>
+          <a [routerLink]="['/listings', listing.listingId]" class="listing-name">
+            <div class="detail-image">
+              <img [src]="_imageUrlService.getCardImageUrl(listing.cardImage)" />
+            </div>
+            <div>
+                {{ listing.cardName ?? listing.cardId }}
+              <p class="listing-status-text">{{ listing.status }}</p>
+            </div>
+          </a>
         </div>
- 
+
         <div class="listing-row-price">{{ listing.price | number: '1.2-2' }} €</div>
- 
+
         <div class="listing-row-actions">
-          @if (listing.status === ListingStatus.Active) {
-            <a class="btn-secondary" [routerLink]="['/listings', listing.listingId, 'edit']">
-              Modifier
-            </a>
-            <button class="btn-danger" (click)="remove(listing)">Retirer</button>
-          }
+          @if (activeTab() === 'selling') {
+            @if (listing.status === ListingStatus.Active) {
+              <a class="btn-secondary" [routerLink]="['/listings', listing.listingId, 'edit']">
+                Modifier
+              </a>
+              <button class="btn-danger" (click)="remove(listing)">Retirer</button>
+            }
 
-          @if (listing.status === ListingStatus.Removed) {
-            <button class="btn-primary" (click)="reactivate(listing)">Remettre en vente</button>
-          }
+            @if (listing.status === ListingStatus.Removed) {
+              <button class="btn-primary" (click)="reactivate(listing)">Remettre en vente</button>
+            }
 
-          @if (listing.status === ListingStatus.Sold) {
-            <span class="listing-sold-label">Vendue</span>
+            @if (listing.status === ListingStatus.Sold) {
+              <span class="listing-sold-label">Vendue</span>
+            }
+          } @else {
+            <span class="listing-sold-label">Achetée</span>
           }
         </div>
       </div>

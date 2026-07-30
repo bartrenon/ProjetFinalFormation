@@ -11,4 +11,5 @@ public interface ICardListingService
     Task<bool> UpdateAsync(int listingId, UpdateCardListingDto dto);
     Task<bool> DeleteAsync(int listingId);
     Task<bool> BuyAsync(int listingId, int buyerId);
+    Task<IEnumerable<CardListingResponseDto>> GetByBuyerAsync(int buyerId);
 }

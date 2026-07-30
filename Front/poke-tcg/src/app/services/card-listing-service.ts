@@ -62,22 +62,32 @@ export class CardListingService {
   }
 
   private normalizePagination(response: unknown): CardListingWithPagination {
-    if (!response || typeof response !== 'object') {
-      return { listings: [], totalListings: 0 };
-    }
+   if (Array.isArray(response)) {
+     return { listings: response as CardListing[], totalListings: response.length };
+   }
+ 
+   if (!response || typeof response !== 'object') {
+     return { listings: [], totalListings: 0 };
+   }
+ 
+   const payload = response as Record<string, unknown>;
+   const listings = payload['listings'] ?? payload['Listings'] ?? payload['cardListings']
+     ?? payload['CardListings'] ?? payload['items'] ?? payload['Items'] ?? payload['data'];
+   const safeListings = Array.isArray(listings) ? listings as CardListing[] : [];
+   const total = payload['totalListings'] ?? payload['TotalListings'] ?? payload['totalCount']
+     ?? payload['TotalCount'] ?? payload['count'] ?? payload['Count'];
+   const totalListings = Number(total);
+ 
+   return {
+     listings: safeListings,
+     totalListings: Number.isFinite(totalListings) ? totalListings : safeListings.length,
+   };
+ }
 
-    const payload = response as Record<string, unknown>;
-    const listings = payload['listings'] ?? payload['Listings'] ?? payload['cardListings']
-      ?? payload['CardListings'] ?? payload['items'] ?? payload['Items'] ?? payload['data'];
-    const safeListings = Array.isArray(listings) ? listings as CardListing[] : [];
-    const total = payload['totalListings'] ?? payload['TotalListings'] ?? payload['totalCount']
-      ?? payload['TotalCount'] ?? payload['count'] ?? payload['Count'];
-    const totalListings = Number(total);
-
-    return {
-      listings: safeListings,
-      totalListings: Number.isFinite(totalListings) ? totalListings : safeListings.length,
-    };
-  }
+ getByBuyer(): Observable<CardListingWithPagination> {
+  return this._http
+    .get<unknown>(`${this._url}/buyer`)
+    .pipe(map((response) => this.normalizePagination(response)));
+}
 
 }

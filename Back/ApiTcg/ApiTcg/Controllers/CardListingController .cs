@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using BLL.Dtos.CardListing;
 using BLL.Interfaces;
+using BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -131,6 +132,16 @@ public class CardListingController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+
+    [Authorize]
+    [HttpGet("buyer")]
+    public async Task<IActionResult> GetByBuyer()
+    {
+        int.TryParse(User.FindFirstValue("id"), out int buyerId);
+
+        IEnumerable<CardListingResponseDto> listings = await _service.GetByBuyerAsync(buyerId);
+        return Ok(listings);
     }
 
 }
