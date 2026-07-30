@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, viewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, inject, signal, computed, viewChild, ElementRef, HostListener, effect } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -38,6 +38,15 @@ export class Navbar {
     ),
     { initialValue: this._router.url }
   );
+
+  constructor() {
+    effect(() => {
+      this.currentUrl(); 
+      this.searchTerm.set('');
+      this.isMenuOpen.set(false);
+      this.isInfoMenuOpen.set(false);
+    });
+  }
 
   public searchPlaceholder = computed(() => {
     const url = this.currentUrl();

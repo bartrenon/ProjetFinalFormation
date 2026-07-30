@@ -172,45 +172,56 @@ $muted: #a0a3bd;
 .search-box {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 999px;
-  padding: 4px 6px 4px 14px;
-  transition: border-color 0.2s;
+  padding: 4px 4px 4px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 
   &:focus-within {
     border-color: $yellow;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba($yellow, 0.15);
   }
 
   input {
     background: transparent;
     border: none;
     color: $text;
-    padding: 6px 8px;
+    padding: 8px 8px;
     outline: none;
-    width: 180px;
+    width: 200px;
     font-size: 14px;
+    font-family: inherit;
 
     &::placeholder {
       color: $muted;
     }
   }
 
+
   button {
-    background: $red;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    color: $text;
+    background: linear-gradient(135deg, $red, color.adjust(#ee1515, $lightness: -10%));
+    box-shadow: 0 2px 6px rgba(#ee1515, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 
     &:hover {
-      background: color.adjust(#ee1515, $lightness: -8%);
+      transform: scale(1.06);
+      box-shadow: 0 3px 10px rgba(#ee1515, 0.55);
+    }
+
+    &:active {
+      transform: scale(0.96);
     }
   }
 }
